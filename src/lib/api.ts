@@ -20,7 +20,7 @@ export class ApiError extends Error {
 
 const DEFAULT_BASE_URL = (
   import.meta.env.VITE_API_BASE_URL ||
-  "https://cloud-his-backend.onrender.com/hospital"
+  "https://cloud-his-backend.onrender.com"
 ).replace(/\/$/, "");
 
 function buildUrl(
