@@ -7,7 +7,10 @@ export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
       { title: "Sign in — Ojas1Cloud HIMS" },
-      { name: "description", content: "Sign in to Ojas1Cloud HIMS with your role." },
+      {
+        name: "description",
+        content: "Sign in to Ojas1Cloud HIMS with your role.",
+      },
     ],
   }),
   component: LoginPage,
@@ -15,8 +18,8 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("admin@abc.com");
-  const [password, setPassword] = useState("GffjuHr%!EK4");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -36,17 +39,17 @@ function LoginPage() {
     setIsSubmitting(true);
 
     try {
-
-      const user =  await loginWithBackend(email.trim(), password);
+      const user = await loginWithBackend(email.trim(), password);
       // navigate({ to: "/" });
-if (user.forcePasswordChange) {
-  navigate({ to: "/change-password" });  // ← redirect here
-} else {
-  navigate({ to: "/" });                 // ← normal dashboard
-}
-
+      if (user.forcePasswordChange) {
+        navigate({ to: "/change-password" }); // ← redirect here
+      } else {
+        navigate({ to: "/" }); // ← normal dashboard
+      }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unable to sign in right now.");
+      setError(
+        err instanceof Error ? err.message : "Unable to sign in right now.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -60,8 +63,12 @@ if (user.forcePasswordChange) {
             <Heart className="w-6 h-6 text-primary fill-primary" />
           </div>
           <div>
-            <div className="font-bold text-lg leading-tight">Ojas1Cloud HIMS</div>
-            <div className="text-xs text-muted-foreground">One Patient. One Record.</div>
+            <div className="font-bold text-lg leading-tight">
+              Ojas1Cloud HIMS
+            </div>
+            <div className="text-xs text-muted-foreground">
+              One Patient. One Record.
+            </div>
           </div>
         </div>
 
@@ -99,13 +106,19 @@ if (user.forcePasswordChange) {
             disabled={isSubmitting}
             className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-primary text-primary-foreground px-4 py-2.5 text-sm font-medium hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <LogIn className="w-4 h-4" />} Sign in
+            {isSubmitting ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <LogIn className="w-4 h-4" />
+            )}{" "}
+            Sign in
           </button>
         </form>
 
         <div className="mt-6 text-[11px] text-muted-foreground bg-muted rounded-lg p-3">
           <div className="font-semibold mb-1">Use your hospital account</div>
-          Your access level will be derived from the backend response after a successful login.
+          Your access level will be derived from the backend response after a
+          successful login.
         </div>
       </div>
     </div>

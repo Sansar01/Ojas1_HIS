@@ -1,3 +1,5 @@
+import { api, apiRequest } from "./api";
+
 export type Role =
   | "super_admin"
   | "doctor"
@@ -40,21 +42,82 @@ export type BackendLoginResponse = {
   };
 };
 
-export const ROLES: { value: Role; label: string; designation: string; name: string; initials: string }[] = [
-  { value: "super_admin", label: "Super Admin", designation: "Super Admin", name: "Dr. Arjun Mehta", initials: "AM" },
-  { value: "doctor", label: "Doctor", designation: "Cardiology", name: "Dr. Priya Shah", initials: "PS" },
-  { value: "receptionist", label: "Receptionist", designation: "Front Desk", name: "Neha Verma", initials: "NV" },
-  { value: "pharmacist", label: "Pharmacist", designation: "Pharmacy", name: "Rahul Jain", initials: "RJ" },
-  { value: "lab_tech", label: "Lab Technician", designation: "Lab & Radiology", name: "Suresh Kumar", initials: "SK" },
-  { value: "billing", label: "Billing Executive", designation: "Billing", name: "Anita Rao", initials: "AR" },
-  { value: "regular", label: "Regular User", designation: "Staff", name: "Ravi Singh", initials: "RS" },
+export const ROLES: {
+  value: Role;
+  label: string;
+  designation: string;
+  name: string;
+  initials: string;
+}[] = [
+  {
+    value: "super_admin",
+    label: "Super Admin",
+    designation: "Super Admin",
+    name: "Dr. Arjun Mehta",
+    initials: "AM",
+  },
+  {
+    value: "doctor",
+    label: "Doctor",
+    designation: "Cardiology",
+    name: "Dr. Priya Shah",
+    initials: "PS",
+  },
+  {
+    value: "receptionist",
+    label: "Receptionist",
+    designation: "Front Desk",
+    name: "Neha Verma",
+    initials: "NV",
+  },
+  {
+    value: "pharmacist",
+    label: "Pharmacist",
+    designation: "Pharmacy",
+    name: "Rahul Jain",
+    initials: "RJ",
+  },
+  {
+    value: "lab_tech",
+    label: "Lab Technician",
+    designation: "Lab & Radiology",
+    name: "Suresh Kumar",
+    initials: "SK",
+  },
+  {
+    value: "billing",
+    label: "Billing Executive",
+    designation: "Billing",
+    name: "Anita Rao",
+    initials: "AR",
+  },
+  {
+    value: "regular",
+    label: "Regular User",
+    designation: "Staff",
+    name: "Ravi Singh",
+    initials: "RS",
+  },
 ];
 
 // Allowed routes per role. Super admin gets everything.
 export const ROLE_ROUTES: Record<Role, string[] | "all"> = {
   super_admin: "all",
-  doctor: ["/", "/appointments", "/queue", "/consultation", "/teleconsultation", "/patients"],
-  receptionist: ["/", "/registration", "/appointments", "/billing", "/patients"],
+  doctor: [
+    "/",
+    "/appointments",
+    "/queue",
+    "/consultation",
+    "/teleconsultation",
+    "/patients",
+  ],
+  receptionist: [
+    "/",
+    "/registration",
+    "/appointments",
+    "/billing",
+    "/patients",
+  ],
   pharmacist: ["/", "/pharmacy"],
   lab_tech: ["/", "/lab"],
   billing: ["/", "/billing"],
@@ -123,28 +186,51 @@ export function getAccessToken(): string | null {
   return user?.accessToken ?? null;
 }
 
-export async function loginWithBackend(email: string, password: string): Promise<AuthUser> {
-  const response = await fetch("https://cloud-his-backend.onrender.com/hospital/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
+export async function loginWithBackend(
+  email: string,
+  password: string,
+): Promise<AuthUser> {
+  const response = api.post<BackendLoginResponse>(
+    "/api/hospital/auth/login",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: { email, password },
     },
-    body: JSON.stringify({ email, password }),
-  });
+  );
 
-  const payload = (await response.json().catch(() => null)) as BackendLoginResponse | null;
+  const payload = (await response.catch(
+    () => null,
+  )) as BackendLoginResponse | null;
 
-  if (!response.ok || !payload) {
-    throw new Error(payload?.accessToken ? "Login failed" : "Unable to sign in with the provided credentials.");
+  if (!response || !payload) {
+    throw new Error(
+      payload?.accessToken
+        ? "Login failed"
+        : "Unable to sign in with the provided credentials.",
+    );
   }
 
   const user = {
-    name: [payload.user?.firstName, payload.user?.lastName].filter(Boolean).join(" ") || payload.user?.email || "Hospital User",
+    name:
+      [payload.user?.firstName, payload.user?.lastName]
+        .filter(Boolean)
+        .join(" ") ||
+      payload.user?.email ||
+      "Hospital User",
     role: normalizeRole(payload.user?.userType),
-    designation: payload.hospital?.name ? `${payload.hospital.name} User` : "Hospital User",
+    designation: payload.hospital?.name
+      ? `${payload.hospital.name} User`
+      : "Hospital User",
     initials: buildInitials(
-      [payload.user?.firstName, payload.user?.lastName].filter(Boolean).join(" ") || payload.user?.email || "Hospital User"
+      [payload.user?.firstName, payload.user?.lastName]
+        .filter(Boolean)
+        .join(" ") ||
+        payload.user?.email ||
+        "Hospital User",
     ),
     email: payload.user?.email,
     hospitalName: payload.hospital?.name,

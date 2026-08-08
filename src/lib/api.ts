@@ -18,9 +18,15 @@ export class ApiError extends Error {
   }
 }
 
-const DEFAULT_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "https://cloud-his-backend.onrender.com/hospital").replace(/\/$/, "");
+const DEFAULT_BASE_URL = (
+  import.meta.env.VITE_API_BASE_URL ||
+  "https://cloud-his-backend.onrender.com/hospital"
+).replace(/\/$/, "");
 
-function buildUrl(path: string, params?: Record<string, string | number | boolean | undefined>) {
+function buildUrl(
+  path: string,
+  params?: Record<string, string | number | boolean | undefined>,
+) {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   if (!params) return `${DEFAULT_BASE_URL}${normalizedPath}`;
 
@@ -44,7 +50,10 @@ async function parsePayload(response: Response) {
   }
 }
 
-export async function apiRequest<T>(path: string, options: ApiOptions = {}): Promise<T> {
+export async function apiRequest<T>(
+  path: string,
+  options: ApiOptions = {},
+): Promise<T> {
   const { body, params, auth = true, headers, ...rest } = options;
   const requestHeaders = new Headers(headers);
   const token = auth ? getAccessToken() : null;
@@ -60,18 +69,26 @@ export async function apiRequest<T>(path: string, options: ApiOptions = {}): Pro
   const response = await fetch(buildUrl(path, params), {
     ...rest,
     headers: requestHeaders,
-    body: body === undefined ? undefined : body instanceof FormData ? body : JSON.stringify(body),
+    body:
+      body === undefined
+        ? undefined
+        : body instanceof FormData
+          ? body
+          : JSON.stringify(body),
   });
 
   const payload = await parsePayload(response);
 
   if (!response.ok) {
     throw new ApiError(
-      typeof payload === "object" && payload && "message" in payload && typeof payload.message === "string"
+      typeof payload === "object" &&
+        payload &&
+        "message" in payload &&
+        typeof payload.message === "string"
         ? payload.message
         : "Request failed",
       response.status,
-      payload
+      payload,
     );
   }
 
@@ -79,9 +96,11 @@ export async function apiRequest<T>(path: string, options: ApiOptions = {}): Pro
 }
 
 export const api = {
-  get: <T>(path: string, options?: Omit<ApiOptions, "method" | "body">) => apiRequest<T>(path, { ...options, method: "GET" }),
-  post: <T>(path: string, body?: unknown, options?: Omit<ApiOptions, "method" | "body">) => apiRequest<T>(path, { ...options, method: "POST", body }),
-  put: <T>(path: string, body?: unknown, options?: Omit<ApiOptions, "method" | "body">) => apiRequest<T>(path, { ...options, method: "PUT", body }),
-  patch: <T>(path: string, body?: unknown, options?: Omit<ApiOptions, "method" | "body">) => apiRequest<T>(path, { ...options, method: "PATCH", body }),
-  delete: <T>(path: string, options?: Omit<ApiOptions, "method" | "body">) => apiRequest<T>(path, { ...options, method: "DELETE" }),
+  get: <T>(path: string, options?: Omit<ApiOptions, "method" | "body">) =>
+    apiRequest<T>(path, { ...options, method: "GET" }),
+  post: <T>(path: string, body?: {}) => apiRequest<T>(path, body),
+  put: <T>(path: string, body?: {}) => apiRequest<T>(path, body),
+  patch: <T>(path: string, body?: {}) => apiRequest<T>(path, body),
+  delete: <T>(path: string, options?: Omit<ApiOptions, "method" | "body">) =>
+    apiRequest<T>(path, { ...options, method: "DELETE" }),
 };

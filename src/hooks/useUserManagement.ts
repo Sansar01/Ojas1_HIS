@@ -21,7 +21,7 @@ export function useRoles() {
 
   useEffect(() => {
     api
-      .get<HospitalRole[]>("/roles")
+      .get<HospitalRole[]>("/api/hospital/roles")
       .then(setRoles)
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
@@ -40,7 +40,7 @@ export function useDepartments() {
 
   useEffect(() => {
     api
-      .get<Department[]>("/masters/departments", {
+      .get<Department[]>("/api/hospital/masters/departments", {
         params: { active: true },
       })
       .then(setDepartments)
@@ -59,7 +59,7 @@ export function useShifts() {
 
   useEffect(() => {
     api
-      .get<Shift[]>("/masters/shifts", {
+      .get<Shift[]>("/api/hospital/masters/shifts", {
         params: { active: true },
       })
       .then(setShifts)
@@ -96,7 +96,7 @@ export function useEntitlements() {
 
   useEffect(() => {
     api
-      .get<any[]>("/roles/entitlements/modules")
+      .get<any[]>("/api/hospital/roles/entitlements/modules")
       .then((data) => {
         console.log("Entitlements API response:", data);
         if (!Array.isArray(data)) {
@@ -147,7 +147,7 @@ export function useRolePermissions(roleId: string | null) {
     setError(null);
 
     api
-      .get<RolePermission[]>(`/roles/${roleId}/permissions`)
+      .get<RolePermission[]>(`/api/hospital/roles/${roleId}/permissions`)
       .then(setPermissions)
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
