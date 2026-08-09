@@ -1,8 +1,4 @@
-import {
-  clearUser,
-  getAccessToken,
-  setAccessToken,
-} from "./auth";
+import { clearUser, getAccessToken, setAccessToken } from "./auth";
 
 export type ApiOptions = Omit<RequestInit, "body"> & {
   body?: unknown;
@@ -56,7 +52,6 @@ async function parsePayload(response: Response) {
 export async function apiRequest<T>(
   path: string,
   options: ApiOptions = {},
-  forRefreshToken: boolean = false,
 ): Promise<T> {
   const { body, params, auth = true, headers, ...rest } = options;
 
@@ -71,21 +66,15 @@ export async function apiRequest<T>(
       requestHeaders.set("Content-Type", "application/json");
     }
 
-    if (forRefreshToken) {
-      return fetch(buildUrl(path, params), {
-        ...rest,
-      });
-    } else {
-      return fetch(buildUrl(path, params), {
-        ...rest,
-        headers: requestHeaders,
-        credentials: "include",
-        body:
-          body !== undefined && !(body instanceof FormData)
-            ? JSON.stringify(body)
-            : (body as BodyInit | null | undefined),
-      });
-    }
+    return fetch(buildUrl(path, params), {
+      ...rest,
+      headers: requestHeaders,
+      credentials: "include",
+      body:
+        body !== undefined && !(body instanceof FormData)
+          ? JSON.stringify(body)
+          : (body as BodyInit | null | undefined),
+    });
   };
 
   let token = auth ? getAccessToken() : null;
@@ -125,8 +114,7 @@ export async function apiRequest<T>(
 export const api = {
   get: <T>(path: string, options?: Omit<ApiOptions, "method" | "body">) =>
     apiRequest<T>(path, { ...options, method: "GET" }),
-  post: <T>(path: string, body?: {}, forRefreshToken?: boolean) =>
-    apiRequest<T>(path, body, forRefreshToken),
+  post: <T>(path: string, body?: {}) => apiRequest<T>(path, body),
   put: <T>(path: string, body?: {}) => apiRequest<T>(path, body),
   patch: <T>(path: string, body?: {}) => apiRequest<T>(path, body),
   delete: <T>(path: string, options?: Omit<ApiOptions, "method" | "body">) =>
@@ -137,34 +125,42 @@ export const api = {
  * Gets a new access token using the refresh token
  * stored in an HttpOnly cookie.
  */
-async function refreshAccessToken(): Promise<string | null> {
-  try {
-    const response = await api.post(
-      `/api/hospital/auth/refresh`,
-      {
-        method: "POST",
-        credentials: "include",
-      },
-      true,
-    );
+let refreshPromise: Promise<string | null> | null = null;
 
-    if (!response) {
-      clearUser();
-      return null;
-    }
-
-    const data: { accessToken?: string } = await response;
-
-    if (!data.accessToken) {
-      clearUser();
-      return null;
-    }
-
-    setAccessToken(data.accessToken);
-
-    return data.accessToken;
-  } catch {
-    clearUser();
-    return null;
+export async function refreshAccessToken(): Promise<string | null> {
+  if (refreshPromise) {
+    return refreshPromise;
   }
+
+  refreshPromise = (async () => {
+    try {
+      const response = await fetch(
+        `${DEFAULT_BASE_URL}/api/hospital/auth/refresh`,
+        {
+          method: "POST",
+          credentials: "include",
+        },
+      );
+
+      if (!response.ok) {
+        return null;
+      }
+
+      const data = await response.json();
+
+      if (!data.accessToken) {
+        return null;
+      }
+
+      setAccessToken(data.accessToken);
+
+      return data.accessToken;
+    } catch {
+      return null;
+    } finally {
+      refreshPromise = null;
+    }
+  })();
+
+  return refreshPromise;
 }
