@@ -259,14 +259,10 @@ export function canAccess(role: Role, path: string): boolean {
 
 export async function logOutFromFrontend(): Promise<boolean> {
   try {
-    await api.post(
-      "/api/hospital/auth/logout",
-      {
-        method: "POST",
-        credentials: "include",
-      },
-      true,
-    );
+    await api.post("/api/hospital/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
 
     return true;
   } catch (error) {
