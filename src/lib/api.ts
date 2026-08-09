@@ -1,4 +1,8 @@
-import { getAccessToken } from "./auth";
+import {
+  clearUser,
+  getAccessToken,
+  setAccessToken,
+} from "./auth";
 
 export type ApiOptions = Omit<RequestInit, "body"> & {
   body?: unknown;
@@ -19,8 +23,7 @@ export class ApiError extends Error {
 }
 
 const DEFAULT_BASE_URL = (
-  import.meta.env.VITE_API_BASE_URL ||
-  "https://cloud-his-backend.onrender.com"
+  import.meta.env.VITE_API_BASE_URL || "https://cloud-his-backend.onrender.com"
 ).replace(/\/$/, "");
 
 function buildUrl(
@@ -53,40 +56,64 @@ async function parsePayload(response: Response) {
 export async function apiRequest<T>(
   path: string,
   options: ApiOptions = {},
+  forRefreshToken: boolean = false,
 ): Promise<T> {
   const { body, params, auth = true, headers, ...rest } = options;
-  const requestHeaders = new Headers(headers);
-  const token = auth ? getAccessToken() : null;
 
-  if (token) {
-    requestHeaders.set("Authorization", `Bearer ${token}`);
+  const makeRequest = async (token?: string | null) => {
+    const requestHeaders = new Headers(headers);
+
+    if (token) {
+      requestHeaders.set("Authorization", `Bearer ${token}`);
+    }
+
+    if (body !== undefined && !(body instanceof FormData)) {
+      requestHeaders.set("Content-Type", "application/json");
+    }
+
+    if (forRefreshToken) {
+      return fetch(buildUrl(path, params), {
+        ...rest,
+      });
+    } else {
+      return fetch(buildUrl(path, params), {
+        ...rest,
+        headers: requestHeaders,
+        credentials: "include",
+        body:
+          body !== undefined && !(body instanceof FormData)
+            ? JSON.stringify(body)
+            : (body as BodyInit | null | undefined),
+      });
+    }
+  };
+
+  let token = auth ? getAccessToken() : null;
+
+  let response = await makeRequest(token);
+
+  // Access token expired
+  if (response.status === 401 && auth) {
+    token = await refreshAccessToken();
+
+    // Refresh token/session also expired
+    if (!token) {
+      clearUser();
+
+      window.location.href = "/login";
+
+      throw new ApiError("Your session has expired. Please login again.", 401);
+    }
+
+    // Retry original request with new access token
+    response = await makeRequest(token);
   }
-
-  if (body !== undefined && !(body instanceof FormData)) {
-    requestHeaders.set("Content-Type", "application/json");
-  }
-
-  const response = await fetch(buildUrl(path, params), {
-    ...rest,
-    headers: requestHeaders,
-    body:
-      body === undefined
-        ? undefined
-        : body instanceof FormData
-          ? body
-          : JSON.stringify(body),
-  });
 
   const payload = await parsePayload(response);
 
   if (!response.ok) {
     throw new ApiError(
-      typeof payload === "object" &&
-        payload &&
-        "message" in payload &&
-        typeof payload.message === "string"
-        ? payload.message
-        : "Request failed",
+      `Request failed with status ${response.status}`,
       response.status,
       payload,
     );
@@ -98,9 +125,46 @@ export async function apiRequest<T>(
 export const api = {
   get: <T>(path: string, options?: Omit<ApiOptions, "method" | "body">) =>
     apiRequest<T>(path, { ...options, method: "GET" }),
-  post: <T>(path: string, body?: {}) => apiRequest<T>(path, body),
+  post: <T>(path: string, body?: {}, forRefreshToken?: boolean) =>
+    apiRequest<T>(path, body, forRefreshToken),
   put: <T>(path: string, body?: {}) => apiRequest<T>(path, body),
   patch: <T>(path: string, body?: {}) => apiRequest<T>(path, body),
   delete: <T>(path: string, options?: Omit<ApiOptions, "method" | "body">) =>
     apiRequest<T>(path, { ...options, method: "DELETE" }),
 };
+
+/**
+ * Gets a new access token using the refresh token
+ * stored in an HttpOnly cookie.
+ */
+async function refreshAccessToken(): Promise<string | null> {
+  try {
+    const response = await api.post(
+      `/api/hospital/auth/refresh`,
+      {
+        method: "POST",
+        credentials: "include",
+      },
+      true,
+    );
+
+    if (!response) {
+      clearUser();
+      return null;
+    }
+
+    const data: { accessToken?: string } = await response;
+
+    if (!data.accessToken) {
+      clearUser();
+      return null;
+    }
+
+    setAccessToken(data.accessToken);
+
+    return data.accessToken;
+  } catch {
+    clearUser();
+    return null;
+  }
+}
