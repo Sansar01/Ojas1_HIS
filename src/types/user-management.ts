@@ -127,8 +127,8 @@ export interface CreateUserPayload {
     primaryRoleId: string;
     additionalRoleIds?: string[];
   };
-  departmentIds?: string[];
-  permissions: { moduleId: string; featureId: string }[];
+  departmentIds?: number[];
+  permissions: { moduleId: number; featureId: number }[];
 }
 
 // POST /hospital/users — response

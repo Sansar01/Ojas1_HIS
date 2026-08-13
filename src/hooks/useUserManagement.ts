@@ -130,7 +130,6 @@ export function useEntitlements() {
   return { entitlements, loading, error };
 }
 
-
 // ─── Role Permissions (prefill Step 2+3) ─────────
 export function useRolePermissions(roleId: string | null) {
   const [permissions, setPermissions] = useState<RolePermission[]>([]);
@@ -184,7 +183,7 @@ export function useHospitalUsers() {
           profile: {
             firstName: u.firstName || "",
             lastName: u.lastName || "",
-            phone: u.mobile || "",
+            //phone: u.mobile || "",
           },
           roles: (u.roles || []).map((r: any) => ({
             roleId: r.hospitalRoleId || "",
@@ -229,8 +228,6 @@ export function useHospitalUsers() {
 //   return { createUser, loading, error };
 // }
 
-
-
 // src/hooks/useUserManagement.ts
 
 export function useCreateUser() {
@@ -242,7 +239,14 @@ export function useCreateUser() {
     setError(null);
 
     try {
-      const result = await api.post<CreateUserResponse>("/users", payload);
+      const result = await api.post<CreateUserResponse>("/api/hospital/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: payload,
+      });
       return result;
     } catch (e: any) {
       setError(e.message);

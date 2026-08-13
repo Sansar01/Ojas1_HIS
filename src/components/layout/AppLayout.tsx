@@ -43,6 +43,7 @@ import {
 } from "@/lib/auth";
 import { useEntitlements } from "@/hooks/useUserManagement";
 import type { EntitlementModule } from "@/types/user-management";
+import { Toaster } from "@/components/ui/sonner";
 
 const ALWAYS_VISIBLE = new Set(["/", "/configurations"]);
 
@@ -307,6 +308,7 @@ export function AppLayout({ children }: { children?: ReactNode }) {
         </header>
         <main className="p-6 flex-1">{children ?? <Outlet />}</main>
       </div>
+      <Toaster />
     </div>
   );
 }
