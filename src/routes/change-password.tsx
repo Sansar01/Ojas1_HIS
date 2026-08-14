@@ -33,7 +33,8 @@ function ChangePassword() {
     length: form.newPassword.length >= 8,
     upper: /[A-Z]/.test(form.newPassword),
     number: /[0-9]/.test(form.newPassword),
-    match: form.newPassword === form.confirmPassword && form.confirmPassword !== "",
+    match:
+      form.newPassword === form.confirmPassword && form.confirmPassword !== "",
   };
 
   const allValid = Object.values(checks).every(Boolean);
@@ -46,9 +47,16 @@ function ChangePassword() {
     setError(null);
 
     try {
-      await api.post("/auth/change-password", {
-        oldPassword: form.currentPassword,
-        newPassword: form.newPassword,
+      await api.post("/api/hospital/auth/change-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: {
+          oldPassword: form.currentPassword,
+          newPassword: form.newPassword,
+        },
       });
 
       // Update localStorage — forcePasswordChange = false
@@ -60,7 +68,6 @@ function ChangePassword() {
 
       // Redirect to dashboard after 1.5s
       setTimeout(() => navigate({ to: "/" }), 1500);
-
     } catch (err) {
       if (err instanceof ApiError) {
         setError(err.message);
@@ -75,7 +82,6 @@ function ChangePassword() {
   return (
     <div className="min-h-screen bg-muted flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-
         {/* Header */}
         <div className="text-center mb-8">
           <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -94,19 +100,19 @@ function ChangePassword() {
 
         {/* Card */}
         <div className="bg-card border rounded-2xl p-6 shadow-sm">
-
           {/* Success State */}
           {success ? (
             <div className="text-center py-6">
               <CheckCircle2 className="w-12 h-12 text-success mx-auto mb-3" />
-              <div className="font-semibold text-success">Password Changed Successfully</div>
+              <div className="font-semibold text-success">
+                Password Changed Successfully
+              </div>
               <div className="text-sm text-muted-foreground mt-1">
                 Redirecting to dashboard...
               </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
-
               {/* Error */}
               {error && (
                 <div className="flex items-start gap-2 p-3 bg-destructive/10 border border-destructive/20 rounded-lg text-sm text-destructive">
@@ -136,10 +142,11 @@ function ChangePassword() {
                     onClick={() => setShowCurrent(!showCurrent)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                   >
-                    {showCurrent
-                      ? <EyeOff className="w-4 h-4" />
-                      : <Eye className="w-4 h-4" />
-                    }
+                    {showCurrent ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -165,10 +172,11 @@ function ChangePassword() {
                     onClick={() => setShowNew(!showNew)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                   >
-                    {showNew
-                      ? <EyeOff className="w-4 h-4" />
-                      : <Eye className="w-4 h-4" />
-                    }
+                    {showNew ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -194,10 +202,11 @@ function ChangePassword() {
                     onClick={() => setShowConfirm(!showConfirm)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
                   >
-                    {showConfirm
-                      ? <EyeOff className="w-4 h-4" />
-                      : <Eye className="w-4 h-4" />
-                    }
+                    {showConfirm ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -220,7 +229,6 @@ function ChangePassword() {
               >
                 {loading ? "Changing Password..." : "Set New Password"}
               </button>
-
             </form>
           )}
         </div>
@@ -231,10 +239,17 @@ function ChangePassword() {
 
 function Check({ label, ok }: { label: string; ok: boolean }) {
   return (
-    <div className={`flex items-center gap-2 text-xs ${ok ? "text-success" : "text-muted-foreground"}`}>
-      <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${ok ? "bg-success border-success" : "border-muted-foreground"}`}>
+    <div
+      className={`flex items-center gap-2 text-xs ${ok ? "text-success" : "text-muted-foreground"}`}
+    >
+      <div
+        className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${ok ? "bg-success border-success" : "border-muted-foreground"}`}
+      >
         {ok && (
-          <svg viewBox="0 0 10 10" className="w-2 h-2 text-white fill-none stroke-white stroke-2">
+          <svg
+            viewBox="0 0 10 10"
+            className="w-2 h-2 text-white fill-none stroke-white stroke-2"
+          >
             <polyline points="1.5,5 4,7.5 8.5,2.5" />
           </svg>
         )}

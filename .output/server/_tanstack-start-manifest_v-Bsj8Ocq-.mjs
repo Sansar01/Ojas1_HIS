@@ -1,0 +1,230 @@
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-Bsj8Ocq-.js
+var tsrStartManifest = () => ({ routes: {
+	__root__: {
+		filePath: "E:/Ojas1_HIS/src/routes/__root.tsx",
+		children: [
+			"/",
+			"/appointments",
+			"/billing",
+			"/change-password",
+			"/configurations",
+			"/consultation",
+			"/lab",
+			"/login",
+			"/master",
+			"/patients",
+			"/pharmacy",
+			"/queue",
+			"/registration",
+			"/reports",
+			"/teleconsultation",
+			"/user-management",
+			"/user-management-users"
+		],
+		preloads: [
+			"/assets/index-Coex0Xfg.js",
+			"/assets/rolldown-runtime-Bh1tDfsg.js",
+			"/assets/auth-CRzH69JE.js",
+			"/assets/Match-D3SkUO7z.js"
+		],
+		scripts: [{ attrs: {
+			type: "module",
+			async: !0,
+			src: "/assets/index-Coex0Xfg.js"
+		} }]
+	},
+	"/": {
+		filePath: "E:/Ojas1_HIS/src/routes/index.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/routes-Y6XIGUu2.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/useApiResource-B4231qiR.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/circle-check-B8_KDfYz.js",
+			"/assets/clock-cvWCFENs.js",
+			"/assets/trending-up-U9UA98WF.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/appointments": {
+		filePath: "E:/Ojas1_HIS/src/routes/appointments.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/appointments-Dgo5ajgA.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/useApiResource-B4231qiR.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/circle-check-B8_KDfYz.js",
+			"/assets/clock-cvWCFENs.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/billing": {
+		filePath: "E:/Ojas1_HIS/src/routes/billing.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/billing-0Pe6h2qY.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/useApiResource-B4231qiR.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/id-card-DYUaZK19.js",
+			"/assets/phone-BcNM8S35.js",
+			"/assets/user-uWaBTeu7.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/change-password": {
+		filePath: "E:/Ojas1_HIS/src/routes/change-password.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/change-password-CC4_Xw0O.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/circle-alert-DaPe1FjS.js",
+			"/assets/circle-check-B8_KDfYz.js",
+			"/assets/key-round-DQf7ineL.js"
+		]
+	},
+	"/configurations": {
+		filePath: "E:/Ojas1_HIS/src/routes/configurations.tsx",
+		children: void 0,
+		preloads: ["/assets/configurations-hmmNbOOI.js", "/assets/AppLayout-x7TZ9xUn.js"]
+	},
+	"/consultation": {
+		filePath: "E:/Ojas1_HIS/src/routes/consultation.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/consultation-LImFyFkn.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/lab": {
+		filePath: "E:/Ojas1_HIS/src/routes/lab.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/lab-Dgns0537.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/login": {
+		filePath: "E:/Ojas1_HIS/src/routes/login.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/login-C6qpHWLn.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/heart-XBKJzS6v.js",
+			"/assets/log-in-BBeV8hIT.js"
+		]
+	},
+	"/master": {
+		filePath: "E:/Ojas1_HIS/src/routes/master.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/master-DpMKumoI.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/shield-C5OnjqqB.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/patients": {
+		filePath: "E:/Ojas1_HIS/src/routes/patients.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/patients-2md8H1f3.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/useApiResource-B4231qiR.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/pharmacy": {
+		filePath: "E:/Ojas1_HIS/src/routes/pharmacy.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/pharmacy-D2NpUyHf.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/queue": {
+		filePath: "E:/Ojas1_HIS/src/routes/queue.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/queue-DhuXo7LH.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/circle-alert-DaPe1FjS.js",
+			"/assets/heart-XBKJzS6v.js",
+			"/assets/log-in-BBeV8hIT.js",
+			"/assets/phone-BcNM8S35.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/registration": {
+		filePath: "E:/Ojas1_HIS/src/routes/registration.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/registration-CKa2WaCi.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/useApiResource-B4231qiR.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/camera-B63Cru7O.js",
+			"/assets/circle-check-B8_KDfYz.js",
+			"/assets/clock-cvWCFENs.js",
+			"/assets/id-card-DYUaZK19.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/reports": {
+		filePath: "E:/Ojas1_HIS/src/routes/reports.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/reports-BOaFTh8h.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/trending-up-U9UA98WF.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/teleconsultation": {
+		filePath: "E:/Ojas1_HIS/src/routes/teleconsultation.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/teleconsultation-BSYeM0vw.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/camera-B63Cru7O.js",
+			"/assets/clock-cvWCFENs.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/user-management": {
+		filePath: "E:/Ojas1_HIS/src/routes/user-management.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/user-management-D-egXJgx.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/circle-alert-DaPe1FjS.js",
+			"/assets/circle-check-B8_KDfYz.js",
+			"/assets/key-round-DQf7ineL.js",
+			"/assets/shield-C5OnjqqB.js",
+			"/assets/user-uWaBTeu7.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	},
+	"/user-management-users": {
+		filePath: "E:/Ojas1_HIS/src/routes/user-management-users.tsx",
+		children: void 0,
+		preloads: [
+			"/assets/user-management-users-ByshYB6q.js",
+			"/assets/AppLayout-x7TZ9xUn.js",
+			"/assets/createLucideIcon-CYyYTezv.js",
+			"/assets/Kpi-B7fzN02H.js"
+		]
+	}
+} });
+//#endregion
+export { tsrStartManifest };
