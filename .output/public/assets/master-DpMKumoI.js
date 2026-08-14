@@ -1,1 +1,2411 @@
-import{n as e}from"./rolldown-runtime-Bh1tDfsg.js";import{c as t,d as n,f as r}from"./auth-CRzH69JE.js";import{S as i,p as a,t as o}from"./AppLayout-x7TZ9xUn.js";import{t as s}from"./createLucideIcon-CYyYTezv.js";import{t as c}from"./shield-C5OnjqqB.js";import{n as l}from"./Kpi-B7fzN02H.js";var u=s(`cog`,[[`path`,{d:`M11 10.27 7 3.34`,key:`16pf9h`}],[`path`,{d:`m11 13.73-4 6.93`,key:`794ttg`}],[`path`,{d:`M12 22v-2`,key:`1osdcq`}],[`path`,{d:`M12 2v2`,key:`tus03m`}],[`path`,{d:`M14 12h8`,key:`4f43i9`}],[`path`,{d:`m17 20.66-1-1.73`,key:`eq3orb`}],[`path`,{d:`m17 3.34-1 1.73`,key:`2wel8s`}],[`path`,{d:`M2 12h2`,key:`1t8f8n`}],[`path`,{d:`m20.66 17-1.73-1`,key:`sg0v6f`}],[`path`,{d:`m20.66 7-1.73 1`,key:`1ow05n`}],[`path`,{d:`m3.34 17 1.73-1`,key:`nuk764`}],[`path`,{d:`m3.34 7 1.73 1`,key:`1ulond`}],[`circle`,{cx:`12`,cy:`12`,r:`2`,key:`1c9p78`}],[`circle`,{cx:`12`,cy:`12`,r:`8`,key:`46899m`}]]),d=s(`percent`,[[`line`,{x1:`19`,x2:`5`,y1:`5`,y2:`19`,key:`1x9vlm`}],[`circle`,{cx:`6.5`,cy:`6.5`,r:`2.5`,key:`4mh3h7`}],[`circle`,{cx:`17.5`,cy:`17.5`,r:`2.5`,key:`1mdrzq`}]]),f=s(`x`,[[`path`,{d:`M18 6 6 18`,key:`1bl5f8`}],[`path`,{d:`m6 6 12 12`,key:`d8bk6v`}]]),p=e(r()),m=n(),h=[{key:`doctor`,i:a,t:`Doctor Management`,s:`Manage doctors & slots`,c:`28 Doctors`,tone:`text-primary bg-primary/10`},{key:`panel`,i:c,t:`Panel Management`,s:`Insurance & Corporate`,c:`16 Panels`,tone:`text-info bg-info/10`},{key:`item`,i,t:`Item Management`,s:`Lab, Radio, Pharmacy`,c:`1,248 Items`,tone:`text-success bg-success/10`},{key:`rate`,i:d,t:`Rate Management`,s:`Insurance & Corporate Rates`,c:`563 Rate Plans`,tone:`text-warning-foreground bg-warning/20`},{key:`config`,i:u,t:`Configuration`,s:`General & System Settings`,c:`24 Settings`,tone:`text-destructive bg-destructive/10`}],g=[[`LAB-1001`,`Complete Blood Count (CBC)`,`Hematology`,`Each`,300],[`LAB-1002`,`Lipid Profile`,`Biochemistry`,`Each`,800],[`LAB-1003`,`Liver Function Test (LFT)`,`Biochemistry`,`Each`,700],[`LAB-1004`,`Thyroid Profile (T3, T4, TSH)`,`Hormone`,`Each`,900],[`LAB-1005`,`HbA1c`,`Diabetes`,`Each`,600]],_=[[`Star Health Insurance`,`Insurance`,`Star Health`,`Active`],[`Aditya Birla Health`,`Insurance`,`Aditya Birla`,`Active`],[`HDFC ERGO General`,`Insurance`,`HDFC ERGO`,`Active`],[`Reliance General`,`Insurance`,`Reliance`,`Active`],[`Max Bupa Health`,`Insurance`,`Max Bupa`,`Inactive`]];function v(){let e=t(),[n,r]=(0,p.useState)(!1),[i,a]=(0,p.useState)(``),[s,c]=(0,p.useState)(null),[u,d]=(0,p.useState)(!1);return(0,m.jsxs)(o,{children:[(0,m.jsxs)(`div`,{className:`mb-6`,children:[(0,m.jsx)(`h1`,{className:`text-2xl font-bold`,children:`Master Configuration`}),(0,m.jsx)(`p`,{className:`text-sm text-muted-foreground`,children:`Manage all master data and system configuration`})]}),(0,m.jsx)(`div`,{className:`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6`,children:h.map(t=>(0,m.jsxs)(`div`,{className:`text-left bg-card border rounded-xl p-4 hover:border-primary transition-colors`,children:[(0,m.jsxs)(`button`,{type:`button`,onClick:()=>{if(t.key===`panel`&&r(!0),t.key===`config`&&d(!0),t.key===`doctor`){try{localStorage.setItem(`um_userType`,`doctor`)}catch{}e({to:`/user-management`})}},className:`text-left w-full cursor-pointer`,children:[(0,m.jsx)(`div`,{className:`w-10 h-10 rounded-lg ${t.tone} flex items-center justify-center mb-3`,children:(0,m.jsx)(t.i,{className:`w-5 h-5`})}),(0,m.jsx)(`div`,{className:`font-semibold text-sm`,children:t.t}),(0,m.jsx)(`div`,{className:`text-xs text-muted-foreground`,children:t.s}),(0,m.jsx)(`div`,{className:`text-xs font-bold mt-2`,children:t.c})]}),t.key===`item`&&(0,m.jsxs)(`select`,{value:i,onChange:e=>{let t=e.target.value;a(t),t&&c(t)},className:`mt-3 w-full h-8 px-2 border rounded text-xs bg-background focus:outline-none focus:ring-1 focus:ring-primary`,children:[(0,m.jsx)(`option`,{value:``,children:`Select Item Type…`}),(0,m.jsx)(`option`,{value:`lab`,children:`Laboratory`}),(0,m.jsx)(`option`,{value:`radiology`,children:`Radiology`}),(0,m.jsx)(`option`,{value:`medical`,children:`Medical Items`}),(0,m.jsx)(`option`,{value:`others`,children:`Others Item`})]})]},t.t))}),(0,m.jsxs)(`div`,{className:`grid grid-cols-1 lg:grid-cols-2 gap-6`,children:[(0,m.jsx)(l,{title:`Lab Items`,action:(0,m.jsx)(`button`,{className:`text-xs text-primary`,children:`+ Add Item`}),children:(0,m.jsxs)(`table`,{className:`w-full text-sm`,children:[(0,m.jsx)(`thead`,{children:(0,m.jsxs)(`tr`,{className:`text-left text-xs text-muted-foreground border-b`,children:[(0,m.jsx)(`th`,{className:`pb-2`,children:`Code`}),(0,m.jsx)(`th`,{children:`Name`}),(0,m.jsx)(`th`,{children:`Category`}),(0,m.jsx)(`th`,{children:`Unit`}),(0,m.jsx)(`th`,{className:`text-right`,children:`Rate`}),(0,m.jsx)(`th`,{children:`Status`})]})}),(0,m.jsx)(`tbody`,{children:g.map(e=>(0,m.jsxs)(`tr`,{className:`border-b last:border-0`,children:[(0,m.jsx)(`td`,{className:`py-2.5 font-mono text-xs`,children:e[0]}),(0,m.jsx)(`td`,{children:e[1]}),(0,m.jsx)(`td`,{className:`text-muted-foreground`,children:e[2]}),(0,m.jsx)(`td`,{className:`text-muted-foreground`,children:e[3]}),(0,m.jsxs)(`td`,{className:`text-right font-semibold`,children:[`₹`,e[4]]}),(0,m.jsx)(`td`,{children:(0,m.jsx)(`span`,{className:`text-[10px] px-1.5 py-0.5 bg-success/15 text-success rounded`,children:`Active`})})]},e[0]))})]})}),(0,m.jsx)(l,{title:`Panel / Insurance Registration`,action:(0,m.jsx)(`button`,{className:`text-xs text-primary`,onClick:()=>r(!0),children:`+ Add Panel`}),children:(0,m.jsxs)(`table`,{className:`w-full text-sm`,children:[(0,m.jsx)(`thead`,{children:(0,m.jsxs)(`tr`,{className:`text-left text-xs text-muted-foreground border-b`,children:[(0,m.jsx)(`th`,{className:`pb-2`,children:`Panel`}),(0,m.jsx)(`th`,{children:`Type`}),(0,m.jsx)(`th`,{children:`Insurer`}),(0,m.jsx)(`th`,{children:`Status`})]})}),(0,m.jsx)(`tbody`,{children:_.map(e=>(0,m.jsxs)(`tr`,{className:`border-b last:border-0`,children:[(0,m.jsx)(`td`,{className:`py-2.5 font-medium`,children:e[0]}),(0,m.jsx)(`td`,{className:`text-muted-foreground`,children:e[1]}),(0,m.jsx)(`td`,{className:`text-muted-foreground`,children:e[2]}),(0,m.jsx)(`td`,{children:(0,m.jsx)(`span`,{className:`text-[10px] px-1.5 py-0.5 rounded ${e[3]===`Active`?`bg-success/15 text-success`:`bg-destructive/10 text-destructive`}`,children:e[3]})})]},e[0]))})]})})]}),n&&(0,m.jsx)(x,{onClose:()=>r(!1)}),(s===`lab`||s===`radiology`)&&(0,m.jsx)(w,{kind:s,onClose:()=>{c(null),a(``)}}),s===`medical`&&(0,m.jsx)(T,{onClose:()=>{c(null),a(``)}}),s===`others`&&(0,m.jsx)(E,{onClose:()=>{c(null),a(``)}}),u&&(0,m.jsx)(O,{onClose:()=>d(!1)})]})}function y({label:e,children:t}){return(0,m.jsxs)(`div`,{className:`grid grid-cols-[130px_10px_1fr] items-center gap-2`,children:[(0,m.jsx)(`label`,{className:`text-sm text-foreground`,children:e}),(0,m.jsx)(`span`,{className:`text-sm text-muted-foreground`,children:`:`}),(0,m.jsx)(`div`,{children:t})]})}var b=`w-full h-8 px-2 border rounded text-sm bg-background focus:outline-none focus:ring-1 focus:ring-primary`;function x({onClose:e}){return(0,m.jsx)(`div`,{className:`fixed inset-0 z-50 bg-black/50 flex items-start justify-center overflow-y-auto p-4`,children:(0,m.jsxs)(`div`,{className:`bg-card rounded-lg shadow-xl w-full max-w-6xl my-4`,children:[(0,m.jsxs)(`div`,{className:`flex items-center justify-between px-4 py-2.5 border-b bg-muted/50`,children:[(0,m.jsx)(`h2`,{className:`text-base font-bold text-center flex-1`,children:`Panel Master`}),(0,m.jsx)(`button`,{onClick:e,className:`p-1 hover:bg-muted rounded`,children:(0,m.jsx)(f,{className:`w-4 h-4`})})]}),(0,m.jsx)(`div`,{className:`px-4 py-2 bg-info/10 border-b`,children:(0,m.jsx)(`h3`,{className:`text-sm font-semibold text-info`,children:`Panel Details`})}),(0,m.jsxs)(`form`,{className:`p-5 grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-3`,onSubmit:t=>{t.preventDefault(),e()},children:[(0,m.jsx)(y,{label:`Panel Name`,children:(0,m.jsx)(`input`,{className:`${b} border-destructive`})}),(0,m.jsx)(y,{label:`Group Type`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`INSURANCE`,children:[(0,m.jsx)(`option`,{children:`INSURANCE`}),(0,m.jsx)(`option`,{children:`CORPORATE`}),(0,m.jsx)(`option`,{children:`GOVERNMENT`}),(0,m.jsx)(`option`,{children:`TPA`})]})}),(0,m.jsx)(y,{label:`Contact Person`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Address1`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Address2`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Contact No.`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Phone No.`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Email ID`,children:(0,m.jsx)(`input`,{type:`email`,className:b})}),(0,m.jsx)(y,{label:`Fax No.`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Valid From`,children:(0,m.jsx)(`input`,{type:`date`,className:b,defaultValue:`2026-07-15`})}),(0,m.jsx)(y,{label:`Valid To`,children:(0,m.jsx)(`input`,{type:`date`,className:b,defaultValue:`2026-07-15`})}),(0,m.jsx)(y,{label:`Payment Mode`,children:(0,m.jsxs)(`select`,{className:`${b} border-destructive`,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Cash`}),(0,m.jsx)(`option`,{children:`Credit`}),(0,m.jsx)(`option`,{children:`Cheque`}),(0,m.jsx)(`option`,{children:`Online`})]})}),(0,m.jsx)(y,{label:`Refer Rate(OPD)`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`CASH`,children:[(0,m.jsx)(`option`,{children:`CASH`}),(0,m.jsx)(`option`,{children:`PANEL`})]})}),(0,m.jsx)(y,{label:`Refer Rate(IPD)`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`CASH`,children:[(0,m.jsx)(`option`,{children:`CASH`}),(0,m.jsx)(`option`,{children:`PANEL`})]})}),(0,m.jsx)(y,{label:`Credit Limits`,children:(0,m.jsx)(`input`,{type:`number`,className:b})}),(0,m.jsx)(y,{label:`Rate Type`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`checkbox`}),` SELF (OPD)`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`checkbox`}),` SELF (IPD)`]})]})}),(0,m.jsx)(y,{label:`Show PrintOut`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`printout`,defaultChecked:!0}),` Yes`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`printout`}),` No`]})]})}),(0,m.jsx)(y,{label:`Hide Rate`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`hiderate`}),` Yes`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`hiderate`,defaultChecked:!0}),` No`]})]})}),(0,m.jsx)(y,{label:`Co-Payment On`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`copayon`,defaultChecked:!0}),` On Bill`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`copayon`}),` On Service`]})]})}),(0,m.jsx)(y,{label:`Co-Payment In %`,children:(0,m.jsx)(`input`,{type:`number`,className:b})}),(0,m.jsx)(y,{label:`Rate Currency`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`TZS`,children:[(0,m.jsx)(`option`,{children:`TZS`}),(0,m.jsx)(`option`,{children:`USD`}),(0,m.jsx)(`option`,{children:`INR`}),(0,m.jsx)(`option`,{children:`EUR`})]})}),(0,m.jsx)(y,{label:`Panel Type`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`paneltype`,defaultChecked:!0}),` Credit`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`paneltype`}),` Cash`]})]})}),(0,m.jsx)(y,{label:`Bill Currency`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`TZS`,children:[(0,m.jsx)(`option`,{children:`TZS`}),(0,m.jsx)(`option`,{children:`USD`}),(0,m.jsx)(`option`,{children:`INR`}),(0,m.jsx)(`option`,{children:`EUR`})]})}),(0,m.jsx)(y,{label:`CurrencyConv.`,children:(0,m.jsx)(`input`,{type:`number`,defaultValue:1,className:b})}),(0,m.jsx)(y,{label:`Cover Note`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`covernote`,defaultChecked:!0}),` No`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`covernote`}),` Yes`]})]})}),(0,m.jsx)(y,{label:`Panel Amount`,children:(0,m.jsx)(`input`,{type:`number`,className:b})}),(0,m.jsx)(y,{label:`Diet Type`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`diettype`,defaultChecked:!0}),` Normal`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`diettype`}),` Private`]})]})}),(0,m.jsx)(y,{label:`Is Smart Card`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`smartcard`,defaultChecked:!0}),` No`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`smartcard`}),` Yes`]})]})}),(0,m.jsx)(y,{label:`Encounter`,children:(0,m.jsx)(`input`,{type:`checkbox`})}),(0,m.jsx)(y,{label:`Is USD Based`,children:(0,m.jsx)(`input`,{type:`checkbox`})}),(0,m.jsx)(`div`,{}),(0,m.jsx)(`div`,{}),(0,m.jsx)(y,{label:`USD Factor`,children:(0,m.jsx)(`input`,{type:`number`,className:`${b} bg-muted`,disabled:!0})}),(0,m.jsx)(y,{label:`IsValidation(ZHSF)`,children:(0,m.jsx)(`input`,{type:`checkbox`})}),(0,m.jsx)(`div`,{className:`md:col-span-2`}),(0,m.jsxs)(`div`,{className:`md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6 pt-3 border-t mt-2`,children:[(0,m.jsxs)(`div`,{className:`text-sm`,children:[(0,m.jsx)(`span`,{className:`font-semibold`,children:`Note`}),(0,m.jsx)(`span`,{className:`mx-2`,children:`:`}),(0,m.jsx)(`span`,{className:`text-destructive font-semibold`,children:`Co-Payment Payable By Patient.`})]}),(0,m.jsxs)(`div`,{className:`text-sm`,children:[(0,m.jsx)(`span`,{className:`font-semibold`,children:`Note`}),(0,m.jsx)(`span`,{className:`mx-2`,children:`:`}),(0,m.jsx)(`span`,{className:`text-destructive font-semibold`,children:`Enter the USD ($) conversion factor for 1 US Dollar cost in TZS`})]})]}),(0,m.jsxs)(`div`,{className:`md:col-span-3 flex justify-center gap-3 pt-4 border-t mt-2`,children:[(0,m.jsx)(`button`,{type:`submit`,className:`px-8 py-2 bg-primary text-primary-foreground rounded font-semibold hover:bg-primary/90`,children:`Save`}),(0,m.jsx)(`button`,{type:`button`,onClick:e,className:`px-6 py-2 border rounded font-semibold hover:bg-muted`,children:`Cancel`})]})]})]})})}var S=[`24hrs Urine Protein`,`Acid Fast Bacilli Smear Sputum`,`Adenosine deaminase (ADA)`,`Adrenocorticotropic Hormone`,`AFB Smear By ZN Stain`,`AFP`,`AG RATIO`,`ALAT- GPT`,`Albumin`,`Alkaline Phosphatase`,`Amylase-Pancreatic`,`Amylase-Total`,`ANCA`,`ANEMIA PROFILE`,`anti mullerian hormone`,`Anti Streptolysin O (ASO)`,`Anti-CCP/Citrullinated peptide`,`Antiphospholipid Antibodies`,`APTT`],C=[`X-Ray Chest PA`,`X-Ray Abdomen`,`X-Ray Skull`,`X-Ray Spine (Lumbar)`,`X-Ray Pelvis`,`USG Abdomen`,`USG Pelvis`,`USG Obstetric`,`CT Brain (Plain)`,`CT Chest`,`CT Abdomen`,`MRI Brain`,`MRI Spine`,`MRI Knee`,`Mammography`,`DEXA Scan`,`Doppler Carotid`,`Doppler Renal`,`ECHO 2D`];function w({kind:e,onClose:t}){let n=e===`lab`?S:C,r=e===`lab`?`Manage Investigations — Laboratory`:`Manage Investigations — Radiology`,i=e===`lab`?`BIOCHEMISTRY`:`RADIOLOGY`;return(0,m.jsx)(`div`,{className:`fixed inset-0 z-50 bg-black/50 flex items-start justify-center overflow-y-auto p-4`,children:(0,m.jsxs)(`div`,{className:`bg-card rounded-lg shadow-xl w-full max-w-7xl my-4`,children:[(0,m.jsxs)(`div`,{className:`flex items-center justify-between px-4 py-2.5 border-b bg-primary/10`,children:[(0,m.jsx)(`h2`,{className:`text-base font-bold`,children:r}),(0,m.jsx)(`button`,{onClick:t,className:`p-1 hover:bg-muted rounded`,children:(0,m.jsx)(f,{className:`w-4 h-4`})})]}),(0,m.jsxs)(`div`,{className:`p-4 flex items-center gap-6 border-b`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-2 text-sm`,children:[(0,m.jsx)(`input`,{type:`checkbox`}),` New Investigation`]}),(0,m.jsx)(y,{label:`Department`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`ALL`,children:[(0,m.jsx)(`option`,{children:`ALL`}),(0,m.jsx)(`option`,{children:i})]})})]}),(0,m.jsxs)(`div`,{className:`grid grid-cols-1 md:grid-cols-[280px_1fr] gap-4 p-4`,children:[(0,m.jsxs)(`div`,{className:`border rounded p-3`,children:[(0,m.jsx)(`div`,{className:`text-sm font-semibold mb-2`,children:`Investigations`}),(0,m.jsxs)(`div`,{className:`flex items-center gap-3 text-xs mb-2`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`srch`}),` Code`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`srch`,defaultChecked:!0}),` First Name`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`srch`}),` InBetween`]})]}),(0,m.jsx)(`input`,{className:`${b} mb-2`,placeholder:`Search...`}),(0,m.jsx)(`ul`,{className:`text-xs h-72 overflow-y-auto border rounded p-2 space-y-1 bg-background`,children:n.map(e=>(0,m.jsxs)(`li`,{className:`hover:bg-muted px-1 py-0.5 cursor-pointer`,children:[`# `,e]},e))})]}),(0,m.jsxs)(`form`,{className:`border rounded p-4 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3`,onSubmit:e=>{e.preventDefault(),t()},children:[(0,m.jsx)(`div`,{className:`md:col-span-2 text-sm font-semibold text-info`,children:`Detail`}),(0,m.jsx)(y,{label:`Sub.Dept`,children:(0,m.jsx)(`select`,{className:b,defaultValue:i,children:e===`lab`?[`BIOCHEMISTRY`,`HEMATOLOGY`,`MICROBIOLOGY`,`SEROLOGY`,`HORMONE`].map(e=>(0,m.jsx)(`option`,{children:e},e)):[`RADIOLOGY`,`CT SCAN`,`MRI`,`USG`,`MAMMOGRAPHY`].map(e=>(0,m.jsx)(`option`,{children:e},e))})}),(0,m.jsx)(y,{label:`Investigation`,children:(0,m.jsx)(`input`,{className:`${b} border-destructive`})}),(0,m.jsx)(y,{label:`Description`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Method`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Gender`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`Both`,children:[(0,m.jsx)(`option`,{children:`Both`}),(0,m.jsx)(`option`,{children:`Male`}),(0,m.jsx)(`option`,{children:`Female`})]})}),(0,m.jsx)(y,{label:`Report Type`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`Path Numeric`,children:[(0,m.jsx)(`option`,{children:`Path Numeric`}),(0,m.jsx)(`option`,{children:`Path Descriptive`}),(0,m.jsx)(`option`,{children:`Radiology`})]})}),(0,m.jsx)(y,{label:`Type`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`Sample Required`,children:[(0,m.jsx)(`option`,{children:`Sample Required`}),(0,m.jsx)(`option`,{children:`No Sample`})]})}),(0,m.jsx)(y,{label:`Print Sequence`,children:(0,m.jsx)(`input`,{type:`number`,className:b})}),(0,m.jsx)(y,{label:`Sample Type`,children:(0,m.jsxs)(`select`,{className:`${b} border-destructive`,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Blood`}),(0,m.jsx)(`option`,{children:`Urine`}),(0,m.jsx)(`option`,{children:`Serum`})]})}),(0,m.jsx)(y,{label:`Sample Con.`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`Normal`,children:[(0,m.jsx)(`option`,{children:`Normal`}),(0,m.jsx)(`option`,{children:`Fasting`})]})}),(0,m.jsx)(y,{label:`Department`,children:(0,m.jsxs)(`select`,{className:`${b} border-destructive`,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:i})]})}),(0,m.jsx)(y,{label:`IsDiscountable`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`isdisc`}),` Yes`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`isdisc`,defaultChecked:!0}),` No`]})]})}),(0,m.jsx)(y,{label:`LIS Test Code`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Rate Editable`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`rateedit`}),` Yes`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`rateedit`,defaultChecked:!0}),` No`]})]})}),(0,m.jsx)(y,{label:`Exam Type`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`examtype`,defaultChecked:!0}),` General`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`examtype`}),` Obstetrics`]})]})}),(0,m.jsx)(y,{label:`TAT Time & Type`,children:(0,m.jsxs)(`div`,{className:`flex gap-2`,children:[(0,m.jsx)(`input`,{type:`number`,className:b}),(0,m.jsxs)(`select`,{className:b,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Minutes`}),(0,m.jsx)(`option`,{children:`Hours`}),(0,m.jsx)(`option`,{children:`Days`})]})]})}),(0,m.jsxs)(`div`,{className:`md:col-span-2 pt-2 border-t mt-1`,children:[(0,m.jsx)(`div`,{className:`text-sm font-semibold mb-2`,children:`Other Information`}),(0,m.jsxs)(`div`,{className:`grid grid-cols-2 md:grid-cols-3 gap-2 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-2`,children:[(0,m.jsx)(`input`,{type:`checkbox`,defaultChecked:!0}),` Show Name in Patient Report`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-2`,children:[(0,m.jsx)(`input`,{type:`checkbox`,defaultChecked:!0}),` Show in Online Report`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-2`,children:[(0,m.jsx)(`input`,{type:`checkbox`}),` Print Separate`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-2`,children:[(0,m.jsx)(`input`,{type:`checkbox`}),` PrintSampleName`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-2`,children:[(0,m.jsx)(`input`,{type:`checkbox`}),` IsCulture`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-2`,children:[(0,m.jsx)(`input`,{type:`checkbox`}),` Urgent`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-2`,children:[(0,m.jsx)(`input`,{type:`checkbox`,defaultChecked:!0}),` Active`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-2`,children:[(0,m.jsx)(`input`,{type:`checkbox`}),` Outsource`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-2`,children:[(0,m.jsx)(`input`,{type:`checkbox`}),` Profile Test`]})]})]}),(0,m.jsxs)(`div`,{className:`md:col-span-2 flex justify-center gap-3 pt-3 border-t mt-1`,children:[(0,m.jsx)(`button`,{type:`submit`,className:`px-8 py-2 bg-primary text-primary-foreground rounded font-semibold hover:bg-primary/90`,children:`Save`}),(0,m.jsx)(`button`,{type:`button`,onClick:t,className:`px-6 py-2 border rounded font-semibold hover:bg-muted`,children:`Cancel`})]})]})]})]})})}function T({onClose:e}){return(0,m.jsx)(`div`,{className:`fixed inset-0 z-50 bg-black/50 flex items-start justify-center overflow-y-auto p-4`,children:(0,m.jsxs)(`div`,{className:`bg-card rounded-lg shadow-xl w-full max-w-7xl my-4`,children:[(0,m.jsxs)(`div`,{className:`flex items-center justify-between px-4 py-2.5 border-b bg-primary/10`,children:[(0,m.jsx)(`h2`,{className:`text-base font-bold`,children:`Medical Item Master`}),(0,m.jsx)(`button`,{onClick:e,className:`p-1 hover:bg-muted rounded`,children:(0,m.jsx)(f,{className:`w-4 h-4`})})]}),(0,m.jsxs)(`form`,{className:`p-5 space-y-4`,onSubmit:t=>{t.preventDefault(),e()},children:[(0,m.jsxs)(`div`,{className:`grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-3 pb-3 border-b`,children:[(0,m.jsx)(y,{label:`Category`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`TABLET`}),(0,m.jsx)(`option`,{children:`SYRUP`}),(0,m.jsx)(`option`,{children:`INJECTION`}),(0,m.jsx)(`option`,{children:`CAPSULE`})]})}),(0,m.jsx)(y,{label:`Groups`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`ALL`,children:[(0,m.jsx)(`option`,{children:`ALL`}),(0,m.jsx)(`option`,{children:`ANTIBIOTIC`}),(0,m.jsx)(`option`,{children:`ANALGESIC`})]})}),(0,m.jsx)(y,{label:`Search By Name`,children:(0,m.jsx)(`input`,{className:`${b} border-destructive`})})]}),(0,m.jsxs)(`div`,{className:`grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-3`,children:[(0,m.jsx)(y,{label:`Item Name`,children:(0,m.jsx)(`input`,{className:`${b} border-destructive`})}),(0,m.jsx)(y,{label:`Item Code`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Description`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Group`,children:(0,m.jsxs)(`select`,{className:`${b} border-destructive`,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`ANTIBIOTIC`}),(0,m.jsx)(`option`,{children:`ANALGESIC`})]})}),(0,m.jsx)(y,{label:`Manufacturer`,children:(0,m.jsxs)(`select`,{className:`${b} border-destructive`,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Cipla`}),(0,m.jsx)(`option`,{children:`Sun Pharma`}),(0,m.jsx)(`option`,{children:`Dr. Reddy's`})]})}),(0,m.jsx)(y,{label:`Rack`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Shelf`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Min. Level`,children:(0,m.jsx)(`input`,{type:`number`,className:b})}),(0,m.jsx)(y,{label:`Max. Level`,children:(0,m.jsx)(`input`,{type:`number`,className:b})}),(0,m.jsx)(y,{label:`Reorder Level`,children:(0,m.jsx)(`input`,{type:`number`,className:b})}),(0,m.jsx)(y,{label:`Reorder Qty.`,children:(0,m.jsx)(`input`,{type:`number`,className:b})}),(0,m.jsx)(y,{label:`Purchase Unit`,children:(0,m.jsxs)(`select`,{className:`${b} border-destructive`,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Box`}),(0,m.jsx)(`option`,{children:`Strip`}),(0,m.jsx)(`option`,{children:`Bottle`})]})}),(0,m.jsx)(y,{label:`Sale Unit`,children:(0,m.jsxs)(`select`,{className:`${b} border-destructive`,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Tablet`}),(0,m.jsx)(`option`,{children:`ml`}),(0,m.jsx)(`option`,{children:`Vial`})]})}),(0,m.jsx)(y,{label:`Issue Factor`,children:(0,m.jsx)(`input`,{type:`number`,className:`${b} border-destructive`})}),(0,m.jsx)(y,{label:`Drug Category`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Schedule H`}),(0,m.jsx)(`option`,{children:`Schedule H1`}),(0,m.jsx)(`option`,{children:`OTC`})]})}),(0,m.jsx)(y,{label:`Item Type`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Medicine`}),(0,m.jsx)(`option`,{children:`Consumable`}),(0,m.jsx)(`option`,{children:`Surgical`})]})}),(0,m.jsx)(y,{label:`Default Pur.VAT %`,children:(0,m.jsx)(`input`,{type:`number`,className:b})}),(0,m.jsx)(y,{label:`Sale VAT Type`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Exclusive`}),(0,m.jsx)(`option`,{children:`Inclusive`})]})}),(0,m.jsx)(y,{label:`Sale VAT %`,children:(0,m.jsx)(`input`,{type:`number`,className:b})}),(0,m.jsx)(y,{label:`Pur. VAT Line`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Line 1`}),(0,m.jsx)(`option`,{children:`Line 2`})]})}),(0,m.jsx)(y,{label:`Pur.VAT Type`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Exclusive`}),(0,m.jsx)(`option`,{children:`Inclusive`})]})}),(0,m.jsx)(y,{label:`Stock Type`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`Stockable`,children:[(0,m.jsx)(`option`,{children:`Stockable`}),(0,m.jsx)(`option`,{children:`Non-Stockable`})]})}),(0,m.jsx)(y,{label:`Expirable`,children:(0,m.jsx)(`input`,{type:`checkbox`})}),(0,m.jsx)(y,{label:`Is CSSD`,children:(0,m.jsx)(`input`,{type:`checkbox`})}),(0,m.jsx)(y,{label:`Is Laundry`,children:(0,m.jsx)(`input`,{type:`checkbox`})}),(0,m.jsx)(y,{label:`Is Dose & Unit Required`,children:(0,m.jsx)(`input`,{type:`checkbox`})}),(0,m.jsx)(y,{label:`Item Dose`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Unit`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`SELECT`}),(0,m.jsx)(`option`,{children:`mg`}),(0,m.jsx)(`option`,{children:`ml`}),(0,m.jsx)(`option`,{children:`g`})]})}),(0,m.jsx)(y,{label:`Med.Department`,children:(0,m.jsxs)(`select`,{className:`${b} border-destructive`,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Pharmacy`}),(0,m.jsx)(`option`,{children:`OT`}),(0,m.jsx)(`option`,{children:`Ward`})]})}),(0,m.jsx)(y,{label:`Is ZHSF PriAuthRequired`,children:(0,m.jsx)(`input`,{type:`checkbox`})}),(0,m.jsx)(y,{label:`ZHSF ItemCode (District)`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`ZHSF ItemCode (Regional)`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Essential Medi.`,children:(0,m.jsx)(`input`,{type:`checkbox`})}),(0,m.jsx)(y,{label:`Vaccine Medi.`,children:(0,m.jsx)(`input`,{type:`checkbox`})})]}),(0,m.jsxs)(`div`,{className:`flex justify-center gap-3 pt-3 border-t`,children:[(0,m.jsx)(`button`,{type:`submit`,className:`px-8 py-2 bg-primary text-primary-foreground rounded font-semibold hover:bg-primary/90`,children:`Save`}),(0,m.jsx)(`button`,{type:`button`,onClick:e,className:`px-6 py-2 border rounded font-semibold hover:bg-muted`,children:`Cancel`})]}),(0,m.jsxs)(`div`,{className:`flex justify-center gap-6 text-sm text-primary underline`,children:[(0,m.jsx)(`a`,{href:`#`,children:`Create Drug Category`}),(0,m.jsx)(`a`,{href:`#`,children:`Create New Manufacturer`}),(0,m.jsx)(`a`,{href:`#`,children:`Refresh Manufacturer List`})]})]})]})})}function E({onClose:e}){return(0,m.jsx)(`div`,{className:`fixed inset-0 z-50 bg-black/50 flex items-start justify-center overflow-y-auto p-4`,children:(0,m.jsxs)(`div`,{className:`bg-card rounded-lg shadow-xl w-full max-w-6xl my-4`,children:[(0,m.jsxs)(`div`,{className:`flex items-center justify-between px-4 py-2.5 border-b bg-primary/10`,children:[(0,m.jsx)(`h2`,{className:`text-base font-bold`,children:`Item Master`}),(0,m.jsx)(`button`,{onClick:e,className:`p-1 hover:bg-muted rounded`,children:(0,m.jsx)(f,{className:`w-4 h-4`})})]}),(0,m.jsxs)(`div`,{className:`flex justify-center gap-6 py-2 border-b text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-2`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`itemmode`,defaultChecked:!0}),` New`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-2`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`itemmode`}),` Edit`]})]}),(0,m.jsxs)(`form`,{className:`p-5 grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-3`,onSubmit:t=>{t.preventDefault(),e()},children:[(0,m.jsx)(y,{label:`Category`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:`ADMINISTRATIVE CHARGES`,children:[(0,m.jsx)(`option`,{children:`ADMINISTRATIVE CHARGES`}),(0,m.jsx)(`option`,{children:`PROCEDURE`}),(0,m.jsx)(`option`,{children:`WARD CHARGES`}),(0,m.jsx)(`option`,{children:`SERVICE`}),(0,m.jsx)(`option`,{children:`MISC`})]})}),(0,m.jsx)(y,{label:`Sub Category`,children:(0,m.jsxs)(`select`,{className:b,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`Registration`}),(0,m.jsx)(`option`,{children:`Consultation`}),(0,m.jsx)(`option`,{children:`Admission`})]})}),(0,m.jsx)(y,{label:`Item Name`,children:(0,m.jsx)(`input`,{className:`${b} border-destructive`})}),(0,m.jsx)(y,{label:`CPT Code`,children:(0,m.jsx)(`input`,{className:b})}),(0,m.jsx)(y,{label:`Department`,children:(0,m.jsxs)(`select`,{className:`${b} border-destructive`,defaultValue:``,children:[(0,m.jsx)(`option`,{value:``,disabled:!0,children:`Select`}),(0,m.jsx)(`option`,{children:`OPD`}),(0,m.jsx)(`option`,{children:`IPD`}),(0,m.jsx)(`option`,{children:`Ward`}),(0,m.jsx)(`option`,{children:`OT`})]})}),(0,m.jsx)(y,{label:`Rate Editable`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`oratedit`}),` Yes`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`oratedit`,defaultChecked:!0}),` No`]})]})}),(0,m.jsx)(y,{label:`Is Discountable`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`oisdisc`}),` Yes`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`oisdisc`,defaultChecked:!0}),` No`]})]})}),(0,m.jsx)(y,{label:`Measur Unit`,children:(0,m.jsx)(`input`,{className:b,defaultValue:`1`})}),(0,m.jsx)(y,{label:`Measur Qty`,children:(0,m.jsx)(`input`,{className:b,defaultValue:`1`})}),(0,m.jsx)(y,{label:`IsShare Ward`,children:(0,m.jsxs)(`div`,{className:`flex items-center gap-4 text-sm`,children:[(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`oshareward`}),` Yes`]}),(0,m.jsxs)(`label`,{className:`flex items-center gap-1.5`,children:[(0,m.jsx)(`input`,{type:`radio`,name:`oshareward`,defaultChecked:!0}),` No`]})]})}),(0,m.jsxs)(`div`,{className:`md:col-span-3 flex justify-center gap-3 pt-4 border-t mt-2`,children:[(0,m.jsx)(`button`,{type:`submit`,className:`px-8 py-2 bg-primary text-primary-foreground rounded font-semibold hover:bg-primary/90`,children:`Save`}),(0,m.jsx)(`button`,{type:`button`,onClick:e,className:`px-6 py-2 border rounded font-semibold hover:bg-muted`,children:`Cancel`})]})]})]})})}var D=[{group:`Panel / Billing`,items:[{key:`groupType`,label:`Group Type`,seed:[`INSURANCE`,`CORPORATE`,`GOVERNMENT`,`TPA`]},{key:`paymentMode`,label:`Payment Mode`,seed:[`Cash`,`Credit`,`Cheque`,`Online`,`UPI`,`Card`]},{key:`rateType`,label:`Rate Type`,seed:[`SELF`,`PANEL`,`CASH`]},{key:`currency`,label:`Currency`,seed:[`INR`,`USD`,`EUR`,`TZS`,`GBP`]},{key:`panelType`,label:`Panel Type`,seed:[`Credit`,`Cash`]},{key:`taxType`,label:`Tax Type`,seed:[`GST 5%`,`GST 12%`,`GST 18%`,`Exempt`]},{key:`discountReason`,label:`Discount Reason`,seed:[`Senior Citizen`,`Staff`,`Camp`,`Goodwill`]},{key:`refundReason`,label:`Refund Reason`,seed:[`Duplicate Payment`,`Cancelled Service`,`Overcharge`]},{key:`cancellationReason`,label:`Cancellation Reason`,seed:[`Patient No-Show`,`Doctor Unavailable`,`Emergency`]}]},{group:`Clinical`,items:[{key:`department`,label:`Department`,seed:[`Cardiology`,`Neurology`,`Orthopedics`,`Pediatrics`,`General Medicine`]},{key:`subDepartment`,label:`Sub Department`,seed:[`Biochemistry`,`Hematology`,`Microbiology`,`Radiology`,`Pathology`]},{key:`consultationType`,label:`Consultation Type`,seed:[`New`,`Follow-up`,`Tele`,`Emergency`]},{key:`diagnosisType`,label:`Diagnosis Type`,seed:[`Provisional`,`Final`,`Differential`]},{key:`diet`,label:`Diet Type`,seed:[`Normal`,`Diabetic`,`Cardiac`,`Renal`,`Soft`]},{key:`ward`,label:`Ward`,seed:[`General`,`Semi-Private`,`Private`,`Deluxe`,`ICU`]},{key:`roomType`,label:`Room Type`,seed:[`Single`,`Double`,`Sharing`,`Suite`]},{key:`appointmentStatus`,label:`Appointment Status`,seed:[`Scheduled`,`Checked-In`,`Completed`,`Cancelled`,`No-Show`]}]},{group:`Items / Pharmacy`,items:[{key:`itemCategory`,label:`Item Category`,seed:[`Tablet`,`Syrup`,`Injection`,`Surgical`,`Consumable`]},{key:`itemSubCategory`,label:`Item Sub Category`,seed:[`Antibiotic`,`Analgesic`,`Antipyretic`,`Vitamin`]},{key:`uom`,label:`Unit of Measure`,seed:[`Each`,`Strip`,`Bottle`,`Vial`,`Box`,`ml`,`mg`]},{key:`manufacturer`,label:`Manufacturer`,seed:[`Cipla`,`Sun Pharma`,`Dr. Reddy's`,`Abbott`,`GSK`]},{key:`stockType`,label:`Stock Type`,seed:[`Regular`,`Cold Chain`,`Narcotic`,`Consignment`]}]},{group:`Patient`,items:[{key:`title`,label:`Title`,seed:[`Mr.`,`Mrs.`,`Ms.`,`Dr.`,`Master`,`Baby`]},{key:`gender`,label:`Gender`,seed:[`Male`,`Female`,`Other`]},{key:`bloodGroup`,label:`Blood Group`,seed:[`A+`,`A-`,`B+`,`B-`,`O+`,`O-`,`AB+`,`AB-`]},{key:`maritalStatus`,label:`Marital Status`,seed:[`Single`,`Married`,`Divorced`,`Widowed`]},{key:`idProof`,label:`ID Proof`,seed:[`Aadhaar`,`PAN`,`Passport`,`Driving License`,`Voter ID`]},{key:`relationship`,label:`Relationship`,seed:[`Self`,`Spouse`,`Father`,`Mother`,`Son`,`Daughter`,`Sibling`]}]},{group:`Staff / Users`,items:[{key:`specialization`,label:`Specialization`,seed:[`MBBS`,`MD`,`MS`,`DM`,`MCh`]},{key:`qualification`,label:`Qualification`,seed:[`MBBS`,`MD Medicine`,`MS Surgery`,`BDS`,`BAMS`]},{key:`designation`,label:`Designation`,seed:[`Consultant`,`Senior Resident`,`Junior Resident`,`Nurse`,`Technician`]},{key:`role`,label:`User Role`,seed:[`Admin`,`Doctor`,`Nurse`,`Receptionist`,`Pharmacist`,`Lab Tech`,`Cashier`]},{key:`shift`,label:`Shift`,seed:[`Morning`,`Evening`,`Night`,`General`]}]}];function O({onClose:e}){let[t,n]=(0,p.useState)(`groupType`),[r,i]=(0,p.useState)(()=>{let e={};return D.forEach(t=>t.items.forEach(t=>{e[t.key]=[...t.seed]})),e}),[a,o]=(0,p.useState)(``),[s,c]=(0,p.useState)(``),l=D.flatMap(e=>e.items).find(e=>e.key===t),u=(r[t]||[]).filter(e=>e.toLowerCase().includes(s.toLowerCase())),d=()=>{let e=a.trim();e&&(i(n=>({...n,[t]:[...n[t]||[],e]})),o(``))},h=e=>{i(n=>({...n,[t]:(n[t]||[]).filter((t,n)=>n!==e)}))},g=(e,n)=>{i(r=>({...r,[t]:(r[t]||[]).map((t,r)=>r===e?n:t)}))};return(0,m.jsx)(`div`,{className:`fixed inset-0 z-50 bg-black/50 flex items-start justify-center overflow-y-auto p-4`,children:(0,m.jsxs)(`div`,{className:`bg-card rounded-lg shadow-xl w-full max-w-6xl my-4`,children:[(0,m.jsxs)(`div`,{className:`flex items-center justify-between px-4 py-2.5 border-b bg-primary/10`,children:[(0,m.jsxs)(`div`,{children:[(0,m.jsx)(`h2`,{className:`text-base font-bold`,children:`Global Master Configuration`}),(0,m.jsx)(`p`,{className:`text-xs text-muted-foreground`,children:`Manage all dropdown lists used across the application from a single screen`})]}),(0,m.jsx)(`button`,{onClick:e,className:`p-1 hover:bg-muted rounded`,children:(0,m.jsx)(f,{className:`w-4 h-4`})})]}),(0,m.jsxs)(`div`,{className:`grid grid-cols-1 md:grid-cols-[260px_1fr] h-[70vh]`,children:[(0,m.jsx)(`div`,{className:`border-r overflow-y-auto p-2 bg-muted/30`,children:D.map(e=>(0,m.jsxs)(`div`,{className:`mb-3`,children:[(0,m.jsx)(`div`,{className:`text-[10px] uppercase tracking-wide text-muted-foreground px-2 py-1 font-semibold`,children:e.group}),e.items.map(e=>(0,m.jsxs)(`button`,{onClick:()=>{n(e.key),c(``),o(``)},className:`w-full text-left px-2 py-1.5 rounded text-sm flex justify-between items-center ${t===e.key?`bg-primary text-primary-foreground`:`hover:bg-muted`}`,children:[(0,m.jsx)(`span`,{children:e.label}),(0,m.jsx)(`span`,{className:`text-[10px] px-1.5 rounded ${t===e.key?`bg-primary-foreground/20`:`bg-muted-foreground/10 text-muted-foreground`}`,children:(r[e.key]||[]).length})]},e.key))]},e.group))}),(0,m.jsxs)(`div`,{className:`flex flex-col overflow-hidden`,children:[(0,m.jsxs)(`div`,{className:`px-4 py-3 border-b`,children:[(0,m.jsx)(`h3`,{className:`font-semibold`,children:l.label}),(0,m.jsxs)(`p`,{className:`text-xs text-muted-foreground`,children:[`Add, edit or remove options that appear in the "`,l.label,`" dropdown.`]})]}),(0,m.jsxs)(`div`,{className:`px-4 py-3 border-b flex flex-wrap items-center gap-2`,children:[(0,m.jsx)(`input`,{value:a,onChange:e=>o(e.target.value),onKeyDown:e=>{e.key===`Enter`&&(e.preventDefault(),d())},placeholder:`Add new ${l.label}...`,className:`${b} flex-1 min-w-[200px]`}),(0,m.jsx)(`button`,{onClick:d,className:`h-8 px-4 bg-primary text-primary-foreground rounded text-sm font-semibold hover:bg-primary/90`,children:`+ Add`}),(0,m.jsx)(`input`,{value:s,onChange:e=>c(e.target.value),placeholder:`Search...`,className:`${b} w-48`})]}),(0,m.jsx)(`div`,{className:`flex-1 overflow-y-auto p-4`,children:(0,m.jsxs)(`table`,{className:`w-full text-sm`,children:[(0,m.jsx)(`thead`,{children:(0,m.jsxs)(`tr`,{className:`text-left text-xs text-muted-foreground border-b`,children:[(0,m.jsx)(`th`,{className:`pb-2 w-12`,children:`#`}),(0,m.jsx)(`th`,{children:`Value`}),(0,m.jsx)(`th`,{className:`w-24 text-right`,children:`Action`})]})}),(0,m.jsxs)(`tbody`,{children:[u.length===0&&(0,m.jsx)(`tr`,{children:(0,m.jsx)(`td`,{colSpan:3,className:`py-8 text-center text-muted-foreground text-sm`,children:`No entries. Add one above.`})}),u.map((e,n)=>{let i=(r[t]||[]).indexOf(e);return(0,m.jsxs)(`tr`,{className:`border-b last:border-0`,children:[(0,m.jsx)(`td`,{className:`py-2 text-muted-foreground`,children:n+1}),(0,m.jsx)(`td`,{children:(0,m.jsx)(`input`,{value:e,onChange:e=>g(i,e.target.value),className:`w-full h-8 px-2 border rounded bg-background focus:outline-none focus:ring-1 focus:ring-primary`})}),(0,m.jsx)(`td`,{className:`text-right`,children:(0,m.jsx)(`button`,{onClick:()=>h(i),className:`text-xs px-2 py-1 border border-destructive/30 text-destructive rounded hover:bg-destructive/10`,children:`Delete`})})]},`${e}-${n}`)})]})]})}),(0,m.jsxs)(`div`,{className:`border-t px-4 py-3 flex justify-end gap-2 bg-muted/30`,children:[(0,m.jsx)(`button`,{onClick:e,className:`px-4 py-1.5 border rounded text-sm hover:bg-muted`,children:`Cancel`}),(0,m.jsx)(`button`,{onClick:e,className:`px-6 py-1.5 bg-primary text-primary-foreground rounded text-sm font-semibold hover:bg-primary/90`,children:`Save Changes`})]})]})]})]})})}export{v as component};
+import { n as e } from "./rolldown-runtime-Bh1tDfsg.js";
+import { c as t, d as n, f as r } from "./auth-CRzH69JE.js";
+import { S as i, p as a, t as o } from "./AppLayout-x7TZ9xUn.js";
+import { t as s } from "./createLucideIcon-CYyYTezv.js";
+import { t as c } from "./shield-C5OnjqqB.js";
+import { n as l } from "./Kpi-B7fzN02H.js";
+var u = s(`cog`, [
+    [`path`, { d: `M11 10.27 7 3.34`, key: `16pf9h` }],
+    [`path`, { d: `m11 13.73-4 6.93`, key: `794ttg` }],
+    [`path`, { d: `M12 22v-2`, key: `1osdcq` }],
+    [`path`, { d: `M12 2v2`, key: `tus03m` }],
+    [`path`, { d: `M14 12h8`, key: `4f43i9` }],
+    [`path`, { d: `m17 20.66-1-1.73`, key: `eq3orb` }],
+    [`path`, { d: `m17 3.34-1 1.73`, key: `2wel8s` }],
+    [`path`, { d: `M2 12h2`, key: `1t8f8n` }],
+    [`path`, { d: `m20.66 17-1.73-1`, key: `sg0v6f` }],
+    [`path`, { d: `m20.66 7-1.73 1`, key: `1ow05n` }],
+    [`path`, { d: `m3.34 17 1.73-1`, key: `nuk764` }],
+    [`path`, { d: `m3.34 7 1.73 1`, key: `1ulond` }],
+    [`circle`, { cx: `12`, cy: `12`, r: `2`, key: `1c9p78` }],
+    [`circle`, { cx: `12`, cy: `12`, r: `8`, key: `46899m` }],
+  ]),
+  d = s(`percent`, [
+    [`line`, { x1: `19`, x2: `5`, y1: `5`, y2: `19`, key: `1x9vlm` }],
+    [`circle`, { cx: `6.5`, cy: `6.5`, r: `2.5`, key: `4mh3h7` }],
+    [`circle`, { cx: `17.5`, cy: `17.5`, r: `2.5`, key: `1mdrzq` }],
+  ]),
+  f = s(`x`, [
+    [`path`, { d: `M18 6 6 18`, key: `1bl5f8` }],
+    [`path`, { d: `m6 6 12 12`, key: `d8bk6v` }],
+  ]),
+  p = e(r()),
+  m = n(),
+  h = [
+    {
+      key: `doctor`,
+      i: a,
+      t: `Doctor Management`,
+      s: `Manage doctors & slots`,
+      c: `28 Doctors`,
+      tone: `text-primary bg-primary/10`,
+    },
+    {
+      key: `panel`,
+      i: c,
+      t: `Panel Management`,
+      s: `Insurance & Corporate`,
+      c: `16 Panels`,
+      tone: `text-info bg-info/10`,
+    },
+    {
+      key: `item`,
+      i,
+      t: `Item Management`,
+      s: `Lab, Radio, Pharmacy`,
+      c: `1,248 Items`,
+      tone: `text-success bg-success/10`,
+    },
+    {
+      key: `rate`,
+      i: d,
+      t: `Rate Management`,
+      s: `Insurance & Corporate Rates`,
+      c: `563 Rate Plans`,
+      tone: `text-warning-foreground bg-warning/20`,
+    },
+    {
+      key: `config`,
+      i: u,
+      t: `Configuration`,
+      s: `General & System Settings`,
+      c: `24 Settings`,
+      tone: `text-destructive bg-destructive/10`,
+    },
+  ],
+  g = [
+    [`LAB-1001`, `Complete Blood Count (CBC)`, `Hematology`, `Each`, 300],
+    [`LAB-1002`, `Lipid Profile`, `Biochemistry`, `Each`, 800],
+    [`LAB-1003`, `Liver Function Test (LFT)`, `Biochemistry`, `Each`, 700],
+    [`LAB-1004`, `Thyroid Profile (T3, T4, TSH)`, `Hormone`, `Each`, 900],
+    [`LAB-1005`, `HbA1c`, `Diabetes`, `Each`, 600],
+  ],
+  _ = [
+    [`Star Health Insurance`, `Insurance`, `Star Health`, `Active`],
+    [`Aditya Birla Health`, `Insurance`, `Aditya Birla`, `Active`],
+    [`HDFC ERGO General`, `Insurance`, `HDFC ERGO`, `Active`],
+    [`Reliance General`, `Insurance`, `Reliance`, `Active`],
+    [`Max Bupa Health`, `Insurance`, `Max Bupa`, `Inactive`],
+  ];
+function v() {
+  let e = t(),
+    [n, r] = (0, p.useState)(!1),
+    [i, a] = (0, p.useState)(``),
+    [s, c] = (0, p.useState)(null),
+    [u, d] = (0, p.useState)(!1);
+  return (0, m.jsxs)(o, {
+    children: [
+      (0, m.jsxs)(`div`, {
+        className: `mb-6`,
+        children: [
+          (0, m.jsx)(`h1`, {
+            className: `text-2xl font-bold`,
+            children: `Master Configuration`,
+          }),
+          (0, m.jsx)(`p`, {
+            className: `text-sm text-muted-foreground`,
+            children: `Manage all master data and system configuration`,
+          }),
+        ],
+      }),
+      (0, m.jsx)(`div`, {
+        className: `grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6`,
+        children: h.map((t) =>
+          (0, m.jsxs)(
+            `div`,
+            {
+              className: `text-left bg-card border rounded-xl p-4 hover:border-primary transition-colors`,
+              children: [
+                (0, m.jsxs)(`button`, {
+                  type: `button`,
+                  onClick: () => {
+                    if (
+                      (t.key === `panel` && r(!0),
+                      t.key === `config` && d(!0),
+                      t.key === `doctor`)
+                    ) {
+                      try {
+                        localStorage.setItem(`um_userType`, `doctor`);
+                      } catch {}
+                      e({ to: `/user-management` });
+                    }
+                  },
+                  className: `text-left w-full cursor-pointer`,
+                  children: [
+                    (0, m.jsx)(`div`, {
+                      className: `w-10 h-10 rounded-lg ${t.tone} flex items-center justify-center mb-3`,
+                      children: (0, m.jsx)(t.i, { className: `w-5 h-5` }),
+                    }),
+                    (0, m.jsx)(`div`, {
+                      className: `font-semibold text-sm`,
+                      children: t.t,
+                    }),
+                    (0, m.jsx)(`div`, {
+                      className: `text-xs text-muted-foreground`,
+                      children: t.s,
+                    }),
+                    (0, m.jsx)(`div`, {
+                      className: `text-xs font-bold mt-2`,
+                      children: t.c,
+                    }),
+                  ],
+                }),
+                t.key === `item` &&
+                  (0, m.jsxs)(`select`, {
+                    value: i,
+                    onChange: (e) => {
+                      let t = e.target.value;
+                      (a(t), t && c(t));
+                    },
+                    className: `mt-3 w-full h-8 px-2 border rounded text-xs bg-background focus:outline-none focus:ring-1 focus:ring-primary`,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        children: `Select Item Type…`,
+                      }),
+                      (0, m.jsx)(`option`, {
+                        value: `lab`,
+                        children: `Laboratory`,
+                      }),
+                      (0, m.jsx)(`option`, {
+                        value: `radiology`,
+                        children: `Radiology`,
+                      }),
+                      (0, m.jsx)(`option`, {
+                        value: `medical`,
+                        children: `Medical Items`,
+                      }),
+                      (0, m.jsx)(`option`, {
+                        value: `others`,
+                        children: `Others Item`,
+                      }),
+                    ],
+                  }),
+              ],
+            },
+            t.t,
+          ),
+        ),
+      }),
+      (0, m.jsxs)(`div`, {
+        className: `grid grid-cols-1 lg:grid-cols-2 gap-6`,
+        children: [
+          (0, m.jsx)(l, {
+            title: `Lab Items`,
+            action: (0, m.jsx)(`button`, {
+              className: `text-xs text-primary`,
+              children: `+ Add Item`,
+            }),
+            children: (0, m.jsxs)(`table`, {
+              className: `w-full text-sm`,
+              children: [
+                (0, m.jsx)(`thead`, {
+                  children: (0, m.jsxs)(`tr`, {
+                    className: `text-left text-xs text-muted-foreground border-b`,
+                    children: [
+                      (0, m.jsx)(`th`, { className: `pb-2`, children: `Code` }),
+                      (0, m.jsx)(`th`, { children: `Name` }),
+                      (0, m.jsx)(`th`, { children: `Category` }),
+                      (0, m.jsx)(`th`, { children: `Unit` }),
+                      (0, m.jsx)(`th`, {
+                        className: `text-right`,
+                        children: `Rate`,
+                      }),
+                      (0, m.jsx)(`th`, { children: `Status` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(`tbody`, {
+                  children: g.map((e) =>
+                    (0, m.jsxs)(
+                      `tr`,
+                      {
+                        className: `border-b last:border-0`,
+                        children: [
+                          (0, m.jsx)(`td`, {
+                            className: `py-2.5 font-mono text-xs`,
+                            children: e[0],
+                          }),
+                          (0, m.jsx)(`td`, { children: e[1] }),
+                          (0, m.jsx)(`td`, {
+                            className: `text-muted-foreground`,
+                            children: e[2],
+                          }),
+                          (0, m.jsx)(`td`, {
+                            className: `text-muted-foreground`,
+                            children: e[3],
+                          }),
+                          (0, m.jsxs)(`td`, {
+                            className: `text-right font-semibold`,
+                            children: [`₹`, e[4]],
+                          }),
+                          (0, m.jsx)(`td`, {
+                            children: (0, m.jsx)(`span`, {
+                              className: `text-[10px] px-1.5 py-0.5 bg-success/15 text-success rounded`,
+                              children: `Active`,
+                            }),
+                          }),
+                        ],
+                      },
+                      e[0],
+                    ),
+                  ),
+                }),
+              ],
+            }),
+          }),
+          (0, m.jsx)(l, {
+            title: `Panel / Insurance Registration`,
+            action: (0, m.jsx)(`button`, {
+              className: `text-xs text-primary`,
+              onClick: () => r(!0),
+              children: `+ Add Panel`,
+            }),
+            children: (0, m.jsxs)(`table`, {
+              className: `w-full text-sm`,
+              children: [
+                (0, m.jsx)(`thead`, {
+                  children: (0, m.jsxs)(`tr`, {
+                    className: `text-left text-xs text-muted-foreground border-b`,
+                    children: [
+                      (0, m.jsx)(`th`, {
+                        className: `pb-2`,
+                        children: `Panel`,
+                      }),
+                      (0, m.jsx)(`th`, { children: `Type` }),
+                      (0, m.jsx)(`th`, { children: `Insurer` }),
+                      (0, m.jsx)(`th`, { children: `Status` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(`tbody`, {
+                  children: _.map((e) =>
+                    (0, m.jsxs)(
+                      `tr`,
+                      {
+                        className: `border-b last:border-0`,
+                        children: [
+                          (0, m.jsx)(`td`, {
+                            className: `py-2.5 font-medium`,
+                            children: e[0],
+                          }),
+                          (0, m.jsx)(`td`, {
+                            className: `text-muted-foreground`,
+                            children: e[1],
+                          }),
+                          (0, m.jsx)(`td`, {
+                            className: `text-muted-foreground`,
+                            children: e[2],
+                          }),
+                          (0, m.jsx)(`td`, {
+                            children: (0, m.jsx)(`span`, {
+                              className: `text-[10px] px-1.5 py-0.5 rounded ${e[3] === `Active` ? `bg-success/15 text-success` : `bg-destructive/10 text-destructive`}`,
+                              children: e[3],
+                            }),
+                          }),
+                        ],
+                      },
+                      e[0],
+                    ),
+                  ),
+                }),
+              ],
+            }),
+          }),
+        ],
+      }),
+      n && (0, m.jsx)(x, { onClose: () => r(!1) }),
+      (s === `lab` || s === `radiology`) &&
+        (0, m.jsx)(w, {
+          kind: s,
+          onClose: () => {
+            (c(null), a(``));
+          },
+        }),
+      s === `medical` &&
+        (0, m.jsx)(T, {
+          onClose: () => {
+            (c(null), a(``));
+          },
+        }),
+      s === `others` &&
+        (0, m.jsx)(E, {
+          onClose: () => {
+            (c(null), a(``));
+          },
+        }),
+      u && (0, m.jsx)(O, { onClose: () => d(!1) }),
+    ],
+  });
+}
+function y({ label: e, children: t }) {
+  return (0, m.jsxs)(`div`, {
+    className: `grid grid-cols-[130px_10px_1fr] items-center gap-2`,
+    children: [
+      (0, m.jsx)(`label`, {
+        className: `text-sm text-foreground`,
+        children: e,
+      }),
+      (0, m.jsx)(`span`, {
+        className: `text-sm text-muted-foreground`,
+        children: `:`,
+      }),
+      (0, m.jsx)(`div`, { children: t }),
+    ],
+  });
+}
+var b = `w-full h-8 px-2 border rounded text-sm bg-background focus:outline-none focus:ring-1 focus:ring-primary`;
+function x({ onClose: e }) {
+  return (0, m.jsx)(`div`, {
+    className: `fixed inset-0 z-50 bg-black/50 flex items-start justify-center overflow-y-auto p-4`,
+    children: (0, m.jsxs)(`div`, {
+      className: `bg-card rounded-lg shadow-xl w-full max-w-6xl my-4`,
+      children: [
+        (0, m.jsxs)(`div`, {
+          className: `flex items-center justify-between px-4 py-2.5 border-b bg-muted/50`,
+          children: [
+            (0, m.jsx)(`h2`, {
+              className: `text-base font-bold text-center flex-1`,
+              children: `Panel Master`,
+            }),
+            (0, m.jsx)(`button`, {
+              onClick: e,
+              className: `p-1 hover:bg-muted rounded`,
+              children: (0, m.jsx)(f, { className: `w-4 h-4` }),
+            }),
+          ],
+        }),
+        (0, m.jsx)(`div`, {
+          className: `px-4 py-2 bg-info/10 border-b`,
+          children: (0, m.jsx)(`h3`, {
+            className: `text-sm font-semibold text-info`,
+            children: `Panel Details`,
+          }),
+        }),
+        (0, m.jsxs)(`form`, {
+          className: `p-5 grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-3`,
+          onSubmit: (t) => {
+            (t.preventDefault(), e());
+          },
+          children: [
+            (0, m.jsx)(y, {
+              label: `Panel Name`,
+              children: (0, m.jsx)(`input`, {
+                className: `${b} border-destructive`,
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Group Type`,
+              children: (0, m.jsxs)(`select`, {
+                className: b,
+                defaultValue: `INSURANCE`,
+                children: [
+                  (0, m.jsx)(`option`, { children: `INSURANCE` }),
+                  (0, m.jsx)(`option`, { children: `CORPORATE` }),
+                  (0, m.jsx)(`option`, { children: `GOVERNMENT` }),
+                  (0, m.jsx)(`option`, { children: `TPA` }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Contact Person`,
+              children: (0, m.jsx)(`input`, { className: b }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Address1`,
+              children: (0, m.jsx)(`input`, { className: b }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Address2`,
+              children: (0, m.jsx)(`input`, { className: b }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Contact No.`,
+              children: (0, m.jsx)(`input`, { className: b }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Phone No.`,
+              children: (0, m.jsx)(`input`, { className: b }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Email ID`,
+              children: (0, m.jsx)(`input`, { type: `email`, className: b }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Fax No.`,
+              children: (0, m.jsx)(`input`, { className: b }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Valid From`,
+              children: (0, m.jsx)(`input`, {
+                type: `date`,
+                className: b,
+                defaultValue: `2026-07-15`,
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Valid To`,
+              children: (0, m.jsx)(`input`, {
+                type: `date`,
+                className: b,
+                defaultValue: `2026-07-15`,
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Payment Mode`,
+              children: (0, m.jsxs)(`select`, {
+                className: `${b} border-destructive`,
+                defaultValue: ``,
+                children: [
+                  (0, m.jsx)(`option`, {
+                    value: ``,
+                    disabled: !0,
+                    children: `Select`,
+                  }),
+                  (0, m.jsx)(`option`, { children: `Cash` }),
+                  (0, m.jsx)(`option`, { children: `Credit` }),
+                  (0, m.jsx)(`option`, { children: `Cheque` }),
+                  (0, m.jsx)(`option`, { children: `Online` }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Refer Rate(OPD)`,
+              children: (0, m.jsxs)(`select`, {
+                className: b,
+                defaultValue: `CASH`,
+                children: [
+                  (0, m.jsx)(`option`, { children: `CASH` }),
+                  (0, m.jsx)(`option`, { children: `PANEL` }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Refer Rate(IPD)`,
+              children: (0, m.jsxs)(`select`, {
+                className: b,
+                defaultValue: `CASH`,
+                children: [
+                  (0, m.jsx)(`option`, { children: `CASH` }),
+                  (0, m.jsx)(`option`, { children: `PANEL` }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Credit Limits`,
+              children: (0, m.jsx)(`input`, { type: `number`, className: b }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Rate Type`,
+              children: (0, m.jsxs)(`div`, {
+                className: `flex items-center gap-4 text-sm`,
+                children: [
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `checkbox` }),
+                      ` SELF (OPD)`,
+                    ],
+                  }),
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `checkbox` }),
+                      ` SELF (IPD)`,
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Show PrintOut`,
+              children: (0, m.jsxs)(`div`, {
+                className: `flex items-center gap-4 text-sm`,
+                children: [
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, {
+                        type: `radio`,
+                        name: `printout`,
+                        defaultChecked: !0,
+                      }),
+                      ` Yes`,
+                    ],
+                  }),
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `radio`, name: `printout` }),
+                      ` No`,
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Hide Rate`,
+              children: (0, m.jsxs)(`div`, {
+                className: `flex items-center gap-4 text-sm`,
+                children: [
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `radio`, name: `hiderate` }),
+                      ` Yes`,
+                    ],
+                  }),
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, {
+                        type: `radio`,
+                        name: `hiderate`,
+                        defaultChecked: !0,
+                      }),
+                      ` No`,
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Co-Payment On`,
+              children: (0, m.jsxs)(`div`, {
+                className: `flex items-center gap-4 text-sm`,
+                children: [
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, {
+                        type: `radio`,
+                        name: `copayon`,
+                        defaultChecked: !0,
+                      }),
+                      ` On Bill`,
+                    ],
+                  }),
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `radio`, name: `copayon` }),
+                      ` On Service`,
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Co-Payment In %`,
+              children: (0, m.jsx)(`input`, { type: `number`, className: b }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Rate Currency`,
+              children: (0, m.jsxs)(`select`, {
+                className: b,
+                defaultValue: `TZS`,
+                children: [
+                  (0, m.jsx)(`option`, { children: `TZS` }),
+                  (0, m.jsx)(`option`, { children: `USD` }),
+                  (0, m.jsx)(`option`, { children: `INR` }),
+                  (0, m.jsx)(`option`, { children: `EUR` }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Panel Type`,
+              children: (0, m.jsxs)(`div`, {
+                className: `flex items-center gap-4 text-sm`,
+                children: [
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, {
+                        type: `radio`,
+                        name: `paneltype`,
+                        defaultChecked: !0,
+                      }),
+                      ` Credit`,
+                    ],
+                  }),
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `radio`, name: `paneltype` }),
+                      ` Cash`,
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Bill Currency`,
+              children: (0, m.jsxs)(`select`, {
+                className: b,
+                defaultValue: `TZS`,
+                children: [
+                  (0, m.jsx)(`option`, { children: `TZS` }),
+                  (0, m.jsx)(`option`, { children: `USD` }),
+                  (0, m.jsx)(`option`, { children: `INR` }),
+                  (0, m.jsx)(`option`, { children: `EUR` }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `CurrencyConv.`,
+              children: (0, m.jsx)(`input`, {
+                type: `number`,
+                defaultValue: 1,
+                className: b,
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Cover Note`,
+              children: (0, m.jsxs)(`div`, {
+                className: `flex items-center gap-4 text-sm`,
+                children: [
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, {
+                        type: `radio`,
+                        name: `covernote`,
+                        defaultChecked: !0,
+                      }),
+                      ` No`,
+                    ],
+                  }),
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `radio`, name: `covernote` }),
+                      ` Yes`,
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Panel Amount`,
+              children: (0, m.jsx)(`input`, { type: `number`, className: b }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Diet Type`,
+              children: (0, m.jsxs)(`div`, {
+                className: `flex items-center gap-4 text-sm`,
+                children: [
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, {
+                        type: `radio`,
+                        name: `diettype`,
+                        defaultChecked: !0,
+                      }),
+                      ` Normal`,
+                    ],
+                  }),
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `radio`, name: `diettype` }),
+                      ` Private`,
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Is Smart Card`,
+              children: (0, m.jsxs)(`div`, {
+                className: `flex items-center gap-4 text-sm`,
+                children: [
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, {
+                        type: `radio`,
+                        name: `smartcard`,
+                        defaultChecked: !0,
+                      }),
+                      ` No`,
+                    ],
+                  }),
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `radio`, name: `smartcard` }),
+                      ` Yes`,
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Encounter`,
+              children: (0, m.jsx)(`input`, { type: `checkbox` }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Is USD Based`,
+              children: (0, m.jsx)(`input`, { type: `checkbox` }),
+            }),
+            (0, m.jsx)(`div`, {}),
+            (0, m.jsx)(`div`, {}),
+            (0, m.jsx)(y, {
+              label: `USD Factor`,
+              children: (0, m.jsx)(`input`, {
+                type: `number`,
+                className: `${b} bg-muted`,
+                disabled: !0,
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `IsValidation(ZHSF)`,
+              children: (0, m.jsx)(`input`, { type: `checkbox` }),
+            }),
+            (0, m.jsx)(`div`, { className: `md:col-span-2` }),
+            (0, m.jsxs)(`div`, {
+              className: `md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6 pt-3 border-t mt-2`,
+              children: [
+                (0, m.jsxs)(`div`, {
+                  className: `text-sm`,
+                  children: [
+                    (0, m.jsx)(`span`, {
+                      className: `font-semibold`,
+                      children: `Note`,
+                    }),
+                    (0, m.jsx)(`span`, { className: `mx-2`, children: `:` }),
+                    (0, m.jsx)(`span`, {
+                      className: `text-destructive font-semibold`,
+                      children: `Co-Payment Payable By Patient.`,
+                    }),
+                  ],
+                }),
+                (0, m.jsxs)(`div`, {
+                  className: `text-sm`,
+                  children: [
+                    (0, m.jsx)(`span`, {
+                      className: `font-semibold`,
+                      children: `Note`,
+                    }),
+                    (0, m.jsx)(`span`, { className: `mx-2`, children: `:` }),
+                    (0, m.jsx)(`span`, {
+                      className: `text-destructive font-semibold`,
+                      children: `Enter the USD ($) conversion factor for 1 US Dollar cost in TZS`,
+                    }),
+                  ],
+                }),
+              ],
+            }),
+            (0, m.jsxs)(`div`, {
+              className: `md:col-span-3 flex justify-center gap-3 pt-4 border-t mt-2`,
+              children: [
+                (0, m.jsx)(`button`, {
+                  type: `submit`,
+                  className: `px-8 py-2 bg-primary text-primary-foreground rounded font-semibold hover:bg-primary/90`,
+                  children: `Save`,
+                }),
+                (0, m.jsx)(`button`, {
+                  type: `button`,
+                  onClick: e,
+                  className: `px-6 py-2 border rounded font-semibold hover:bg-muted`,
+                  children: `Cancel`,
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }),
+  });
+}
+var S = [
+    `24hrs Urine Protein`,
+    `Acid Fast Bacilli Smear Sputum`,
+    `Adenosine deaminase (ADA)`,
+    `Adrenocorticotropic Hormone`,
+    `AFB Smear By ZN Stain`,
+    `AFP`,
+    `AG RATIO`,
+    `ALAT- GPT`,
+    `Albumin`,
+    `Alkaline Phosphatase`,
+    `Amylase-Pancreatic`,
+    `Amylase-Total`,
+    `ANCA`,
+    `ANEMIA PROFILE`,
+    `anti mullerian hormone`,
+    `Anti Streptolysin O (ASO)`,
+    `Anti-CCP/Citrullinated peptide`,
+    `Antiphospholipid Antibodies`,
+    `APTT`,
+  ],
+  C = [
+    `X-Ray Chest PA`,
+    `X-Ray Abdomen`,
+    `X-Ray Skull`,
+    `X-Ray Spine (Lumbar)`,
+    `X-Ray Pelvis`,
+    `USG Abdomen`,
+    `USG Pelvis`,
+    `USG Obstetric`,
+    `CT Brain (Plain)`,
+    `CT Chest`,
+    `CT Abdomen`,
+    `MRI Brain`,
+    `MRI Spine`,
+    `MRI Knee`,
+    `Mammography`,
+    `DEXA Scan`,
+    `Doppler Carotid`,
+    `Doppler Renal`,
+    `ECHO 2D`,
+  ];
+function w({ kind: e, onClose: t }) {
+  let n = e === `lab` ? S : C,
+    r =
+      e === `lab`
+        ? `Manage Investigations — Laboratory`
+        : `Manage Investigations — Radiology`,
+    i = e === `lab` ? `BIOCHEMISTRY` : `RADIOLOGY`;
+  return (0, m.jsx)(`div`, {
+    className: `fixed inset-0 z-50 bg-black/50 flex items-start justify-center overflow-y-auto p-4`,
+    children: (0, m.jsxs)(`div`, {
+      className: `bg-card rounded-lg shadow-xl w-full max-w-7xl my-4`,
+      children: [
+        (0, m.jsxs)(`div`, {
+          className: `flex items-center justify-between px-4 py-2.5 border-b bg-primary/10`,
+          children: [
+            (0, m.jsx)(`h2`, { className: `text-base font-bold`, children: r }),
+            (0, m.jsx)(`button`, {
+              onClick: t,
+              className: `p-1 hover:bg-muted rounded`,
+              children: (0, m.jsx)(f, { className: `w-4 h-4` }),
+            }),
+          ],
+        }),
+        (0, m.jsxs)(`div`, {
+          className: `p-4 flex items-center gap-6 border-b`,
+          children: [
+            (0, m.jsxs)(`label`, {
+              className: `flex items-center gap-2 text-sm`,
+              children: [
+                (0, m.jsx)(`input`, { type: `checkbox` }),
+                ` New Investigation`,
+              ],
+            }),
+            (0, m.jsx)(y, {
+              label: `Department`,
+              children: (0, m.jsxs)(`select`, {
+                className: b,
+                defaultValue: `ALL`,
+                children: [
+                  (0, m.jsx)(`option`, { children: `ALL` }),
+                  (0, m.jsx)(`option`, { children: i }),
+                ],
+              }),
+            }),
+          ],
+        }),
+        (0, m.jsxs)(`div`, {
+          className: `grid grid-cols-1 md:grid-cols-[280px_1fr] gap-4 p-4`,
+          children: [
+            (0, m.jsxs)(`div`, {
+              className: `border rounded p-3`,
+              children: [
+                (0, m.jsx)(`div`, {
+                  className: `text-sm font-semibold mb-2`,
+                  children: `Investigations`,
+                }),
+                (0, m.jsxs)(`div`, {
+                  className: `flex items-center gap-3 text-xs mb-2`,
+                  children: [
+                    (0, m.jsxs)(`label`, {
+                      className: `flex items-center gap-1`,
+                      children: [
+                        (0, m.jsx)(`input`, { type: `radio`, name: `srch` }),
+                        ` Code`,
+                      ],
+                    }),
+                    (0, m.jsxs)(`label`, {
+                      className: `flex items-center gap-1`,
+                      children: [
+                        (0, m.jsx)(`input`, {
+                          type: `radio`,
+                          name: `srch`,
+                          defaultChecked: !0,
+                        }),
+                        ` First Name`,
+                      ],
+                    }),
+                    (0, m.jsxs)(`label`, {
+                      className: `flex items-center gap-1`,
+                      children: [
+                        (0, m.jsx)(`input`, { type: `radio`, name: `srch` }),
+                        ` InBetween`,
+                      ],
+                    }),
+                  ],
+                }),
+                (0, m.jsx)(`input`, {
+                  className: `${b} mb-2`,
+                  placeholder: `Search...`,
+                }),
+                (0, m.jsx)(`ul`, {
+                  className: `text-xs h-72 overflow-y-auto border rounded p-2 space-y-1 bg-background`,
+                  children: n.map((e) =>
+                    (0, m.jsxs)(
+                      `li`,
+                      {
+                        className: `hover:bg-muted px-1 py-0.5 cursor-pointer`,
+                        children: [`# `, e],
+                      },
+                      e,
+                    ),
+                  ),
+                }),
+              ],
+            }),
+            (0, m.jsxs)(`form`, {
+              className: `border rounded p-4 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3`,
+              onSubmit: (e) => {
+                (e.preventDefault(), t());
+              },
+              children: [
+                (0, m.jsx)(`div`, {
+                  className: `md:col-span-2 text-sm font-semibold text-info`,
+                  children: `Detail`,
+                }),
+                (0, m.jsx)(y, {
+                  label: `Sub.Dept`,
+                  children: (0, m.jsx)(`select`, {
+                    className: b,
+                    defaultValue: i,
+                    children:
+                      e === `lab`
+                        ? [
+                            `BIOCHEMISTRY`,
+                            `HEMATOLOGY`,
+                            `MICROBIOLOGY`,
+                            `SEROLOGY`,
+                            `HORMONE`,
+                          ].map((e) => (0, m.jsx)(`option`, { children: e }, e))
+                        : [
+                            `RADIOLOGY`,
+                            `CT SCAN`,
+                            `MRI`,
+                            `USG`,
+                            `MAMMOGRAPHY`,
+                          ].map((e) =>
+                            (0, m.jsx)(`option`, { children: e }, e),
+                          ),
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Investigation`,
+                  children: (0, m.jsx)(`input`, {
+                    className: `${b} border-destructive`,
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Description`,
+                  children: (0, m.jsx)(`input`, { className: b }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Method`,
+                  children: (0, m.jsx)(`input`, { className: b }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Gender`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: `Both`,
+                    children: [
+                      (0, m.jsx)(`option`, { children: `Both` }),
+                      (0, m.jsx)(`option`, { children: `Male` }),
+                      (0, m.jsx)(`option`, { children: `Female` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Report Type`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: `Path Numeric`,
+                    children: [
+                      (0, m.jsx)(`option`, { children: `Path Numeric` }),
+                      (0, m.jsx)(`option`, { children: `Path Descriptive` }),
+                      (0, m.jsx)(`option`, { children: `Radiology` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Type`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: `Sample Required`,
+                    children: [
+                      (0, m.jsx)(`option`, { children: `Sample Required` }),
+                      (0, m.jsx)(`option`, { children: `No Sample` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Print Sequence`,
+                  children: (0, m.jsx)(`input`, {
+                    type: `number`,
+                    className: b,
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Sample Type`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: `${b} border-destructive`,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `Blood` }),
+                      (0, m.jsx)(`option`, { children: `Urine` }),
+                      (0, m.jsx)(`option`, { children: `Serum` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Sample Con.`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: `Normal`,
+                    children: [
+                      (0, m.jsx)(`option`, { children: `Normal` }),
+                      (0, m.jsx)(`option`, { children: `Fasting` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Department`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: `${b} border-destructive`,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: i }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `IsDiscountable`,
+                  children: (0, m.jsxs)(`div`, {
+                    className: `flex items-center gap-4 text-sm`,
+                    children: [
+                      (0, m.jsxs)(`label`, {
+                        className: `flex items-center gap-1.5`,
+                        children: [
+                          (0, m.jsx)(`input`, {
+                            type: `radio`,
+                            name: `isdisc`,
+                          }),
+                          ` Yes`,
+                        ],
+                      }),
+                      (0, m.jsxs)(`label`, {
+                        className: `flex items-center gap-1.5`,
+                        children: [
+                          (0, m.jsx)(`input`, {
+                            type: `radio`,
+                            name: `isdisc`,
+                            defaultChecked: !0,
+                          }),
+                          ` No`,
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `LIS Test Code`,
+                  children: (0, m.jsx)(`input`, { className: b }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Rate Editable`,
+                  children: (0, m.jsxs)(`div`, {
+                    className: `flex items-center gap-4 text-sm`,
+                    children: [
+                      (0, m.jsxs)(`label`, {
+                        className: `flex items-center gap-1.5`,
+                        children: [
+                          (0, m.jsx)(`input`, {
+                            type: `radio`,
+                            name: `rateedit`,
+                          }),
+                          ` Yes`,
+                        ],
+                      }),
+                      (0, m.jsxs)(`label`, {
+                        className: `flex items-center gap-1.5`,
+                        children: [
+                          (0, m.jsx)(`input`, {
+                            type: `radio`,
+                            name: `rateedit`,
+                            defaultChecked: !0,
+                          }),
+                          ` No`,
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Exam Type`,
+                  children: (0, m.jsxs)(`div`, {
+                    className: `flex items-center gap-4 text-sm`,
+                    children: [
+                      (0, m.jsxs)(`label`, {
+                        className: `flex items-center gap-1.5`,
+                        children: [
+                          (0, m.jsx)(`input`, {
+                            type: `radio`,
+                            name: `examtype`,
+                            defaultChecked: !0,
+                          }),
+                          ` General`,
+                        ],
+                      }),
+                      (0, m.jsxs)(`label`, {
+                        className: `flex items-center gap-1.5`,
+                        children: [
+                          (0, m.jsx)(`input`, {
+                            type: `radio`,
+                            name: `examtype`,
+                          }),
+                          ` Obstetrics`,
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `TAT Time & Type`,
+                  children: (0, m.jsxs)(`div`, {
+                    className: `flex gap-2`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `number`, className: b }),
+                      (0, m.jsxs)(`select`, {
+                        className: b,
+                        defaultValue: ``,
+                        children: [
+                          (0, m.jsx)(`option`, {
+                            value: ``,
+                            disabled: !0,
+                            children: `Select`,
+                          }),
+                          (0, m.jsx)(`option`, { children: `Minutes` }),
+                          (0, m.jsx)(`option`, { children: `Hours` }),
+                          (0, m.jsx)(`option`, { children: `Days` }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+                (0, m.jsxs)(`div`, {
+                  className: `md:col-span-2 pt-2 border-t mt-1`,
+                  children: [
+                    (0, m.jsx)(`div`, {
+                      className: `text-sm font-semibold mb-2`,
+                      children: `Other Information`,
+                    }),
+                    (0, m.jsxs)(`div`, {
+                      className: `grid grid-cols-2 md:grid-cols-3 gap-2 text-sm`,
+                      children: [
+                        (0, m.jsxs)(`label`, {
+                          className: `flex items-center gap-2`,
+                          children: [
+                            (0, m.jsx)(`input`, {
+                              type: `checkbox`,
+                              defaultChecked: !0,
+                            }),
+                            ` Show Name in Patient Report`,
+                          ],
+                        }),
+                        (0, m.jsxs)(`label`, {
+                          className: `flex items-center gap-2`,
+                          children: [
+                            (0, m.jsx)(`input`, {
+                              type: `checkbox`,
+                              defaultChecked: !0,
+                            }),
+                            ` Show in Online Report`,
+                          ],
+                        }),
+                        (0, m.jsxs)(`label`, {
+                          className: `flex items-center gap-2`,
+                          children: [
+                            (0, m.jsx)(`input`, { type: `checkbox` }),
+                            ` Print Separate`,
+                          ],
+                        }),
+                        (0, m.jsxs)(`label`, {
+                          className: `flex items-center gap-2`,
+                          children: [
+                            (0, m.jsx)(`input`, { type: `checkbox` }),
+                            ` PrintSampleName`,
+                          ],
+                        }),
+                        (0, m.jsxs)(`label`, {
+                          className: `flex items-center gap-2`,
+                          children: [
+                            (0, m.jsx)(`input`, { type: `checkbox` }),
+                            ` IsCulture`,
+                          ],
+                        }),
+                        (0, m.jsxs)(`label`, {
+                          className: `flex items-center gap-2`,
+                          children: [
+                            (0, m.jsx)(`input`, { type: `checkbox` }),
+                            ` Urgent`,
+                          ],
+                        }),
+                        (0, m.jsxs)(`label`, {
+                          className: `flex items-center gap-2`,
+                          children: [
+                            (0, m.jsx)(`input`, {
+                              type: `checkbox`,
+                              defaultChecked: !0,
+                            }),
+                            ` Active`,
+                          ],
+                        }),
+                        (0, m.jsxs)(`label`, {
+                          className: `flex items-center gap-2`,
+                          children: [
+                            (0, m.jsx)(`input`, { type: `checkbox` }),
+                            ` Outsource`,
+                          ],
+                        }),
+                        (0, m.jsxs)(`label`, {
+                          className: `flex items-center gap-2`,
+                          children: [
+                            (0, m.jsx)(`input`, { type: `checkbox` }),
+                            ` Profile Test`,
+                          ],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                (0, m.jsxs)(`div`, {
+                  className: `md:col-span-2 flex justify-center gap-3 pt-3 border-t mt-1`,
+                  children: [
+                    (0, m.jsx)(`button`, {
+                      type: `submit`,
+                      className: `px-8 py-2 bg-primary text-primary-foreground rounded font-semibold hover:bg-primary/90`,
+                      children: `Save`,
+                    }),
+                    (0, m.jsx)(`button`, {
+                      type: `button`,
+                      onClick: t,
+                      className: `px-6 py-2 border rounded font-semibold hover:bg-muted`,
+                      children: `Cancel`,
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }),
+  });
+}
+function T({ onClose: e }) {
+  return (0, m.jsx)(`div`, {
+    className: `fixed inset-0 z-50 bg-black/50 flex items-start justify-center overflow-y-auto p-4`,
+    children: (0, m.jsxs)(`div`, {
+      className: `bg-card rounded-lg shadow-xl w-full max-w-7xl my-4`,
+      children: [
+        (0, m.jsxs)(`div`, {
+          className: `flex items-center justify-between px-4 py-2.5 border-b bg-primary/10`,
+          children: [
+            (0, m.jsx)(`h2`, {
+              className: `text-base font-bold`,
+              children: `Medical Item Master`,
+            }),
+            (0, m.jsx)(`button`, {
+              onClick: e,
+              className: `p-1 hover:bg-muted rounded`,
+              children: (0, m.jsx)(f, { className: `w-4 h-4` }),
+            }),
+          ],
+        }),
+        (0, m.jsxs)(`form`, {
+          className: `p-5 space-y-4`,
+          onSubmit: (t) => {
+            (t.preventDefault(), e());
+          },
+          children: [
+            (0, m.jsxs)(`div`, {
+              className: `grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-3 pb-3 border-b`,
+              children: [
+                (0, m.jsx)(y, {
+                  label: `Category`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `TABLET` }),
+                      (0, m.jsx)(`option`, { children: `SYRUP` }),
+                      (0, m.jsx)(`option`, { children: `INJECTION` }),
+                      (0, m.jsx)(`option`, { children: `CAPSULE` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Groups`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: `ALL`,
+                    children: [
+                      (0, m.jsx)(`option`, { children: `ALL` }),
+                      (0, m.jsx)(`option`, { children: `ANTIBIOTIC` }),
+                      (0, m.jsx)(`option`, { children: `ANALGESIC` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Search By Name`,
+                  children: (0, m.jsx)(`input`, {
+                    className: `${b} border-destructive`,
+                  }),
+                }),
+              ],
+            }),
+            (0, m.jsxs)(`div`, {
+              className: `grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-3`,
+              children: [
+                (0, m.jsx)(y, {
+                  label: `Item Name`,
+                  children: (0, m.jsx)(`input`, {
+                    className: `${b} border-destructive`,
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Item Code`,
+                  children: (0, m.jsx)(`input`, { className: b }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Description`,
+                  children: (0, m.jsx)(`input`, { className: b }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Group`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: `${b} border-destructive`,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `ANTIBIOTIC` }),
+                      (0, m.jsx)(`option`, { children: `ANALGESIC` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Manufacturer`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: `${b} border-destructive`,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `Cipla` }),
+                      (0, m.jsx)(`option`, { children: `Sun Pharma` }),
+                      (0, m.jsx)(`option`, { children: `Dr. Reddy's` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Rack`,
+                  children: (0, m.jsx)(`input`, { className: b }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Shelf`,
+                  children: (0, m.jsx)(`input`, { className: b }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Min. Level`,
+                  children: (0, m.jsx)(`input`, {
+                    type: `number`,
+                    className: b,
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Max. Level`,
+                  children: (0, m.jsx)(`input`, {
+                    type: `number`,
+                    className: b,
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Reorder Level`,
+                  children: (0, m.jsx)(`input`, {
+                    type: `number`,
+                    className: b,
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Reorder Qty.`,
+                  children: (0, m.jsx)(`input`, {
+                    type: `number`,
+                    className: b,
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Purchase Unit`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: `${b} border-destructive`,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `Box` }),
+                      (0, m.jsx)(`option`, { children: `Strip` }),
+                      (0, m.jsx)(`option`, { children: `Bottle` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Sale Unit`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: `${b} border-destructive`,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `Tablet` }),
+                      (0, m.jsx)(`option`, { children: `ml` }),
+                      (0, m.jsx)(`option`, { children: `Vial` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Issue Factor`,
+                  children: (0, m.jsx)(`input`, {
+                    type: `number`,
+                    className: `${b} border-destructive`,
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Drug Category`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `Schedule H` }),
+                      (0, m.jsx)(`option`, { children: `Schedule H1` }),
+                      (0, m.jsx)(`option`, { children: `OTC` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Item Type`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `Medicine` }),
+                      (0, m.jsx)(`option`, { children: `Consumable` }),
+                      (0, m.jsx)(`option`, { children: `Surgical` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Default Pur.VAT %`,
+                  children: (0, m.jsx)(`input`, {
+                    type: `number`,
+                    className: b,
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Sale VAT Type`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `Exclusive` }),
+                      (0, m.jsx)(`option`, { children: `Inclusive` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Sale VAT %`,
+                  children: (0, m.jsx)(`input`, {
+                    type: `number`,
+                    className: b,
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Pur. VAT Line`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `Line 1` }),
+                      (0, m.jsx)(`option`, { children: `Line 2` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Pur.VAT Type`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `Exclusive` }),
+                      (0, m.jsx)(`option`, { children: `Inclusive` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Stock Type`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: `Stockable`,
+                    children: [
+                      (0, m.jsx)(`option`, { children: `Stockable` }),
+                      (0, m.jsx)(`option`, { children: `Non-Stockable` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Expirable`,
+                  children: (0, m.jsx)(`input`, { type: `checkbox` }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Is CSSD`,
+                  children: (0, m.jsx)(`input`, { type: `checkbox` }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Is Laundry`,
+                  children: (0, m.jsx)(`input`, { type: `checkbox` }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Is Dose & Unit Required`,
+                  children: (0, m.jsx)(`input`, { type: `checkbox` }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Item Dose`,
+                  children: (0, m.jsx)(`input`, { className: b }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Unit`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: b,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `SELECT`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `mg` }),
+                      (0, m.jsx)(`option`, { children: `ml` }),
+                      (0, m.jsx)(`option`, { children: `g` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Med.Department`,
+                  children: (0, m.jsxs)(`select`, {
+                    className: `${b} border-destructive`,
+                    defaultValue: ``,
+                    children: [
+                      (0, m.jsx)(`option`, {
+                        value: ``,
+                        disabled: !0,
+                        children: `Select`,
+                      }),
+                      (0, m.jsx)(`option`, { children: `Pharmacy` }),
+                      (0, m.jsx)(`option`, { children: `OT` }),
+                      (0, m.jsx)(`option`, { children: `Ward` }),
+                    ],
+                  }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Is ZHSF PriAuthRequired`,
+                  children: (0, m.jsx)(`input`, { type: `checkbox` }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `ZHSF ItemCode (District)`,
+                  children: (0, m.jsx)(`input`, { className: b }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `ZHSF ItemCode (Regional)`,
+                  children: (0, m.jsx)(`input`, { className: b }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Essential Medi.`,
+                  children: (0, m.jsx)(`input`, { type: `checkbox` }),
+                }),
+                (0, m.jsx)(y, {
+                  label: `Vaccine Medi.`,
+                  children: (0, m.jsx)(`input`, { type: `checkbox` }),
+                }),
+              ],
+            }),
+            (0, m.jsxs)(`div`, {
+              className: `flex justify-center gap-3 pt-3 border-t`,
+              children: [
+                (0, m.jsx)(`button`, {
+                  type: `submit`,
+                  className: `px-8 py-2 bg-primary text-primary-foreground rounded font-semibold hover:bg-primary/90`,
+                  children: `Save`,
+                }),
+                (0, m.jsx)(`button`, {
+                  type: `button`,
+                  onClick: e,
+                  className: `px-6 py-2 border rounded font-semibold hover:bg-muted`,
+                  children: `Cancel`,
+                }),
+              ],
+            }),
+            (0, m.jsxs)(`div`, {
+              className: `flex justify-center gap-6 text-sm text-primary underline`,
+              children: [
+                (0, m.jsx)(`a`, {
+                  href: `#`,
+                  children: `Create Drug Category`,
+                }),
+                (0, m.jsx)(`a`, {
+                  href: `#`,
+                  children: `Create New Manufacturer`,
+                }),
+                (0, m.jsx)(`a`, {
+                  href: `#`,
+                  children: `Refresh Manufacturer List`,
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }),
+  });
+}
+function E({ onClose: e }) {
+  return (0, m.jsx)(`div`, {
+    className: `fixed inset-0 z-50 bg-black/50 flex items-start justify-center overflow-y-auto p-4`,
+    children: (0, m.jsxs)(`div`, {
+      className: `bg-card rounded-lg shadow-xl w-full max-w-6xl my-4`,
+      children: [
+        (0, m.jsxs)(`div`, {
+          className: `flex items-center justify-between px-4 py-2.5 border-b bg-primary/10`,
+          children: [
+            (0, m.jsx)(`h2`, {
+              className: `text-base font-bold`,
+              children: `Item Master`,
+            }),
+            (0, m.jsx)(`button`, {
+              onClick: e,
+              className: `p-1 hover:bg-muted rounded`,
+              children: (0, m.jsx)(f, { className: `w-4 h-4` }),
+            }),
+          ],
+        }),
+        (0, m.jsxs)(`div`, {
+          className: `flex justify-center gap-6 py-2 border-b text-sm`,
+          children: [
+            (0, m.jsxs)(`label`, {
+              className: `flex items-center gap-2`,
+              children: [
+                (0, m.jsx)(`input`, {
+                  type: `radio`,
+                  name: `itemmode`,
+                  defaultChecked: !0,
+                }),
+                ` New`,
+              ],
+            }),
+            (0, m.jsxs)(`label`, {
+              className: `flex items-center gap-2`,
+              children: [
+                (0, m.jsx)(`input`, { type: `radio`, name: `itemmode` }),
+                ` Edit`,
+              ],
+            }),
+          ],
+        }),
+        (0, m.jsxs)(`form`, {
+          className: `p-5 grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-3`,
+          onSubmit: (t) => {
+            (t.preventDefault(), e());
+          },
+          children: [
+            (0, m.jsx)(y, {
+              label: `Category`,
+              children: (0, m.jsxs)(`select`, {
+                className: b,
+                defaultValue: `ADMINISTRATIVE CHARGES`,
+                children: [
+                  (0, m.jsx)(`option`, { children: `ADMINISTRATIVE CHARGES` }),
+                  (0, m.jsx)(`option`, { children: `PROCEDURE` }),
+                  (0, m.jsx)(`option`, { children: `WARD CHARGES` }),
+                  (0, m.jsx)(`option`, { children: `SERVICE` }),
+                  (0, m.jsx)(`option`, { children: `MISC` }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Sub Category`,
+              children: (0, m.jsxs)(`select`, {
+                className: b,
+                defaultValue: ``,
+                children: [
+                  (0, m.jsx)(`option`, {
+                    value: ``,
+                    disabled: !0,
+                    children: `Select`,
+                  }),
+                  (0, m.jsx)(`option`, { children: `Registration` }),
+                  (0, m.jsx)(`option`, { children: `Consultation` }),
+                  (0, m.jsx)(`option`, { children: `Admission` }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Item Name`,
+              children: (0, m.jsx)(`input`, {
+                className: `${b} border-destructive`,
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `CPT Code`,
+              children: (0, m.jsx)(`input`, { className: b }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Department`,
+              children: (0, m.jsxs)(`select`, {
+                className: `${b} border-destructive`,
+                defaultValue: ``,
+                children: [
+                  (0, m.jsx)(`option`, {
+                    value: ``,
+                    disabled: !0,
+                    children: `Select`,
+                  }),
+                  (0, m.jsx)(`option`, { children: `OPD` }),
+                  (0, m.jsx)(`option`, { children: `IPD` }),
+                  (0, m.jsx)(`option`, { children: `Ward` }),
+                  (0, m.jsx)(`option`, { children: `OT` }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Rate Editable`,
+              children: (0, m.jsxs)(`div`, {
+                className: `flex items-center gap-4 text-sm`,
+                children: [
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `radio`, name: `oratedit` }),
+                      ` Yes`,
+                    ],
+                  }),
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, {
+                        type: `radio`,
+                        name: `oratedit`,
+                        defaultChecked: !0,
+                      }),
+                      ` No`,
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Is Discountable`,
+              children: (0, m.jsxs)(`div`, {
+                className: `flex items-center gap-4 text-sm`,
+                children: [
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, { type: `radio`, name: `oisdisc` }),
+                      ` Yes`,
+                    ],
+                  }),
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, {
+                        type: `radio`,
+                        name: `oisdisc`,
+                        defaultChecked: !0,
+                      }),
+                      ` No`,
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Measur Unit`,
+              children: (0, m.jsx)(`input`, {
+                className: b,
+                defaultValue: `1`,
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `Measur Qty`,
+              children: (0, m.jsx)(`input`, {
+                className: b,
+                defaultValue: `1`,
+              }),
+            }),
+            (0, m.jsx)(y, {
+              label: `IsShare Ward`,
+              children: (0, m.jsxs)(`div`, {
+                className: `flex items-center gap-4 text-sm`,
+                children: [
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, {
+                        type: `radio`,
+                        name: `oshareward`,
+                      }),
+                      ` Yes`,
+                    ],
+                  }),
+                  (0, m.jsxs)(`label`, {
+                    className: `flex items-center gap-1.5`,
+                    children: [
+                      (0, m.jsx)(`input`, {
+                        type: `radio`,
+                        name: `oshareward`,
+                        defaultChecked: !0,
+                      }),
+                      ` No`,
+                    ],
+                  }),
+                ],
+              }),
+            }),
+            (0, m.jsxs)(`div`, {
+              className: `md:col-span-3 flex justify-center gap-3 pt-4 border-t mt-2`,
+              children: [
+                (0, m.jsx)(`button`, {
+                  type: `submit`,
+                  className: `px-8 py-2 bg-primary text-primary-foreground rounded font-semibold hover:bg-primary/90`,
+                  children: `Save`,
+                }),
+                (0, m.jsx)(`button`, {
+                  type: `button`,
+                  onClick: e,
+                  className: `px-6 py-2 border rounded font-semibold hover:bg-muted`,
+                  children: `Cancel`,
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }),
+  });
+}
+var D = [
+  {
+    group: `Panel / Billing`,
+    items: [
+      {
+        key: `groupType`,
+        label: `Group Type`,
+        seed: [`INSURANCE`, `CORPORATE`, `GOVERNMENT`, `TPA`],
+      },
+      {
+        key: `paymentMode`,
+        label: `Payment Mode`,
+        seed: [`Cash`, `Credit`, `Cheque`, `Online`, `UPI`, `Card`],
+      },
+      { key: `rateType`, label: `Rate Type`, seed: [`SELF`, `PANEL`, `CASH`] },
+      {
+        key: `currency`,
+        label: `Currency`,
+        seed: [`INR`, `USD`, `EUR`, `TZS`, `GBP`],
+      },
+      { key: `panelType`, label: `Panel Type`, seed: [`Credit`, `Cash`] },
+      {
+        key: `taxType`,
+        label: `Tax Type`,
+        seed: [`GST 5%`, `GST 12%`, `GST 18%`, `Exempt`],
+      },
+      {
+        key: `discountReason`,
+        label: `Discount Reason`,
+        seed: [`Senior Citizen`, `Staff`, `Camp`, `Goodwill`],
+      },
+      {
+        key: `refundReason`,
+        label: `Refund Reason`,
+        seed: [`Duplicate Payment`, `Cancelled Service`, `Overcharge`],
+      },
+      {
+        key: `cancellationReason`,
+        label: `Cancellation Reason`,
+        seed: [`Patient No-Show`, `Doctor Unavailable`, `Emergency`],
+      },
+    ],
+  },
+  {
+    group: `Clinical`,
+    items: [
+      {
+        key: `department`,
+        label: `Department`,
+        seed: [
+          `Cardiology`,
+          `Neurology`,
+          `Orthopedics`,
+          `Pediatrics`,
+          `General Medicine`,
+        ],
+      },
+      {
+        key: `subDepartment`,
+        label: `Sub Department`,
+        seed: [
+          `Biochemistry`,
+          `Hematology`,
+          `Microbiology`,
+          `Radiology`,
+          `Pathology`,
+        ],
+      },
+      {
+        key: `consultationType`,
+        label: `Consultation Type`,
+        seed: [`New`, `Follow-up`, `Tele`, `Emergency`],
+      },
+      {
+        key: `diagnosisType`,
+        label: `Diagnosis Type`,
+        seed: [`Provisional`, `Final`, `Differential`],
+      },
+      {
+        key: `diet`,
+        label: `Diet Type`,
+        seed: [`Normal`, `Diabetic`, `Cardiac`, `Renal`, `Soft`],
+      },
+      {
+        key: `ward`,
+        label: `Ward`,
+        seed: [`General`, `Semi-Private`, `Private`, `Deluxe`, `ICU`],
+      },
+      {
+        key: `roomType`,
+        label: `Room Type`,
+        seed: [`Single`, `Double`, `Sharing`, `Suite`],
+      },
+      {
+        key: `appointmentStatus`,
+        label: `Appointment Status`,
+        seed: [`Scheduled`, `Checked-In`, `Completed`, `Cancelled`, `No-Show`],
+      },
+    ],
+  },
+  {
+    group: `Items / Pharmacy`,
+    items: [
+      {
+        key: `itemCategory`,
+        label: `Item Category`,
+        seed: [`Tablet`, `Syrup`, `Injection`, `Surgical`, `Consumable`],
+      },
+      {
+        key: `itemSubCategory`,
+        label: `Item Sub Category`,
+        seed: [`Antibiotic`, `Analgesic`, `Antipyretic`, `Vitamin`],
+      },
+      {
+        key: `uom`,
+        label: `Unit of Measure`,
+        seed: [`Each`, `Strip`, `Bottle`, `Vial`, `Box`, `ml`, `mg`],
+      },
+      {
+        key: `manufacturer`,
+        label: `Manufacturer`,
+        seed: [`Cipla`, `Sun Pharma`, `Dr. Reddy's`, `Abbott`, `GSK`],
+      },
+      {
+        key: `stockType`,
+        label: `Stock Type`,
+        seed: [`Regular`, `Cold Chain`, `Narcotic`, `Consignment`],
+      },
+    ],
+  },
+  {
+    group: `Patient`,
+    items: [
+      {
+        key: `title`,
+        label: `Title`,
+        seed: [`Mr.`, `Mrs.`, `Ms.`, `Dr.`, `Master`, `Baby`],
+      },
+      { key: `gender`, label: `Gender`, seed: [`Male`, `Female`, `Other`] },
+      {
+        key: `bloodGroup`,
+        label: `Blood Group`,
+        seed: [`A+`, `A-`, `B+`, `B-`, `O+`, `O-`, `AB+`, `AB-`],
+      },
+      {
+        key: `maritalStatus`,
+        label: `Marital Status`,
+        seed: [`Single`, `Married`, `Divorced`, `Widowed`],
+      },
+      {
+        key: `idProof`,
+        label: `ID Proof`,
+        seed: [`Aadhaar`, `PAN`, `Passport`, `Driving License`, `Voter ID`],
+      },
+      {
+        key: `relationship`,
+        label: `Relationship`,
+        seed: [
+          `Self`,
+          `Spouse`,
+          `Father`,
+          `Mother`,
+          `Son`,
+          `Daughter`,
+          `Sibling`,
+        ],
+      },
+    ],
+  },
+  {
+    group: `Staff / Users`,
+    items: [
+      {
+        key: `specialization`,
+        label: `Specialization`,
+        seed: [`MBBS`, `MD`, `MS`, `DM`, `MCh`],
+      },
+      {
+        key: `qualification`,
+        label: `Qualification`,
+        seed: [`MBBS`, `MD Medicine`, `MS Surgery`, `BDS`, `BAMS`],
+      },
+      {
+        key: `designation`,
+        label: `Designation`,
+        seed: [
+          `Consultant`,
+          `Senior Resident`,
+          `Junior Resident`,
+          `Nurse`,
+          `Technician`,
+        ],
+      },
+      {
+        key: `role`,
+        label: `User Role`,
+        seed: [
+          `Admin`,
+          `Doctor`,
+          `Nurse`,
+          `Receptionist`,
+          `Pharmacist`,
+          `Lab Tech`,
+          `Cashier`,
+        ],
+      },
+      {
+        key: `shift`,
+        label: `Shift`,
+        seed: [`Morning`, `Evening`, `Night`, `General`],
+      },
+    ],
+  },
+];
+function O({ onClose: e }) {
+  let [t, n] = (0, p.useState)(`groupType`),
+    [r, i] = (0, p.useState)(() => {
+      let e = {};
+      return (
+        D.forEach((t) =>
+          t.items.forEach((t) => {
+            e[t.key] = [...t.seed];
+          }),
+        ),
+        e
+      );
+    }),
+    [a, o] = (0, p.useState)(``),
+    [s, c] = (0, p.useState)(``),
+    l = D.flatMap((e) => e.items).find((e) => e.key === t),
+    u = (r[t] || []).filter((e) => e.toLowerCase().includes(s.toLowerCase())),
+    d = () => {
+      let e = a.trim();
+      e && (i((n) => ({ ...n, [t]: [...(n[t] || []), e] })), o(``));
+    },
+    h = (e) => {
+      i((n) => ({ ...n, [t]: (n[t] || []).filter((t, n) => n !== e) }));
+    },
+    g = (e, n) => {
+      i((r) => ({ ...r, [t]: (r[t] || []).map((t, r) => (r === e ? n : t)) }));
+    };
+  return (0, m.jsx)(`div`, {
+    className: `fixed inset-0 z-50 bg-black/50 flex items-start justify-center overflow-y-auto p-4`,
+    children: (0, m.jsxs)(`div`, {
+      className: `bg-card rounded-lg shadow-xl w-full max-w-6xl my-4`,
+      children: [
+        (0, m.jsxs)(`div`, {
+          className: `flex items-center justify-between px-4 py-2.5 border-b bg-primary/10`,
+          children: [
+            (0, m.jsxs)(`div`, {
+              children: [
+                (0, m.jsx)(`h2`, {
+                  className: `text-base font-bold`,
+                  children: `Global Master Configuration`,
+                }),
+                (0, m.jsx)(`p`, {
+                  className: `text-xs text-muted-foreground`,
+                  children: `Manage all dropdown lists used across the application from a single screen`,
+                }),
+              ],
+            }),
+            (0, m.jsx)(`button`, {
+              onClick: e,
+              className: `p-1 hover:bg-muted rounded`,
+              children: (0, m.jsx)(f, { className: `w-4 h-4` }),
+            }),
+          ],
+        }),
+        (0, m.jsxs)(`div`, {
+          className: `grid grid-cols-1 md:grid-cols-[260px_1fr] h-[70vh]`,
+          children: [
+            (0, m.jsx)(`div`, {
+              className: `border-r overflow-y-auto p-2 bg-muted/30`,
+              children: D.map((e) =>
+                (0, m.jsxs)(
+                  `div`,
+                  {
+                    className: `mb-3`,
+                    children: [
+                      (0, m.jsx)(`div`, {
+                        className: `text-[10px] uppercase tracking-wide text-muted-foreground px-2 py-1 font-semibold`,
+                        children: e.group,
+                      }),
+                      e.items.map((e) =>
+                        (0, m.jsxs)(
+                          `button`,
+                          {
+                            onClick: () => {
+                              (n(e.key), c(``), o(``));
+                            },
+                            className: `w-full text-left px-2 py-1.5 rounded text-sm flex justify-between items-center ${t === e.key ? `bg-primary text-primary-foreground` : `hover:bg-muted`}`,
+                            children: [
+                              (0, m.jsx)(`span`, { children: e.label }),
+                              (0, m.jsx)(`span`, {
+                                className: `text-[10px] px-1.5 rounded ${t === e.key ? `bg-primary-foreground/20` : `bg-muted-foreground/10 text-muted-foreground`}`,
+                                children: (r[e.key] || []).length,
+                              }),
+                            ],
+                          },
+                          e.key,
+                        ),
+                      ),
+                    ],
+                  },
+                  e.group,
+                ),
+              ),
+            }),
+            (0, m.jsxs)(`div`, {
+              className: `flex flex-col overflow-hidden`,
+              children: [
+                (0, m.jsxs)(`div`, {
+                  className: `px-4 py-3 border-b`,
+                  children: [
+                    (0, m.jsx)(`h3`, {
+                      className: `font-semibold`,
+                      children: l.label,
+                    }),
+                    (0, m.jsxs)(`p`, {
+                      className: `text-xs text-muted-foreground`,
+                      children: [
+                        `Add, edit or remove options that appear in the "`,
+                        l.label,
+                        `" dropdown.`,
+                      ],
+                    }),
+                  ],
+                }),
+                (0, m.jsxs)(`div`, {
+                  className: `px-4 py-3 border-b flex flex-wrap items-center gap-2`,
+                  children: [
+                    (0, m.jsx)(`input`, {
+                      value: a,
+                      onChange: (e) => o(e.target.value),
+                      onKeyDown: (e) => {
+                        e.key === `Enter` && (e.preventDefault(), d());
+                      },
+                      placeholder: `Add new ${l.label}...`,
+                      className: `${b} flex-1 min-w-[200px]`,
+                    }),
+                    (0, m.jsx)(`button`, {
+                      onClick: d,
+                      className: `h-8 px-4 bg-primary text-primary-foreground rounded text-sm font-semibold hover:bg-primary/90`,
+                      children: `+ Add`,
+                    }),
+                    (0, m.jsx)(`input`, {
+                      value: s,
+                      onChange: (e) => c(e.target.value),
+                      placeholder: `Search...`,
+                      className: `${b} w-48`,
+                    }),
+                  ],
+                }),
+                (0, m.jsx)(`div`, {
+                  className: `flex-1 overflow-y-auto p-4`,
+                  children: (0, m.jsxs)(`table`, {
+                    className: `w-full text-sm`,
+                    children: [
+                      (0, m.jsx)(`thead`, {
+                        children: (0, m.jsxs)(`tr`, {
+                          className: `text-left text-xs text-muted-foreground border-b`,
+                          children: [
+                            (0, m.jsx)(`th`, {
+                              className: `pb-2 w-12`,
+                              children: `#`,
+                            }),
+                            (0, m.jsx)(`th`, { children: `Value` }),
+                            (0, m.jsx)(`th`, {
+                              className: `w-24 text-right`,
+                              children: `Action`,
+                            }),
+                          ],
+                        }),
+                      }),
+                      (0, m.jsxs)(`tbody`, {
+                        children: [
+                          u.length === 0 &&
+                            (0, m.jsx)(`tr`, {
+                              children: (0, m.jsx)(`td`, {
+                                colSpan: 3,
+                                className: `py-8 text-center text-muted-foreground text-sm`,
+                                children: `No entries. Add one above.`,
+                              }),
+                            }),
+                          u.map((e, n) => {
+                            let i = (r[t] || []).indexOf(e);
+                            return (0, m.jsxs)(
+                              `tr`,
+                              {
+                                className: `border-b last:border-0`,
+                                children: [
+                                  (0, m.jsx)(`td`, {
+                                    className: `py-2 text-muted-foreground`,
+                                    children: n + 1,
+                                  }),
+                                  (0, m.jsx)(`td`, {
+                                    children: (0, m.jsx)(`input`, {
+                                      value: e,
+                                      onChange: (e) => g(i, e.target.value),
+                                      className: `w-full h-8 px-2 border rounded bg-background focus:outline-none focus:ring-1 focus:ring-primary`,
+                                    }),
+                                  }),
+                                  (0, m.jsx)(`td`, {
+                                    className: `text-right`,
+                                    children: (0, m.jsx)(`button`, {
+                                      onClick: () => h(i),
+                                      className: `text-xs px-2 py-1 border border-destructive/30 text-destructive rounded hover:bg-destructive/10`,
+                                      children: `Delete`,
+                                    }),
+                                  }),
+                                ],
+                              },
+                              `${e}-${n}`,
+                            );
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                }),
+                (0, m.jsxs)(`div`, {
+                  className: `border-t px-4 py-3 flex justify-end gap-2 bg-muted/30`,
+                  children: [
+                    (0, m.jsx)(`button`, {
+                      onClick: e,
+                      className: `px-4 py-1.5 border rounded text-sm hover:bg-muted`,
+                      children: `Cancel`,
+                    }),
+                    (0, m.jsx)(`button`, {
+                      onClick: e,
+                      className: `px-6 py-1.5 bg-primary text-primary-foreground rounded text-sm font-semibold hover:bg-primary/90`,
+                      children: `Save Changes`,
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }),
+  });
+}
+export { v as component };

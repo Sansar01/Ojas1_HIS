@@ -138,5 +138,3 @@ export interface CreateUserResponse {
   email: string;
   tempPassword: string;
 }
-
-// POST /hospital/users — response

@@ -1,1 +1,290 @@
-import{n as e}from"./rolldown-runtime-Bh1tDfsg.js";import{a as t,c as n,d as r,f as i,n as a,o,s}from"./auth-CRzH69JE.js";import{t as c}from"./createLucideIcon-CYyYTezv.js";import{t as l}from"./circle-alert-DaPe1FjS.js";import{t as u}from"./circle-check-B8_KDfYz.js";import{t as d}from"./key-round-DQf7ineL.js";var f=c(`eye-off`,[[`path`,{d:`M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49`,key:`ct8e1f`}],[`path`,{d:`M14.084 14.158a3 3 0 0 1-4.242-4.242`,key:`151rxh`}],[`path`,{d:`M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143`,key:`13bj9a`}],[`path`,{d:`m2 2 20 20`,key:`1ooewy`}]]),p=c(`eye`,[[`path`,{d:`M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0`,key:`1nclc0`}],[`circle`,{cx:`12`,cy:`12`,r:`3`,key:`1v7zrd`}]]),m=e(i()),h=r();function g(){let e=n(),r=a(),[i,c]=(0,m.useState)({currentPassword:``,newPassword:``,confirmPassword:``}),[g,v]=(0,m.useState)(!1),[y,b]=(0,m.useState)(!1),[x,S]=(0,m.useState)(!1),[C,w]=(0,m.useState)(!1),[T,E]=(0,m.useState)(null),[D,O]=(0,m.useState)(!1),k={length:i.newPassword.length>=8,upper:/[A-Z]/.test(i.newPassword),number:/[0-9]/.test(i.newPassword),match:i.newPassword===i.confirmPassword&&i.confirmPassword!==``},A=Object.values(k).every(Boolean);async function j(n){if(n.preventDefault(),A){w(!0),E(null);try{await s.post(`/auth/change-password`,{oldPassword:i.currentPassword,newPassword:i.newPassword}),r&&t({...r,forcePasswordChange:!1}),O(!0),setTimeout(()=>e({to:`/`}),1500)}catch(e){e instanceof o?E(e.message):E(`Something went wrong. Please try again.`)}finally{w(!1)}}}return(0,h.jsx)(`div`,{className:`min-h-screen bg-muted flex items-center justify-center p-4`,children:(0,h.jsxs)(`div`,{className:`w-full max-w-md`,children:[(0,h.jsxs)(`div`,{className:`text-center mb-8`,children:[(0,h.jsx)(`div`,{className:`w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4`,children:(0,h.jsx)(d,{className:`w-7 h-7 text-primary`})}),(0,h.jsx)(`h1`,{className:`text-2xl font-bold`,children:`Change Password`}),(0,h.jsx)(`p`,{className:`text-sm text-muted-foreground mt-1`,children:`You must set a new password before continuing`}),r?.email&&(0,h.jsxs)(`div`,{className:`mt-2 text-xs text-muted-foreground bg-muted-foreground/10 rounded-lg px-3 py-1.5 inline-block`,children:[`Logged in as `,(0,h.jsx)(`span`,{className:`font-medium`,children:r.email})]})]}),(0,h.jsx)(`div`,{className:`bg-card border rounded-2xl p-6 shadow-sm`,children:D?(0,h.jsxs)(`div`,{className:`text-center py-6`,children:[(0,h.jsx)(u,{className:`w-12 h-12 text-success mx-auto mb-3`}),(0,h.jsx)(`div`,{className:`font-semibold text-success`,children:`Password Changed Successfully`}),(0,h.jsx)(`div`,{className:`text-sm text-muted-foreground mt-1`,children:`Redirecting to dashboard...`})]}):(0,h.jsxs)(`form`,{onSubmit:j,className:`space-y-4`,children:[T&&(0,h.jsxs)(`div`,{className:`flex items-start gap-2 p-3 bg-destructive/10 border border-destructive/20 rounded-lg text-sm text-destructive`,children:[(0,h.jsx)(l,{className:`w-4 h-4 mt-0.5 shrink-0`}),T]}),(0,h.jsxs)(`div`,{children:[(0,h.jsx)(`label`,{className:`text-xs text-muted-foreground`,children:`Current Password (Temporary)`}),(0,h.jsxs)(`div`,{className:`relative mt-1`,children:[(0,h.jsx)(`input`,{type:g?`text`:`password`,value:i.currentPassword,onChange:e=>c({...i,currentPassword:e.target.value}),placeholder:`Enter temporary password`,required:!0,className:`w-full px-3 py-2.5 pr-10 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30`}),(0,h.jsx)(`button`,{type:`button`,onClick:()=>v(!g),className:`absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground`,children:g?(0,h.jsx)(f,{className:`w-4 h-4`}):(0,h.jsx)(p,{className:`w-4 h-4`})})]})]}),(0,h.jsxs)(`div`,{children:[(0,h.jsx)(`label`,{className:`text-xs text-muted-foreground`,children:`New Password`}),(0,h.jsxs)(`div`,{className:`relative mt-1`,children:[(0,h.jsx)(`input`,{type:y?`text`:`password`,value:i.newPassword,onChange:e=>c({...i,newPassword:e.target.value}),placeholder:`Min 8 chars, 1 uppercase, 1 number`,required:!0,className:`w-full px-3 py-2.5 pr-10 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30`}),(0,h.jsx)(`button`,{type:`button`,onClick:()=>b(!y),className:`absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground`,children:y?(0,h.jsx)(f,{className:`w-4 h-4`}):(0,h.jsx)(p,{className:`w-4 h-4`})})]})]}),(0,h.jsxs)(`div`,{children:[(0,h.jsx)(`label`,{className:`text-xs text-muted-foreground`,children:`Confirm New Password`}),(0,h.jsxs)(`div`,{className:`relative mt-1`,children:[(0,h.jsx)(`input`,{type:x?`text`:`password`,value:i.confirmPassword,onChange:e=>c({...i,confirmPassword:e.target.value}),placeholder:`Re-enter new password`,required:!0,className:`w-full px-3 py-2.5 pr-10 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30`}),(0,h.jsx)(`button`,{type:`button`,onClick:()=>S(!x),className:`absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground`,children:x?(0,h.jsx)(f,{className:`w-4 h-4`}):(0,h.jsx)(p,{className:`w-4 h-4`})})]})]}),i.newPassword&&(0,h.jsxs)(`div`,{className:`space-y-1.5 p-3 bg-muted rounded-lg`,children:[(0,h.jsx)(_,{label:`At least 8 characters`,ok:k.length}),(0,h.jsx)(_,{label:`One uppercase letter`,ok:k.upper}),(0,h.jsx)(_,{label:`One number`,ok:k.number}),(0,h.jsx)(_,{label:`Passwords match`,ok:k.match})]}),(0,h.jsx)(`button`,{type:`submit`,disabled:!A||C,className:`w-full py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed mt-2`,children:C?`Changing Password...`:`Set New Password`})]})})]})})}function _({label:e,ok:t}){return(0,h.jsxs)(`div`,{className:`flex items-center gap-2 text-xs ${t?`text-success`:`text-muted-foreground`}`,children:[(0,h.jsx)(`div`,{className:`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${t?`bg-success border-success`:`border-muted-foreground`}`,children:t&&(0,h.jsx)(`svg`,{viewBox:`0 0 10 10`,className:`w-2 h-2 text-white fill-none stroke-white stroke-2`,children:(0,h.jsx)(`polyline`,{points:`1.5,5 4,7.5 8.5,2.5`})})}),e]})}export{g as component};
+import { n as e } from "./rolldown-runtime-Bh1tDfsg.js";
+import {
+  a as t,
+  c as n,
+  d as r,
+  f as i,
+  n as a,
+  o,
+  s,
+} from "./auth-CRzH69JE.js";
+import { t as c } from "./createLucideIcon-CYyYTezv.js";
+import { t as l } from "./circle-alert-DaPe1FjS.js";
+import { t as u } from "./circle-check-B8_KDfYz.js";
+import { t as d } from "./key-round-DQf7ineL.js";
+var f = c(`eye-off`, [
+    [
+      `path`,
+      {
+        d: `M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49`,
+        key: `ct8e1f`,
+      },
+    ],
+    [`path`, { d: `M14.084 14.158a3 3 0 0 1-4.242-4.242`, key: `151rxh` }],
+    [
+      `path`,
+      {
+        d: `M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143`,
+        key: `13bj9a`,
+      },
+    ],
+    [`path`, { d: `m2 2 20 20`, key: `1ooewy` }],
+  ]),
+  p = c(`eye`, [
+    [
+      `path`,
+      {
+        d: `M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0`,
+        key: `1nclc0`,
+      },
+    ],
+    [`circle`, { cx: `12`, cy: `12`, r: `3`, key: `1v7zrd` }],
+  ]),
+  m = e(i()),
+  h = r();
+function g() {
+  let e = n(),
+    r = a(),
+    [i, c] = (0, m.useState)({
+      currentPassword: ``,
+      newPassword: ``,
+      confirmPassword: ``,
+    }),
+    [g, v] = (0, m.useState)(!1),
+    [y, b] = (0, m.useState)(!1),
+    [x, S] = (0, m.useState)(!1),
+    [C, w] = (0, m.useState)(!1),
+    [T, E] = (0, m.useState)(null),
+    [D, O] = (0, m.useState)(!1),
+    k = {
+      length: i.newPassword.length >= 8,
+      upper: /[A-Z]/.test(i.newPassword),
+      number: /[0-9]/.test(i.newPassword),
+      match: i.newPassword === i.confirmPassword && i.confirmPassword !== ``,
+    },
+    A = Object.values(k).every(Boolean);
+  async function j(n) {
+    if ((n.preventDefault(), A)) {
+      (w(!0), E(null));
+      try {
+        (await s.post(`/auth/change-password`, {
+          oldPassword: i.currentPassword,
+          newPassword: i.newPassword,
+        }),
+          r && t({ ...r, forcePasswordChange: !1 }),
+          O(!0),
+          setTimeout(() => e({ to: `/` }), 1500));
+      } catch (e) {
+        e instanceof o
+          ? E(e.message)
+          : E(`Something went wrong. Please try again.`);
+      } finally {
+        w(!1);
+      }
+    }
+  }
+  return (0, h.jsx)(`div`, {
+    className: `min-h-screen bg-muted flex items-center justify-center p-4`,
+    children: (0, h.jsxs)(`div`, {
+      className: `w-full max-w-md`,
+      children: [
+        (0, h.jsxs)(`div`, {
+          className: `text-center mb-8`,
+          children: [
+            (0, h.jsx)(`div`, {
+              className: `w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4`,
+              children: (0, h.jsx)(d, { className: `w-7 h-7 text-primary` }),
+            }),
+            (0, h.jsx)(`h1`, {
+              className: `text-2xl font-bold`,
+              children: `Change Password`,
+            }),
+            (0, h.jsx)(`p`, {
+              className: `text-sm text-muted-foreground mt-1`,
+              children: `You must set a new password before continuing`,
+            }),
+            r?.email &&
+              (0, h.jsxs)(`div`, {
+                className: `mt-2 text-xs text-muted-foreground bg-muted-foreground/10 rounded-lg px-3 py-1.5 inline-block`,
+                children: [
+                  `Logged in as `,
+                  (0, h.jsx)(`span`, {
+                    className: `font-medium`,
+                    children: r.email,
+                  }),
+                ],
+              }),
+          ],
+        }),
+        (0, h.jsx)(`div`, {
+          className: `bg-card border rounded-2xl p-6 shadow-sm`,
+          children: D
+            ? (0, h.jsxs)(`div`, {
+                className: `text-center py-6`,
+                children: [
+                  (0, h.jsx)(u, {
+                    className: `w-12 h-12 text-success mx-auto mb-3`,
+                  }),
+                  (0, h.jsx)(`div`, {
+                    className: `font-semibold text-success`,
+                    children: `Password Changed Successfully`,
+                  }),
+                  (0, h.jsx)(`div`, {
+                    className: `text-sm text-muted-foreground mt-1`,
+                    children: `Redirecting to dashboard...`,
+                  }),
+                ],
+              })
+            : (0, h.jsxs)(`form`, {
+                onSubmit: j,
+                className: `space-y-4`,
+                children: [
+                  T &&
+                    (0, h.jsxs)(`div`, {
+                      className: `flex items-start gap-2 p-3 bg-destructive/10 border border-destructive/20 rounded-lg text-sm text-destructive`,
+                      children: [
+                        (0, h.jsx)(l, { className: `w-4 h-4 mt-0.5 shrink-0` }),
+                        T,
+                      ],
+                    }),
+                  (0, h.jsxs)(`div`, {
+                    children: [
+                      (0, h.jsx)(`label`, {
+                        className: `text-xs text-muted-foreground`,
+                        children: `Current Password (Temporary)`,
+                      }),
+                      (0, h.jsxs)(`div`, {
+                        className: `relative mt-1`,
+                        children: [
+                          (0, h.jsx)(`input`, {
+                            type: g ? `text` : `password`,
+                            value: i.currentPassword,
+                            onChange: (e) =>
+                              c({ ...i, currentPassword: e.target.value }),
+                            placeholder: `Enter temporary password`,
+                            required: !0,
+                            className: `w-full px-3 py-2.5 pr-10 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30`,
+                          }),
+                          (0, h.jsx)(`button`, {
+                            type: `button`,
+                            onClick: () => v(!g),
+                            className: `absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground`,
+                            children: g
+                              ? (0, h.jsx)(f, { className: `w-4 h-4` })
+                              : (0, h.jsx)(p, { className: `w-4 h-4` }),
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  (0, h.jsxs)(`div`, {
+                    children: [
+                      (0, h.jsx)(`label`, {
+                        className: `text-xs text-muted-foreground`,
+                        children: `New Password`,
+                      }),
+                      (0, h.jsxs)(`div`, {
+                        className: `relative mt-1`,
+                        children: [
+                          (0, h.jsx)(`input`, {
+                            type: y ? `text` : `password`,
+                            value: i.newPassword,
+                            onChange: (e) =>
+                              c({ ...i, newPassword: e.target.value }),
+                            placeholder: `Min 8 chars, 1 uppercase, 1 number`,
+                            required: !0,
+                            className: `w-full px-3 py-2.5 pr-10 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30`,
+                          }),
+                          (0, h.jsx)(`button`, {
+                            type: `button`,
+                            onClick: () => b(!y),
+                            className: `absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground`,
+                            children: y
+                              ? (0, h.jsx)(f, { className: `w-4 h-4` })
+                              : (0, h.jsx)(p, { className: `w-4 h-4` }),
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  (0, h.jsxs)(`div`, {
+                    children: [
+                      (0, h.jsx)(`label`, {
+                        className: `text-xs text-muted-foreground`,
+                        children: `Confirm New Password`,
+                      }),
+                      (0, h.jsxs)(`div`, {
+                        className: `relative mt-1`,
+                        children: [
+                          (0, h.jsx)(`input`, {
+                            type: x ? `text` : `password`,
+                            value: i.confirmPassword,
+                            onChange: (e) =>
+                              c({ ...i, confirmPassword: e.target.value }),
+                            placeholder: `Re-enter new password`,
+                            required: !0,
+                            className: `w-full px-3 py-2.5 pr-10 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30`,
+                          }),
+                          (0, h.jsx)(`button`, {
+                            type: `button`,
+                            onClick: () => S(!x),
+                            className: `absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground`,
+                            children: x
+                              ? (0, h.jsx)(f, { className: `w-4 h-4` })
+                              : (0, h.jsx)(p, { className: `w-4 h-4` }),
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  i.newPassword &&
+                    (0, h.jsxs)(`div`, {
+                      className: `space-y-1.5 p-3 bg-muted rounded-lg`,
+                      children: [
+                        (0, h.jsx)(_, {
+                          label: `At least 8 characters`,
+                          ok: k.length,
+                        }),
+                        (0, h.jsx)(_, {
+                          label: `One uppercase letter`,
+                          ok: k.upper,
+                        }),
+                        (0, h.jsx)(_, { label: `One number`, ok: k.number }),
+                        (0, h.jsx)(_, {
+                          label: `Passwords match`,
+                          ok: k.match,
+                        }),
+                      ],
+                    }),
+                  (0, h.jsx)(`button`, {
+                    type: `submit`,
+                    disabled: !A || C,
+                    className: `w-full py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed mt-2`,
+                    children: C ? `Changing Password...` : `Set New Password`,
+                  }),
+                ],
+              }),
+        }),
+      ],
+    }),
+  });
+}
+function _({ label: e, ok: t }) {
+  return (0, h.jsxs)(`div`, {
+    className: `flex items-center gap-2 text-xs ${t ? `text-success` : `text-muted-foreground`}`,
+    children: [
+      (0, h.jsx)(`div`, {
+        className: `w-3.5 h-3.5 rounded-full border flex items-center justify-center ${t ? `bg-success border-success` : `border-muted-foreground`}`,
+        children:
+          t &&
+          (0, h.jsx)(`svg`, {
+            viewBox: `0 0 10 10`,
+            className: `w-2 h-2 text-white fill-none stroke-white stroke-2`,
+            children: (0, h.jsx)(`polyline`, { points: `1.5,5 4,7.5 8.5,2.5` }),
+          }),
+      }),
+      e,
+    ],
+  });
+}
+export { g as component };

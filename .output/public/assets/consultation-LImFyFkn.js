@@ -1,2 +1,392 @@
-import{d as e}from"./auth-CRzH69JE.js";import{b as t,m as n,t as r,v as i,w as a,x as o}from"./AppLayout-x7TZ9xUn.js";import{t as s}from"./createLucideIcon-CYyYTezv.js";import{n as c}from"./Kpi-B7fzN02H.js";var l=s(`sticky-note`,[[`path`,{d:`M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z`,key:`1dfntj`}],[`path`,{d:`M15 3v5a1 1 0 0 0 1 1h5`,key:`6s6qgf`}]]),u=e();function d(){return(0,u.jsxs)(r,{children:[(0,u.jsxs)(`div`,{className:`mb-6 flex items-start justify-between gap-4`,children:[(0,u.jsxs)(`div`,{children:[(0,u.jsx)(`h1`,{className:`text-2xl font-bold`,children:`Doctor Consultation`}),(0,u.jsx)(`p`,{className:`text-sm text-muted-foreground`,children:`Complete OPD consultation and prescription`})]}),(0,u.jsxs)(`div`,{className:`flex gap-2`,children:[(0,u.jsx)(`button`,{className:`px-4 py-2 rounded-lg bg-warning text-warning-foreground text-sm font-medium shadow-sm hover:opacity-90`,children:`Review`}),(0,u.jsx)(`button`,{className:`px-4 py-2 rounded-lg bg-success text-success-foreground text-sm font-medium shadow-sm hover:opacity-90`,children:`Check-out`})]})]}),(0,u.jsxs)(`div`,{className:`bg-card border rounded-xl p-5 mb-6`,children:[(0,u.jsxs)(`div`,{className:`flex items-center gap-4`,children:[(0,u.jsx)(`div`,{className:`w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-lg font-bold text-primary`,children:`RP`}),(0,u.jsxs)(`div`,{children:[(0,u.jsxs)(`div`,{className:`flex items-center gap-2`,children:[(0,u.jsx)(`h2`,{className:`text-lg font-bold`,children:`Ramesh Patel`}),(0,u.jsx)(`span`,{className:`text-[10px] px-1.5 py-0.5 bg-primary/10 text-primary rounded font-mono`,children:`OPD123456`})]}),(0,u.jsx)(`div`,{className:`text-xs text-muted-foreground`,children:`58Y Male · A+ · 9876543210 · ABDM: XJHGF2345K`})]}),(0,u.jsxs)(`div`,{className:`ml-auto flex gap-2 text-xs`,children:[(0,u.jsx)(`span`,{className:`px-2 py-1 rounded bg-destructive/10 text-destructive`,children:`Allergy: Penicillin`}),(0,u.jsx)(`span`,{className:`px-2 py-1 rounded bg-info/10 text-info`,children:`Insurance: Star Health`})]})]}),(0,u.jsx)(`div`,{className:`grid grid-cols-6 gap-3 mt-4`,children:[[`BP`,`140/90`,`mmHg`],[`Pulse`,`98`,`/min`],[`Temp`,`99.1`,`°F`],[`SpO₂`,`98`,`%`],[`Weight`,`78`,`kg`],[`BMI`,`26.3`,`kg/m²`]].map(([e,t,n])=>(0,u.jsxs)(`div`,{className:`p-2 rounded border text-xs`,children:[(0,u.jsx)(`div`,{className:`text-muted-foreground`,children:e}),(0,u.jsxs)(`div`,{className:`font-bold text-base`,children:[t,` `,(0,u.jsx)(`span`,{className:`text-[10px] text-muted-foreground`,children:n})]})]},e))})]}),(0,u.jsx)(`div`,{className:`flex gap-2 border-b mb-6 text-sm overflow-x-auto`,children:[{i:n,l:`Consultation`,a:!0},{i:o,l:`History`},{i:o,l:`Examination`},{i:t,l:`Investigations`},{i,l:`Prescription`},{i:l,l:`Advice`},{i:a,l:`Follow Up`}].map(e=>(0,u.jsxs)(`button`,{className:`flex items-center gap-2 px-4 py-2 border-b-2 ${e.a?`border-primary text-primary font-medium`:`border-transparent text-muted-foreground`}`,children:[(0,u.jsx)(e.i,{className:`w-4 h-4`}),` `,e.l]},e.l))}),(0,u.jsxs)(`div`,{className:`grid grid-cols-3 gap-6`,children:[(0,u.jsxs)(c,{title:`🩺 Chief Complaints & History`,children:[(0,u.jsx)(`textarea`,{className:`w-full p-2 border rounded-lg text-sm`,rows:4,defaultValue:`Chest pain on exertion since 2 days
-Breathlessness since 1 day`}),(0,u.jsxs)(`div`,{className:`mt-4 text-sm space-y-2`,children:[(0,u.jsx)(`div`,{className:`font-semibold`,children:`History`}),(0,u.jsx)(`div`,{className:`text-xs`,children:`Hypertension since 5 years`}),(0,u.jsx)(`div`,{className:`text-xs`,children:`Diabetes Mellitus Type 2 since 3 years`})]}),(0,u.jsxs)(`div`,{className:`mt-4 text-sm space-y-2`,children:[(0,u.jsx)(`div`,{className:`font-semibold`,children:`Examination`}),(0,u.jsx)(`div`,{className:`text-xs`,children:`CVS: S1 S2 normal, No murmur`}),(0,u.jsx)(`div`,{className:`text-xs`,children:`RS: Air entry equal both sides`}),(0,u.jsx)(`div`,{className:`text-xs`,children:`P/A: Soft, Non tender`})]}),(0,u.jsxs)(`div`,{className:`mt-4 text-sm`,children:[(0,u.jsx)(`div`,{className:`font-semibold`,children:`Diagnosis`}),(0,u.jsx)(`div`,{className:`text-xs mt-1`,children:`I20.8 — Other forms of Angina Pectoris`}),(0,u.jsx)(`div`,{className:`text-xs`,children:`I10 — Essential (primary) hypertension`})]})]}),(0,u.jsxs)(c,{title:`💊 Prescription`,action:(0,u.jsx)(`button`,{className:`text-xs text-primary`,children:`+ Favorites`}),children:[(0,u.jsx)(`input`,{placeholder:`Search medicine...`,className:`w-full px-3 py-2 border rounded-lg text-sm mb-3`}),(0,u.jsxs)(`div`,{className:`space-y-2`,children:[[{n:`Tab. Ecosprin AV 75 mg`,dose:`1-0-1 After Food`,days:`10 Days`},{n:`Tab. Telma 40 mg`,dose:`1-0-0 After Food`,days:`30 Days`},{n:`Tab. Atorva 10 mg`,dose:`0-0-1 After Food`,days:`30 Days`},{n:`Tab. Metformin 500 mg`,dose:`1-0-1 After Food`,days:`30 Days`}].map(e=>(0,u.jsxs)(`div`,{className:`p-3 border rounded-lg`,children:[(0,u.jsxs)(`div`,{className:`flex justify-between`,children:[(0,u.jsx)(`div`,{className:`font-semibold text-sm`,children:e.n}),(0,u.jsx)(`span`,{className:`text-xs text-muted-foreground`,children:e.days})]}),(0,u.jsx)(`div`,{className:`text-xs text-muted-foreground`,children:e.dose})]},e.n)),(0,u.jsx)(`button`,{className:`w-full py-2 border-2 border-dashed rounded-lg text-sm text-primary`,children:`+ Add Medicine`})]}),(0,u.jsxs)(`div`,{className:`mt-4 flex gap-2`,children:[(0,u.jsx)(`button`,{className:`flex-1 py-2 border rounded-lg text-sm`,children:`Save Draft`}),(0,u.jsx)(`button`,{className:`flex-1 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium`,children:`Save & Print (F2)`})]})]}),(0,u.jsxs)(c,{title:`🧪 Investigations & Advice`,children:[(0,u.jsx)(`div`,{className:`text-xs font-semibold mb-2`,children:`Investigations`}),(0,u.jsxs)(`div`,{className:`space-y-1 text-sm`,children:[[`CBC (Complete Blood Count)`,`Lipid Profile`,`ECG`,`TMT`].map(e=>(0,u.jsx)(`div`,{className:`px-3 py-2 border rounded-lg`,children:e},e)),(0,u.jsx)(`button`,{className:`w-full py-2 border-2 border-dashed rounded-lg text-sm text-primary mt-1`,children:`+ Add Test`})]}),(0,u.jsxs)(`div`,{className:`mt-5`,children:[(0,u.jsx)(`div`,{className:`text-xs font-semibold mb-2`,children:`Advice`}),(0,u.jsxs)(`ul`,{className:`text-sm space-y-1 list-disc list-inside`,children:[(0,u.jsx)(`li`,{children:`Avoid oily food`}),(0,u.jsx)(`li`,{children:`Daily 30 min walking`}),(0,u.jsx)(`li`,{children:`Monitor BP daily`}),(0,u.jsx)(`li`,{children:`Follow low salt diet`})]})]}),(0,u.jsxs)(`div`,{className:`mt-5`,children:[(0,u.jsx)(`div`,{className:`text-xs font-semibold mb-2`,children:`Follow Up`}),(0,u.jsxs)(`div`,{className:`flex gap-2`,children:[(0,u.jsx)(`select`,{className:`flex-1 border rounded-lg px-2 py-2 text-sm`,children:(0,u.jsx)(`option`,{children:`After 7 Days`})}),(0,u.jsx)(`input`,{type:`date`,defaultValue:`2025-05-27`,className:`flex-1 border rounded-lg px-2 py-2 text-sm`})]})]})]})]})]})}export{d as component};
+import { d as e } from "./auth-CRzH69JE.js";
+import {
+  b as t,
+  m as n,
+  t as r,
+  v as i,
+  w as a,
+  x as o,
+} from "./AppLayout-x7TZ9xUn.js";
+import { t as s } from "./createLucideIcon-CYyYTezv.js";
+import { n as c } from "./Kpi-B7fzN02H.js";
+var l = s(`sticky-note`, [
+    [
+      `path`,
+      {
+        d: `M21 9a2.4 2.4 0 0 0-.706-1.706l-3.588-3.588A2.4 2.4 0 0 0 15 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z`,
+        key: `1dfntj`,
+      },
+    ],
+    [`path`, { d: `M15 3v5a1 1 0 0 0 1 1h5`, key: `6s6qgf` }],
+  ]),
+  u = e();
+function d() {
+  return (0, u.jsxs)(r, {
+    children: [
+      (0, u.jsxs)(`div`, {
+        className: `mb-6 flex items-start justify-between gap-4`,
+        children: [
+          (0, u.jsxs)(`div`, {
+            children: [
+              (0, u.jsx)(`h1`, {
+                className: `text-2xl font-bold`,
+                children: `Doctor Consultation`,
+              }),
+              (0, u.jsx)(`p`, {
+                className: `text-sm text-muted-foreground`,
+                children: `Complete OPD consultation and prescription`,
+              }),
+            ],
+          }),
+          (0, u.jsxs)(`div`, {
+            className: `flex gap-2`,
+            children: [
+              (0, u.jsx)(`button`, {
+                className: `px-4 py-2 rounded-lg bg-warning text-warning-foreground text-sm font-medium shadow-sm hover:opacity-90`,
+                children: `Review`,
+              }),
+              (0, u.jsx)(`button`, {
+                className: `px-4 py-2 rounded-lg bg-success text-success-foreground text-sm font-medium shadow-sm hover:opacity-90`,
+                children: `Check-out`,
+              }),
+            ],
+          }),
+        ],
+      }),
+      (0, u.jsxs)(`div`, {
+        className: `bg-card border rounded-xl p-5 mb-6`,
+        children: [
+          (0, u.jsxs)(`div`, {
+            className: `flex items-center gap-4`,
+            children: [
+              (0, u.jsx)(`div`, {
+                className: `w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-lg font-bold text-primary`,
+                children: `RP`,
+              }),
+              (0, u.jsxs)(`div`, {
+                children: [
+                  (0, u.jsxs)(`div`, {
+                    className: `flex items-center gap-2`,
+                    children: [
+                      (0, u.jsx)(`h2`, {
+                        className: `text-lg font-bold`,
+                        children: `Ramesh Patel`,
+                      }),
+                      (0, u.jsx)(`span`, {
+                        className: `text-[10px] px-1.5 py-0.5 bg-primary/10 text-primary rounded font-mono`,
+                        children: `OPD123456`,
+                      }),
+                    ],
+                  }),
+                  (0, u.jsx)(`div`, {
+                    className: `text-xs text-muted-foreground`,
+                    children: `58Y Male · A+ · 9876543210 · ABDM: XJHGF2345K`,
+                  }),
+                ],
+              }),
+              (0, u.jsxs)(`div`, {
+                className: `ml-auto flex gap-2 text-xs`,
+                children: [
+                  (0, u.jsx)(`span`, {
+                    className: `px-2 py-1 rounded bg-destructive/10 text-destructive`,
+                    children: `Allergy: Penicillin`,
+                  }),
+                  (0, u.jsx)(`span`, {
+                    className: `px-2 py-1 rounded bg-info/10 text-info`,
+                    children: `Insurance: Star Health`,
+                  }),
+                ],
+              }),
+            ],
+          }),
+          (0, u.jsx)(`div`, {
+            className: `grid grid-cols-6 gap-3 mt-4`,
+            children: [
+              [`BP`, `140/90`, `mmHg`],
+              [`Pulse`, `98`, `/min`],
+              [`Temp`, `99.1`, `°F`],
+              [`SpO₂`, `98`, `%`],
+              [`Weight`, `78`, `kg`],
+              [`BMI`, `26.3`, `kg/m²`],
+            ].map(([e, t, n]) =>
+              (0, u.jsxs)(
+                `div`,
+                {
+                  className: `p-2 rounded border text-xs`,
+                  children: [
+                    (0, u.jsx)(`div`, {
+                      className: `text-muted-foreground`,
+                      children: e,
+                    }),
+                    (0, u.jsxs)(`div`, {
+                      className: `font-bold text-base`,
+                      children: [
+                        t,
+                        ` `,
+                        (0, u.jsx)(`span`, {
+                          className: `text-[10px] text-muted-foreground`,
+                          children: n,
+                        }),
+                      ],
+                    }),
+                  ],
+                },
+                e,
+              ),
+            ),
+          }),
+        ],
+      }),
+      (0, u.jsx)(`div`, {
+        className: `flex gap-2 border-b mb-6 text-sm overflow-x-auto`,
+        children: [
+          { i: n, l: `Consultation`, a: !0 },
+          { i: o, l: `History` },
+          { i: o, l: `Examination` },
+          { i: t, l: `Investigations` },
+          { i, l: `Prescription` },
+          { i: l, l: `Advice` },
+          { i: a, l: `Follow Up` },
+        ].map((e) =>
+          (0, u.jsxs)(
+            `button`,
+            {
+              className: `flex items-center gap-2 px-4 py-2 border-b-2 ${e.a ? `border-primary text-primary font-medium` : `border-transparent text-muted-foreground`}`,
+              children: [(0, u.jsx)(e.i, { className: `w-4 h-4` }), ` `, e.l],
+            },
+            e.l,
+          ),
+        ),
+      }),
+      (0, u.jsxs)(`div`, {
+        className: `grid grid-cols-3 gap-6`,
+        children: [
+          (0, u.jsxs)(c, {
+            title: `🩺 Chief Complaints & History`,
+            children: [
+              (0, u.jsx)(`textarea`, {
+                className: `w-full p-2 border rounded-lg text-sm`,
+                rows: 4,
+                defaultValue: `Chest pain on exertion since 2 days
+Breathlessness since 1 day`,
+              }),
+              (0, u.jsxs)(`div`, {
+                className: `mt-4 text-sm space-y-2`,
+                children: [
+                  (0, u.jsx)(`div`, {
+                    className: `font-semibold`,
+                    children: `History`,
+                  }),
+                  (0, u.jsx)(`div`, {
+                    className: `text-xs`,
+                    children: `Hypertension since 5 years`,
+                  }),
+                  (0, u.jsx)(`div`, {
+                    className: `text-xs`,
+                    children: `Diabetes Mellitus Type 2 since 3 years`,
+                  }),
+                ],
+              }),
+              (0, u.jsxs)(`div`, {
+                className: `mt-4 text-sm space-y-2`,
+                children: [
+                  (0, u.jsx)(`div`, {
+                    className: `font-semibold`,
+                    children: `Examination`,
+                  }),
+                  (0, u.jsx)(`div`, {
+                    className: `text-xs`,
+                    children: `CVS: S1 S2 normal, No murmur`,
+                  }),
+                  (0, u.jsx)(`div`, {
+                    className: `text-xs`,
+                    children: `RS: Air entry equal both sides`,
+                  }),
+                  (0, u.jsx)(`div`, {
+                    className: `text-xs`,
+                    children: `P/A: Soft, Non tender`,
+                  }),
+                ],
+              }),
+              (0, u.jsxs)(`div`, {
+                className: `mt-4 text-sm`,
+                children: [
+                  (0, u.jsx)(`div`, {
+                    className: `font-semibold`,
+                    children: `Diagnosis`,
+                  }),
+                  (0, u.jsx)(`div`, {
+                    className: `text-xs mt-1`,
+                    children: `I20.8 — Other forms of Angina Pectoris`,
+                  }),
+                  (0, u.jsx)(`div`, {
+                    className: `text-xs`,
+                    children: `I10 — Essential (primary) hypertension`,
+                  }),
+                ],
+              }),
+            ],
+          }),
+          (0, u.jsxs)(c, {
+            title: `💊 Prescription`,
+            action: (0, u.jsx)(`button`, {
+              className: `text-xs text-primary`,
+              children: `+ Favorites`,
+            }),
+            children: [
+              (0, u.jsx)(`input`, {
+                placeholder: `Search medicine...`,
+                className: `w-full px-3 py-2 border rounded-lg text-sm mb-3`,
+              }),
+              (0, u.jsxs)(`div`, {
+                className: `space-y-2`,
+                children: [
+                  [
+                    {
+                      n: `Tab. Ecosprin AV 75 mg`,
+                      dose: `1-0-1 After Food`,
+                      days: `10 Days`,
+                    },
+                    {
+                      n: `Tab. Telma 40 mg`,
+                      dose: `1-0-0 After Food`,
+                      days: `30 Days`,
+                    },
+                    {
+                      n: `Tab. Atorva 10 mg`,
+                      dose: `0-0-1 After Food`,
+                      days: `30 Days`,
+                    },
+                    {
+                      n: `Tab. Metformin 500 mg`,
+                      dose: `1-0-1 After Food`,
+                      days: `30 Days`,
+                    },
+                  ].map((e) =>
+                    (0, u.jsxs)(
+                      `div`,
+                      {
+                        className: `p-3 border rounded-lg`,
+                        children: [
+                          (0, u.jsxs)(`div`, {
+                            className: `flex justify-between`,
+                            children: [
+                              (0, u.jsx)(`div`, {
+                                className: `font-semibold text-sm`,
+                                children: e.n,
+                              }),
+                              (0, u.jsx)(`span`, {
+                                className: `text-xs text-muted-foreground`,
+                                children: e.days,
+                              }),
+                            ],
+                          }),
+                          (0, u.jsx)(`div`, {
+                            className: `text-xs text-muted-foreground`,
+                            children: e.dose,
+                          }),
+                        ],
+                      },
+                      e.n,
+                    ),
+                  ),
+                  (0, u.jsx)(`button`, {
+                    className: `w-full py-2 border-2 border-dashed rounded-lg text-sm text-primary`,
+                    children: `+ Add Medicine`,
+                  }),
+                ],
+              }),
+              (0, u.jsxs)(`div`, {
+                className: `mt-4 flex gap-2`,
+                children: [
+                  (0, u.jsx)(`button`, {
+                    className: `flex-1 py-2 border rounded-lg text-sm`,
+                    children: `Save Draft`,
+                  }),
+                  (0, u.jsx)(`button`, {
+                    className: `flex-1 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium`,
+                    children: `Save & Print (F2)`,
+                  }),
+                ],
+              }),
+            ],
+          }),
+          (0, u.jsxs)(c, {
+            title: `🧪 Investigations & Advice`,
+            children: [
+              (0, u.jsx)(`div`, {
+                className: `text-xs font-semibold mb-2`,
+                children: `Investigations`,
+              }),
+              (0, u.jsxs)(`div`, {
+                className: `space-y-1 text-sm`,
+                children: [
+                  [
+                    `CBC (Complete Blood Count)`,
+                    `Lipid Profile`,
+                    `ECG`,
+                    `TMT`,
+                  ].map((e) =>
+                    (0, u.jsx)(
+                      `div`,
+                      { className: `px-3 py-2 border rounded-lg`, children: e },
+                      e,
+                    ),
+                  ),
+                  (0, u.jsx)(`button`, {
+                    className: `w-full py-2 border-2 border-dashed rounded-lg text-sm text-primary mt-1`,
+                    children: `+ Add Test`,
+                  }),
+                ],
+              }),
+              (0, u.jsxs)(`div`, {
+                className: `mt-5`,
+                children: [
+                  (0, u.jsx)(`div`, {
+                    className: `text-xs font-semibold mb-2`,
+                    children: `Advice`,
+                  }),
+                  (0, u.jsxs)(`ul`, {
+                    className: `text-sm space-y-1 list-disc list-inside`,
+                    children: [
+                      (0, u.jsx)(`li`, { children: `Avoid oily food` }),
+                      (0, u.jsx)(`li`, { children: `Daily 30 min walking` }),
+                      (0, u.jsx)(`li`, { children: `Monitor BP daily` }),
+                      (0, u.jsx)(`li`, { children: `Follow low salt diet` }),
+                    ],
+                  }),
+                ],
+              }),
+              (0, u.jsxs)(`div`, {
+                className: `mt-5`,
+                children: [
+                  (0, u.jsx)(`div`, {
+                    className: `text-xs font-semibold mb-2`,
+                    children: `Follow Up`,
+                  }),
+                  (0, u.jsxs)(`div`, {
+                    className: `flex gap-2`,
+                    children: [
+                      (0, u.jsx)(`select`, {
+                        className: `flex-1 border rounded-lg px-2 py-2 text-sm`,
+                        children: (0, u.jsx)(`option`, {
+                          children: `After 7 Days`,
+                        }),
+                      }),
+                      (0, u.jsx)(`input`, {
+                        type: `date`,
+                        defaultValue: `2025-05-27`,
+                        className: `flex-1 border rounded-lg px-2 py-2 text-sm`,
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      }),
+    ],
+  });
+}
+export { d as component };

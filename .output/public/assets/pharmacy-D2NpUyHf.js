@@ -1,1 +1,85 @@
-import{d as e}from"./auth-CRzH69JE.js";import{t}from"./AppLayout-x7TZ9xUn.js";import{n}from"./Kpi-B7fzN02H.js";var r=e(),i=[[`MED-1001`,`Ecosprin AV 75 mg`,`Tablet`,2450,30,`Active`],[`MED-1002`,`Atorvastatin 10 mg`,`Tablet`,45,15,`Low`],[`MED-1003`,`Telma 40 mg`,`Tablet`,1200,25,`Active`],[`MED-1004`,`Metformin 500 mg`,`Tablet`,3400,8,`Active`],[`MED-1005`,`Amoxicillin 500 mg`,`Capsule`,0,60,`Out`]];function a(){return(0,r.jsxs)(t,{children:[(0,r.jsxs)(`div`,{className:`mb-6`,children:[(0,r.jsx)(`h1`,{className:`text-2xl font-bold`,children:`Pharmacy`}),(0,r.jsx)(`p`,{className:`text-sm text-muted-foreground`,children:`Inventory and dispensing`})]}),(0,r.jsx)(n,{title:`Stock Register`,children:(0,r.jsxs)(`table`,{className:`w-full text-sm`,children:[(0,r.jsx)(`thead`,{children:(0,r.jsxs)(`tr`,{className:`text-left text-xs text-muted-foreground border-b`,children:[(0,r.jsx)(`th`,{className:`pb-2`,children:`Code`}),(0,r.jsx)(`th`,{children:`Medicine`}),(0,r.jsx)(`th`,{children:`Form`}),(0,r.jsx)(`th`,{children:`Stock`}),(0,r.jsx)(`th`,{children:`Rate`}),(0,r.jsx)(`th`,{children:`Status`})]})}),(0,r.jsx)(`tbody`,{children:i.map(e=>(0,r.jsxs)(`tr`,{className:`border-b last:border-0`,children:[(0,r.jsx)(`td`,{className:`py-3 font-mono text-xs`,children:e[0]}),(0,r.jsx)(`td`,{className:`font-medium`,children:e[1]}),(0,r.jsx)(`td`,{className:`text-muted-foreground`,children:e[2]}),(0,r.jsx)(`td`,{children:e[3]}),(0,r.jsxs)(`td`,{children:[`₹`,e[4]]}),(0,r.jsx)(`td`,{children:(0,r.jsx)(`span`,{className:`text-[10px] px-1.5 py-0.5 rounded ${e[5]===`Active`?`bg-success/15 text-success`:e[5]===`Low`?`bg-warning/20 text-warning-foreground`:`bg-destructive/10 text-destructive`}`,children:e[5]})})]},e[0]))})]})})]})}export{a as component};
+import { d as e } from "./auth-CRzH69JE.js";
+import { t } from "./AppLayout-x7TZ9xUn.js";
+import { n } from "./Kpi-B7fzN02H.js";
+var r = e(),
+  i = [
+    [`MED-1001`, `Ecosprin AV 75 mg`, `Tablet`, 2450, 30, `Active`],
+    [`MED-1002`, `Atorvastatin 10 mg`, `Tablet`, 45, 15, `Low`],
+    [`MED-1003`, `Telma 40 mg`, `Tablet`, 1200, 25, `Active`],
+    [`MED-1004`, `Metformin 500 mg`, `Tablet`, 3400, 8, `Active`],
+    [`MED-1005`, `Amoxicillin 500 mg`, `Capsule`, 0, 60, `Out`],
+  ];
+function a() {
+  return (0, r.jsxs)(t, {
+    children: [
+      (0, r.jsxs)(`div`, {
+        className: `mb-6`,
+        children: [
+          (0, r.jsx)(`h1`, {
+            className: `text-2xl font-bold`,
+            children: `Pharmacy`,
+          }),
+          (0, r.jsx)(`p`, {
+            className: `text-sm text-muted-foreground`,
+            children: `Inventory and dispensing`,
+          }),
+        ],
+      }),
+      (0, r.jsx)(n, {
+        title: `Stock Register`,
+        children: (0, r.jsxs)(`table`, {
+          className: `w-full text-sm`,
+          children: [
+            (0, r.jsx)(`thead`, {
+              children: (0, r.jsxs)(`tr`, {
+                className: `text-left text-xs text-muted-foreground border-b`,
+                children: [
+                  (0, r.jsx)(`th`, { className: `pb-2`, children: `Code` }),
+                  (0, r.jsx)(`th`, { children: `Medicine` }),
+                  (0, r.jsx)(`th`, { children: `Form` }),
+                  (0, r.jsx)(`th`, { children: `Stock` }),
+                  (0, r.jsx)(`th`, { children: `Rate` }),
+                  (0, r.jsx)(`th`, { children: `Status` }),
+                ],
+              }),
+            }),
+            (0, r.jsx)(`tbody`, {
+              children: i.map((e) =>
+                (0, r.jsxs)(
+                  `tr`,
+                  {
+                    className: `border-b last:border-0`,
+                    children: [
+                      (0, r.jsx)(`td`, {
+                        className: `py-3 font-mono text-xs`,
+                        children: e[0],
+                      }),
+                      (0, r.jsx)(`td`, {
+                        className: `font-medium`,
+                        children: e[1],
+                      }),
+                      (0, r.jsx)(`td`, {
+                        className: `text-muted-foreground`,
+                        children: e[2],
+                      }),
+                      (0, r.jsx)(`td`, { children: e[3] }),
+                      (0, r.jsxs)(`td`, { children: [`₹`, e[4]] }),
+                      (0, r.jsx)(`td`, {
+                        children: (0, r.jsx)(`span`, {
+                          className: `text-[10px] px-1.5 py-0.5 rounded ${e[5] === `Active` ? `bg-success/15 text-success` : e[5] === `Low` ? `bg-warning/20 text-warning-foreground` : `bg-destructive/10 text-destructive`}`,
+                          children: e[5],
+                        }),
+                      }),
+                    ],
+                  },
+                  e[0],
+                ),
+              ),
+            }),
+          ],
+        }),
+      }),
+    ],
+  });
+}
+export { a as component };

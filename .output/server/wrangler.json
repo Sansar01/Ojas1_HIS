@@ -6,17 +6,12 @@
     "directory": "..\\public"
   },
   "name": "sansar01-ojas1-his",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "no_bundle": true,
   "rules": [
     {
       "type": "ESModule",
-      "globs": [
-        "**/*.mjs",
-        "**/*.js"
-      ]
+      "globs": ["**/*.mjs", "**/*.js"]
     }
   ]
 }
