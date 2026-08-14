@@ -1,1 +1,108 @@
-import{d as e}from"./auth-CRzH69JE.js";import{t}from"./AppLayout-x7TZ9xUn.js";import{t as n}from"./useApiResource-B4231qiR.js";import{n as r}from"./Kpi-B7fzN02H.js";var i=e();function a(){let{data:e,isLoading:a,error:o}=n([`patients`],`/patients`,{staleTime:3e4}),s=(e?.patients??[]).map(e=>[e.uid,e.name,e.age,e.gender,e.mobile,e.bloodGroup,e.insurance,e.lastVisit]);return(0,i.jsxs)(t,{children:[(0,i.jsxs)(`div`,{className:`mb-6`,children:[(0,i.jsx)(`h1`,{className:`text-2xl font-bold`,children:`Patients`}),(0,i.jsx)(`p`,{className:`text-sm text-muted-foreground`,children:`Master patient records`})]}),o?(0,i.jsx)(`div`,{className:`mb-4 rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive`,children:`Patient list could not be loaded. Please try again.`}):null,(0,i.jsx)(r,{title:`Patient Directory`,action:(0,i.jsx)(`button`,{className:`text-xs px-3 py-1.5 bg-primary text-primary-foreground rounded`,children:`+ New Patient`}),children:a?(0,i.jsx)(`div`,{className:`text-sm text-muted-foreground`,children:`Loading patients…`}):(0,i.jsxs)(`table`,{className:`w-full text-sm`,children:[(0,i.jsx)(`thead`,{children:(0,i.jsxs)(`tr`,{className:`text-left text-xs text-muted-foreground border-b`,children:[(0,i.jsx)(`th`,{className:`pb-2`,children:`UHID`}),(0,i.jsx)(`th`,{children:`Name`}),(0,i.jsx)(`th`,{children:`Age`}),(0,i.jsx)(`th`,{children:`Gender`}),(0,i.jsx)(`th`,{children:`Mobile`}),(0,i.jsx)(`th`,{children:`Blood`}),(0,i.jsx)(`th`,{children:`Insurance`}),(0,i.jsx)(`th`,{children:`Last Visit`})]})}),(0,i.jsx)(`tbody`,{children:s.map(e=>(0,i.jsxs)(`tr`,{className:`border-b last:border-0 hover:bg-muted/30`,children:[(0,i.jsx)(`td`,{className:`py-3 font-mono text-xs`,children:e[0]}),(0,i.jsx)(`td`,{className:`font-medium`,children:e[1]}),(0,i.jsx)(`td`,{children:e[2]}),(0,i.jsx)(`td`,{children:e[3]}),(0,i.jsx)(`td`,{children:e[4]}),(0,i.jsx)(`td`,{children:e[5]}),(0,i.jsx)(`td`,{className:`text-muted-foreground`,children:e[6]}),(0,i.jsx)(`td`,{children:e[7]})]},e[0]))})]})})]})}export{a as component};
+import { d as e } from "./auth-CRzH69JE.js";
+import { t } from "./AppLayout-x7TZ9xUn.js";
+import { t as n } from "./useApiResource-B4231qiR.js";
+import { n as r } from "./Kpi-B7fzN02H.js";
+var i = e();
+function a() {
+  let {
+      data: e,
+      isLoading: a,
+      error: o,
+    } = n([`patients`], `/patients`, { staleTime: 3e4 }),
+    s = (e?.patients ?? []).map((e) => [
+      e.uid,
+      e.name,
+      e.age,
+      e.gender,
+      e.mobile,
+      e.bloodGroup,
+      e.insurance,
+      e.lastVisit,
+    ]);
+  return (0, i.jsxs)(t, {
+    children: [
+      (0, i.jsxs)(`div`, {
+        className: `mb-6`,
+        children: [
+          (0, i.jsx)(`h1`, {
+            className: `text-2xl font-bold`,
+            children: `Patients`,
+          }),
+          (0, i.jsx)(`p`, {
+            className: `text-sm text-muted-foreground`,
+            children: `Master patient records`,
+          }),
+        ],
+      }),
+      o
+        ? (0, i.jsx)(`div`, {
+            className: `mb-4 rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive`,
+            children: `Patient list could not be loaded. Please try again.`,
+          })
+        : null,
+      (0, i.jsx)(r, {
+        title: `Patient Directory`,
+        action: (0, i.jsx)(`button`, {
+          className: `text-xs px-3 py-1.5 bg-primary text-primary-foreground rounded`,
+          children: `+ New Patient`,
+        }),
+        children: a
+          ? (0, i.jsx)(`div`, {
+              className: `text-sm text-muted-foreground`,
+              children: `Loading patients…`,
+            })
+          : (0, i.jsxs)(`table`, {
+              className: `w-full text-sm`,
+              children: [
+                (0, i.jsx)(`thead`, {
+                  children: (0, i.jsxs)(`tr`, {
+                    className: `text-left text-xs text-muted-foreground border-b`,
+                    children: [
+                      (0, i.jsx)(`th`, { className: `pb-2`, children: `UHID` }),
+                      (0, i.jsx)(`th`, { children: `Name` }),
+                      (0, i.jsx)(`th`, { children: `Age` }),
+                      (0, i.jsx)(`th`, { children: `Gender` }),
+                      (0, i.jsx)(`th`, { children: `Mobile` }),
+                      (0, i.jsx)(`th`, { children: `Blood` }),
+                      (0, i.jsx)(`th`, { children: `Insurance` }),
+                      (0, i.jsx)(`th`, { children: `Last Visit` }),
+                    ],
+                  }),
+                }),
+                (0, i.jsx)(`tbody`, {
+                  children: s.map((e) =>
+                    (0, i.jsxs)(
+                      `tr`,
+                      {
+                        className: `border-b last:border-0 hover:bg-muted/30`,
+                        children: [
+                          (0, i.jsx)(`td`, {
+                            className: `py-3 font-mono text-xs`,
+                            children: e[0],
+                          }),
+                          (0, i.jsx)(`td`, {
+                            className: `font-medium`,
+                            children: e[1],
+                          }),
+                          (0, i.jsx)(`td`, { children: e[2] }),
+                          (0, i.jsx)(`td`, { children: e[3] }),
+                          (0, i.jsx)(`td`, { children: e[4] }),
+                          (0, i.jsx)(`td`, { children: e[5] }),
+                          (0, i.jsx)(`td`, {
+                            className: `text-muted-foreground`,
+                            children: e[6],
+                          }),
+                          (0, i.jsx)(`td`, { children: e[7] }),
+                        ],
+                      },
+                      e[0],
+                    ),
+                  ),
+                }),
+              ],
+            }),
+      }),
+    ],
+  });
+}
+export { a as component };
