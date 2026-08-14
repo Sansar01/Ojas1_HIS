@@ -1,6 +1,14 @@
+import { createFileRoute } from "@tanstack/react-router";
 import React, { useState } from "react";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import * as Select from "@radix-ui/react-select";
+import { AppLayout } from "@/components/layout/AppLayout";
+import { Input } from "@/components/ui/input";
+
+export const Route = createFileRoute("/doctorSlot")({
+  head: () => ({ meta: [{ title: "Doctor Slot Management Ojas1Cloud HIMS" }] }),
+  component: DoctorSlot,
+});
 
 // Small inline SVGs so there is no additional dependency on @radix-ui/react-icons
 const CheckSvg = () => (
@@ -67,7 +75,7 @@ const F: React.FC<{ label: string; children: React.ReactNode }> = ({
   </div>
 );
 
-export default function DoctorSlotRoute() {
+function DoctorSlot() {
   const initialSlots: Record<string, Slot> = days.reduce(
     (acc, d) => {
       acc[d] = { enabled: false, from: "09:00", to: "17:00" };
@@ -83,9 +91,10 @@ export default function DoctorSlotRoute() {
   const breakToDefault = "14:00";
 
   return (
-    <div>
-      {/* Doctor Slots */}
-      {formData.userType === "DOCTOR" && (
+    <AppLayout>
+      <div>
+        {/* Doctor Slots */}
+        {/* {formData.userType === "DOCTOR" && ( */}
         <div className="mt-6 p-4 border rounded-lg bg-primary/5">
           <div className="mb-3">
             <div className="text-sm font-semibold">
@@ -123,7 +132,7 @@ export default function DoctorSlotRoute() {
                 >
                   <div className="col-span-1">
                     <Checkbox.Root
-                      className="inline-flex items-center justify-center h-5 w-5 rounded border focus:ring-2"
+                      className="inline-flex items-center justify-center cursor-pointer h-5 w-5 rounded border focus:ring-2"
                       checked={sl.enabled}
                       onCheckedChange={(v) =>
                         setSlots({
@@ -144,7 +153,7 @@ export default function DoctorSlotRoute() {
                   <div className="col-span-4 text-sm">{d}</div>
 
                   <div className="col-span-3">
-                    <input
+                    <Input
                       type="time"
                       value={sl.from}
                       disabled={!sl.enabled}
@@ -159,7 +168,7 @@ export default function DoctorSlotRoute() {
                   </div>
 
                   <div className="col-span-3">
-                    <input
+                    <Input
                       type="time"
                       value={sl.to}
                       disabled={!sl.enabled}
@@ -220,7 +229,7 @@ export default function DoctorSlotRoute() {
             </F>
 
             <F label="Break From">
-              <input
+              <Input
                 type="time"
                 defaultValue={breakFromDefault}
                 className="w-full px-2 py-2 border rounded-lg text-sm"
@@ -228,7 +237,7 @@ export default function DoctorSlotRoute() {
             </F>
 
             <F label="Break To">
-              <input
+              <Input
                 type="time"
                 defaultValue={breakToDefault}
                 className="w-full px-2 py-2 border rounded-lg text-sm"
@@ -236,7 +245,8 @@ export default function DoctorSlotRoute() {
             </F>
           </div>
         </div>
-      )}
-    </div>
+        {/* )} */}
+      </div>
+    </AppLayout>
   );
 }

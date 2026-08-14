@@ -495,6 +495,7 @@ function UserManagement() {
   return (
     <AppLayout>
       {/* Success Modal */}
+      
       {successData && (
         <SuccessModal
           data={successData}
@@ -562,7 +563,7 @@ function UserManagement() {
         </div>
       </div>
 
-      {/* â”€â”€ Stepper â”€â”€ */}
+      {/*Stepper Card*/}
       <div className="bg-card border  rounded-xl p-4 mb-6">
         <div className="flex items-center justify-between">
           {steps.map((s, i) => {
@@ -616,9 +617,7 @@ function UserManagement() {
         </div>
       </div>
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          STEP 1 â€” User Info
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      {/*  STEP 1- User Info*/}
       {step === 1 && (
         <Section title="Step 1 Â· User Information">
           <div className="grid grid-cols-3 gap-4">
@@ -1194,9 +1193,7 @@ function UserManagement() {
         </Section>
       )}
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          STEP 3 â€” Credentials & Copy Rights
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      {/* Step 3 - Credentials */}
       {step === 3 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Credentials */}
@@ -1454,7 +1451,7 @@ function UserManagement() {
         </div>
       )}
 
-      {/* â”€â”€ Footer nav â”€â”€ */}
+      {/* Footer nav */}
       <div className="mt-6 flex items-center justify-between bg-card border rounded-xl p-4">
         <Button
           onClick={() => setStep(Math.max(1, step - 1))}
