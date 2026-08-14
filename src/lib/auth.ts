@@ -1,5 +1,7 @@
 import { api, apiRequest } from "./api";
 
+let accessToken: string | null = null;
+
 export type Role =
   | "super_admin"
   | "doctor"
@@ -19,8 +21,6 @@ export type AuthUser = {
   hospitalCode?: string;
   hospitalId?: string;
   userId?: string;
-  accessToken?: string;
-  refreshToken?: string;
   forcePasswordChange?: boolean;
 };
 
@@ -162,7 +162,9 @@ function buildInitials(name: string) {
 export function getUser(): AuthUser | null {
   try {
     if (typeof window === "undefined") return null;
+
     const raw = window.localStorage.getItem(KEY);
+
     return raw ? (JSON.parse(raw) as AuthUser) : null;
   } catch {
     return null;
@@ -177,30 +179,33 @@ export function setUser(u: AuthUser) {
 
 export function clearUser() {
   if (typeof window === "undefined") return;
+
+  accessToken = null;
+
   window.localStorage.removeItem(KEY);
   window.dispatchEvent(new Event("authChange"));
 }
 
 export function getAccessToken(): string | null {
-  const user = getUser();
-  return user?.accessToken ?? null;
+  return accessToken;
+}
+
+export function setAccessToken(token: string) {
+  accessToken = token;
 }
 
 export async function loginWithBackend(
   email: string,
   password: string,
 ): Promise<AuthUser> {
-  const response = api.post<BackendLoginResponse>(
-    "/api/hospital/auth/login",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: { email, password },
+  const response = api.post<BackendLoginResponse>("/api/hospital/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
     },
-  );
+    body: { email, password },
+  });
 
   const payload = (await response.catch(
     () => null,
@@ -237,12 +242,11 @@ export async function loginWithBackend(
     hospitalCode: payload.hospital?.code,
     hospitalId: payload.hospital?.id,
     userId: payload.user?.id,
-    accessToken: payload.accessToken,
-    refreshToken: payload.refreshToken,
     forcePasswordChange: payload.forcePasswordChange,
   } satisfies AuthUser;
 
   setUser(user);
+  setAccessToken(payload.accessToken);
   return user;
 }
 
@@ -251,4 +255,21 @@ export function canAccess(role: Role, path: string): boolean {
   if (allowed === "all") return true;
   if (path === "/") return true;
   return allowed.some((p) => path === p || path.startsWith(p + "/"));
+}
+
+export async function logOutFromFrontend(): Promise<boolean> {
+  try {
+    await api.post("/api/hospital/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+
+    return true;
+  } catch (error) {
+    console.error("Logout API failed:", error);
+
+    return false;
+  } finally {
+    clearUser();
+  }
 }

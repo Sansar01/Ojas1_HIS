@@ -1,4 +1,9 @@
-import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
+import {
+  Link,
+  Outlet,
+  useNavigate,
+  useRouterState,
+} from "@tanstack/react-router";
 import {
   LayoutDashboard,
   Users,
@@ -30,7 +35,12 @@ import {
   Soup,
 } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
-import { canAccess, clearUser, getUser, type AuthUser } from "@/lib/auth";
+import {
+  canAccess,
+  getUser,
+  logOutFromFrontend,
+  type AuthUser,
+} from "@/lib/auth";
 import { useEntitlements } from "@/hooks/useUserManagement";
 import type { EntitlementModule } from "@/types/user-management";
 
@@ -136,7 +146,11 @@ export function AppLayout({ children }: { children?: ReactNode }) {
   useEffect(() => {
     const readAuth = () => setUserState(getUser());
     const readSel = () => {
-      try { setSelected(localStorage.getItem("selectedModule")); } catch { setSelected(null); }
+      try {
+        setSelected(localStorage.getItem("selectedModule"));
+      } catch {
+        setSelected(null);
+      }
     };
     readAuth();
     readSel();
@@ -172,10 +186,13 @@ export function AppLayout({ children }: { children?: ReactNode }) {
     ? nav.filter((n) => ALWAYS_VISIBLE.has(n.to) || n.to === selected)
     : nav;
 
-  console.log("Sidebar nav:", { entitlements, entitlementsLoading, navLength: nav.length });
+  const onLogout = async () => {
+    const response = await logOutFromFrontend();
 
-  const onLogout = () => {
-    clearUser();
+    if (!response) {
+      return;
+    }
+
     navigate({ to: "/login" });
   };
 
@@ -187,8 +204,12 @@ export function AppLayout({ children }: { children?: ReactNode }) {
             <Heart className="w-5 h-5 text-primary-foreground fill-primary" />
           </div>
           <div>
-            <div className="font-bold text-base leading-tight">Ojas1Cloud HIMS</div>
-            <div className="text-[10px] text-sidebar-foreground/60">One Patient. One Record.</div>
+            <div className="font-bold text-base leading-tight">
+              Ojas1Cloud HIMS
+            </div>
+            <div className="text-[10px] text-sidebar-foreground/60">
+              One Patient. One Record.
+            </div>
           </div>
         </div>
         <nav className="p-3 flex-1 overflow-y-auto">
@@ -197,7 +218,8 @@ export function AppLayout({ children }: { children?: ReactNode }) {
           </div>
           {visibleNav.length > 0 ? (
             visibleNav.map((item) => {
-              const active = item.to === "/" ? path === "/" : path.startsWith(item.to);
+              const active =
+                item.to === "/" ? path === "/" : path.startsWith(item.to);
               const Icon = item.icon;
               return (
                 <Link
@@ -226,7 +248,9 @@ export function AppLayout({ children }: { children?: ReactNode }) {
           </div>
           <div className="text-xs flex-1 min-w-0">
             <div className="font-semibold truncate">{user.name}</div>
-            <div className="text-sidebar-foreground/60 truncate">{user.designation}</div>
+            <div className="text-sidebar-foreground/60 truncate">
+              {user.designation}
+            </div>
           </div>
           <button
             onClick={onLogout}
@@ -267,7 +291,9 @@ export function AppLayout({ children }: { children?: ReactNode }) {
               </div>
               <div className="text-xs">
                 <div className="font-semibold">{user.name}</div>
-                <div className="text-muted-foreground capitalize">{user.role.replace("_", " ")}</div>
+                <div className="text-muted-foreground capitalize">
+                  {user.role.replace("_", " ")}
+                </div>
               </div>
               <button
                 onClick={onLogout}

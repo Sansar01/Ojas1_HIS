@@ -166,7 +166,7 @@ export function useHospitalUsers() {
 
   useEffect(() => {
     api
-      .get<any[]>("/users", {
+      .get<any[]>("/api/hospital/users", {
         params: { status: "ACTIVE" },
       })
       .then((data) => {
