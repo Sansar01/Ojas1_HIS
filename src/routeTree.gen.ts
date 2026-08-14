@@ -15,6 +15,7 @@ import { Route as BillingRouteImport } from './routes/billing'
 import { Route as ChangePasswordRouteImport } from './routes/change-password'
 import { Route as ConfigurationsRouteImport } from './routes/configurations'
 import { Route as ConsultationRouteImport } from './routes/consultation'
+import { Route as DoctorSlotRouteImport } from './routes/doctorSlot'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MasterRouteImport } from './routes/master'
@@ -55,6 +56,11 @@ const ConfigurationsRoute = ConfigurationsRouteImport.update({
 const ConsultationRoute = ConsultationRouteImport.update({
   id: '/consultation',
   path: '/consultation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorSlotRoute = DoctorSlotRouteImport.update({
+  id: '/doctorSlot',
+  path: '/doctorSlot',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LabRoute = LabRouteImport.update({
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/change-password': typeof ChangePasswordRoute
   '/configurations': typeof ConfigurationsRoute
   '/consultation': typeof ConsultationRoute
+  '/doctorSlot': typeof DoctorSlotRoute
   '/lab': typeof LabRoute
   '/login': typeof LoginRoute
   '/master': typeof MasterRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/change-password': typeof ChangePasswordRoute
   '/configurations': typeof ConfigurationsRoute
   '/consultation': typeof ConsultationRoute
+  '/doctorSlot': typeof DoctorSlotRoute
   '/lab': typeof LabRoute
   '/login': typeof LoginRoute
   '/master': typeof MasterRoute
@@ -159,6 +167,7 @@ export interface FileRoutesById {
   '/change-password': typeof ChangePasswordRoute
   '/configurations': typeof ConfigurationsRoute
   '/consultation': typeof ConsultationRoute
+  '/doctorSlot': typeof DoctorSlotRoute
   '/lab': typeof LabRoute
   '/login': typeof LoginRoute
   '/master': typeof MasterRoute
@@ -180,6 +189,7 @@ export interface FileRouteTypes {
     | '/change-password'
     | '/configurations'
     | '/consultation'
+    | '/doctorSlot'
     | '/lab'
     | '/login'
     | '/master'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/change-password'
     | '/configurations'
     | '/consultation'
+    | '/doctorSlot'
     | '/lab'
     | '/login'
     | '/master'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/change-password'
     | '/configurations'
     | '/consultation'
+    | '/doctorSlot'
     | '/lab'
     | '/login'
     | '/master'
@@ -238,6 +250,7 @@ export interface RootRouteChildren {
   ChangePasswordRoute: typeof ChangePasswordRoute
   ConfigurationsRoute: typeof ConfigurationsRoute
   ConsultationRoute: typeof ConsultationRoute
+  DoctorSlotRoute: typeof DoctorSlotRoute
   LabRoute: typeof LabRoute
   LoginRoute: typeof LoginRoute
   MasterRoute: typeof MasterRoute
@@ -293,6 +306,13 @@ declare module '@tanstack/react-router' {
       path: '/consultation'
       fullPath: '/consultation'
       preLoaderRoute: typeof ConsultationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctorSlot': {
+      id: '/doctorSlot'
+      path: '/doctorSlot'
+      fullPath: '/doctorSlot'
+      preLoaderRoute: typeof DoctorSlotRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/lab': {
@@ -382,6 +402,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChangePasswordRoute: ChangePasswordRoute,
   ConfigurationsRoute: ConfigurationsRoute,
   ConsultationRoute: ConsultationRoute,
+  DoctorSlotRoute: DoctorSlotRoute,
   LabRoute: LabRoute,
   LoginRoute: LoginRoute,
   MasterRoute: MasterRoute,

@@ -92,7 +92,7 @@ export interface CreateUserPayload {
     email: string;
     mobile?: string;
     alternateMobile?: string;
-    userType: "REGULAR_USER" | "SUPER_ADMIN";
+    userType: string; // "regular" | "doctor" | "admin" | "super_admin"
   };
   staffProfile: {
     title?: string;

@@ -1,7 +1,7 @@
 ﻿import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   User,
   Shield,
@@ -26,15 +26,17 @@ import { toast } from "sonner";
 
 // Radix-based UI components
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
-  SelectItem
+  SelectItem,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Toaster } from "@/components/ui/sonner";
+import DatePicker from "@/components/ui/date-picker";
 
 export const Route = createFileRoute("/user-management")({
   head: () => ({ meta: [{ title: "User Management â€” Ojas1Cloud HIMS" }] }),
@@ -98,9 +100,10 @@ function SuccessModal({ data, onClose }: { data: any; onClose: any }) {
         </div>
 
         <div className="mt-4 flex gap-3">
-          <button
+          <Button
             onClick={copyAll}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 border rounded-lg text-sm font-medium"
+            variant="outline"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium"
           >
             {copied ? (
               <Check className="w-4 h-4 text-success" />
@@ -108,20 +111,19 @@ function SuccessModal({ data, onClose }: { data: any; onClose: any }) {
               <Copy className="w-4 h-4" />
             )}
             {copied ? "Copied!" : "Copy Credentials"}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={onClose}
             className="flex-1 px-4 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-medium"
           >
             Done
-          </button>
+          </Button>
         </div>
       </div>
     </div>
   );
 }
 
-// â”€â”€â”€ Main Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function UserManagement() {
   const [step, setStep] = useState(1);
 
@@ -138,21 +140,22 @@ function UserManagement() {
   } = useCreateUser();
 
   // â”€â”€â”€ User Type â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  const [userType, setUserType] = useState<"regular" | "doctor">("regular");
+  const [userType, setUserType] = useState<"REGULAR_USER" | "DOCTOR">(
+    "REGULAR_USER",
+  );
   const [lockedType, setLockedType] = useState(false);
 
   useEffect(() => {
     try {
       const v = localStorage.getItem("um_userType");
-      if (v === "doctor") {
+      if (v === "DOCTOR") {
         localStorage.removeItem("um_userType");
-        setUserType("doctor");
+        setUserType("DOCTOR");
         setLockedType(true);
       }
     } catch {}
   }, []);
 
-  // â”€â”€â”€ Doctor Slots â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const [slots, setSlots] = useState<
     Record<string, { enabled: boolean; from: string; to: string }>
   >(
@@ -164,8 +167,6 @@ function UserManagement() {
     ),
   );
 
-  // â”€â”€â”€ Form State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
   const [formData, setFormData] = useState({
     // User Info
     title: "Mr.",
@@ -173,6 +174,7 @@ function UserManagement() {
     lastName: "",
     email: "",
     mobile: "",
+    userType: "",
     alternateMobile: "",
     gender: "MALE" as "MALE" | "FEMALE" | "OTHER",
     dateOfBirth: "",
@@ -326,6 +328,10 @@ function UserManagement() {
         newErrors.email = "Email is required";
       }
 
+      if (!formData.mobile.trim()) {
+        newErrors.mobile = "Mobile Number is required";
+      }
+
       if (!formData.designation.trim()) {
         newErrors.designation = "Designation is required";
       }
@@ -411,7 +417,7 @@ function UserManagement() {
           email: formData.email,
           mobile: formData.mobile || undefined,
           alternateMobile: formData.alternateMobile || undefined,
-          userType: "REGULAR_USER" as const,
+          userType: formData.userType || "regular",
         },
         staffProfile: {
           title: formData.title || undefined,
@@ -501,6 +507,7 @@ function UserManagement() {
               lastName: "",
               email: "",
               mobile: "",
+              userType: "",
               alternateMobile: "",
               gender: "MALE",
               dateOfBirth: "",
@@ -556,7 +563,7 @@ function UserManagement() {
       </div>
 
       {/* â”€â”€ Stepper â”€â”€ */}
-      <div className="bg-card border rounded-xl p-4 mb-6">
+      <div className="bg-card border  rounded-xl p-4 mb-6">
         <div className="flex items-center justify-between">
           {steps.map((s, i) => {
             const Icon = s.i;
@@ -566,7 +573,7 @@ function UserManagement() {
               <div key={s.n} className="flex items-center flex-1">
                 <button
                   onClick={() => goToStep(s.n)}
-                  className="flex items-center gap-3"
+                  className="flex cursor-pointer items-center gap-3"
                 >
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center border-2 ${
@@ -626,16 +633,18 @@ function UserManagement() {
             {/* User Type */}
             <F label="User Type *">
               <Select
-                value={userType}
-                onValueChange={(v) => setUserType(v as "regular" | "doctor")}
+                value={formData.userType}
+                onValueChange={(v) =>
+                  updateField("userType", v as "REGULAR_USER" | "DOCTOR")
+                }
                 disabled={lockedType}
               >
                 <SelectTrigger className="w-full px-2 py-2 border rounded-lg text-sm disabled:opacity-70 disabled:cursor-not-allowed">
-                  <SelectValue />
+                  <SelectValue placeholder="Select User type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="regular">Regular User</SelectItem>
-                  <SelectItem value="doctor">Doctor</SelectItem>
+                  <SelectItem value="REGULAR_USER">Regular User</SelectItem>
+                  <SelectItem value="DOCTOR">Doctor</SelectItem>
                 </SelectContent>
               </Select>
               {lockedType && (
@@ -683,11 +692,12 @@ function UserManagement() {
             </F>
             {/* Date of Birth */}
             <F label="Date of Birth">
-              <Input
-                type="date"
+              <DatePicker
                 value={formData.dateOfBirth}
-                onChange={(e) => updateField("dateOfBirth", e.target.value)}
+                onChange={(v) => updateField("dateOfBirth", v)}
+                id="field-dateOfBirth"
                 className="w-full px-2 py-2 border rounded-lg text-sm"
+                placeholder="Date of birth"
               />
             </F>
             {/* Gender */}
@@ -700,6 +710,7 @@ function UserManagement() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="">Select Gender</SelectItem>
                   <SelectItem value="MALE">Male</SelectItem>
                   <SelectItem value="FEMALE">Female</SelectItem>
                   <SelectItem value="OTHER">Other</SelectItem>
@@ -883,11 +894,12 @@ function UserManagement() {
             </F>
             {/* Date of Joining */}
             <F label="Date of Joining">
-              <Input
-                type="date"
+              <DatePicker
                 value={formData.dateOfJoining}
-                onChange={(e) => updateField("dateOfJoining", e.target.value)}
+                onChange={(v) => updateField("dateOfJoining", v)}
+                id="field-dateOfJoining"
                 className="w-full px-2 py-2 border rounded-lg text-sm"
+                placeholder="Date of joining"
               />
             </F>
             {/* Shift â€” from API */}
@@ -977,6 +989,8 @@ function UserManagement() {
                 value={formData.address}
                 onChange={(e) => updateField("address", e.target.value)}
                 className="w-full px-2 py-2 border rounded-lg text-sm"
+                placeholder="Address
+                "
               />
             </F>
             {/* City */}
@@ -985,7 +999,7 @@ function UserManagement() {
                 value={formData.city}
                 onChange={(e) => updateField("city", e.target.value)}
                 className="w-full px-2 py-2 border rounded-lg text-sm"
-                placeholder="City name"
+                placeholder="City"
               />
             </F>
             {/* State */}
@@ -994,7 +1008,7 @@ function UserManagement() {
                 value={formData.state}
                 onChange={(e) => updateField("state", e.target.value)}
                 className="w-full px-2 py-2 border rounded-lg text-sm"
-                placeholder="State name"
+                placeholder="State"
               />
             </F>
             {/* Pincode */}
@@ -1003,6 +1017,7 @@ function UserManagement() {
                 value={formData.pincode}
                 onChange={(e) => updateField("pincode", e.target.value)}
                 className="w-full px-2 py-2 border rounded-lg text-sm"
+                placeholder="Pincode"
               />
             </F>
             {/* Emergency Contact */}
@@ -1016,7 +1031,7 @@ function UserManagement() {
                   )
                 }
                 className="w-full px-2 py-2 border rounded-lg text-sm"
-                placeholder="Emergency contact â€” 10-digit number"
+                placeholder="Emergency contact — 10-digit number"
                 inputMode="numeric"
                 pattern="[0-9]*"
                 maxLength={10}
@@ -1024,127 +1039,10 @@ function UserManagement() {
             </F>
             {/* Adjust all the fields according to the function */}
           </div>
-
-          {/* Doctor Slots */}
-          {userType === "doctor" && (
-            <div className="mt-6 p-4 border rounded-lg bg-primary/5">
-              <div className="mb-3">
-                <div className="text-sm font-semibold">
-                  Doctor Slot Creation (Day-wise)
-                </div>
-                <div className="text-[11px] text-muted-foreground">
-                  Enable days and set consultation fromâ€“to time
-                </div>
-              </div>
-              <div className="space-y-2">
-                <div className="grid grid-cols-12 gap-2 text-[11px] font-medium text-muted-foreground px-2">
-                  <div className="col-span-1">Active</div>
-                  <div className="col-span-4">Day</div>
-                  <div className="col-span-3">From</div>
-                  <div className="col-span-3">To</div>
-                  <div className="col-span-1 text-right">Hrs</div>
-                </div>
-                {days.map((d) => {
-                  const sl = slots[d];
-                  const hrs = sl.enabled
-                    ? (() => {
-                        const [fh, fm] = sl.from.split(":").map(Number);
-                        const [th, tm] = sl.to.split(":").map(Number);
-                        const mins = th * 60 + tm - (fh * 60 + fm);
-                        return mins > 0 ? (mins / 60).toFixed(1) : "0";
-                      })()
-                    : "â€”";
-                  return (
-                    <div
-                      key={d}
-                      className="grid grid-cols-12 gap-2 items-center bg-card border rounded-lg p-2"
-                    >
-                      <div className="col-span-1">
-                        <Checkbox
-                          className="rounded"
-                          checked={sl.enabled}
-                          onCheckedChange={(v) =>
-                            setSlots({
-                              ...slots,
-                              [d]: { ...sl, enabled: !!v },
-                            })
-                          }
-                        />
-                      </div>
-                      <div className="col-span-4 text-sm">{d}</div>
-                      <div className="col-span-3">
-                        <Input
-                          type="time"
-                          value={sl.from}
-                          disabled={!sl.enabled}
-                          onChange={(e) =>
-                            setSlots({
-                              ...slots,
-                              [d]: { ...sl, from: e.target.value },
-                            })
-                          }
-                          className="w-full px-2 py-1.5 border rounded text-sm disabled:opacity-50"
-                        />
-                      </div>
-                      <div className="col-span-3">
-                        <Input
-                          type="time"
-                          value={sl.to}
-                          disabled={!sl.enabled}
-                          onChange={(e) =>
-                            setSlots({
-                              ...slots,
-                              [d]: { ...sl, to: e.target.value },
-                            })
-                          }
-                          className="w-full px-2 py-1.5 border rounded text-sm disabled:opacity-50"
-                        />
-                      </div>
-                      <div className="col-span-1 text-right text-xs text-muted-foreground">
-                        {hrs}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="grid grid-cols-3 gap-3 mt-4">
-                <F label="Slot Duration (min)">
-                  <Select defaultValue="15">
-                    <SelectTrigger className="w-full px-2 py-2 border rounded-lg text-sm">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {["10", "15", "20", "30", "45", "60"].map((v) => (
-                        <SelectItem key={v} value={v}>
-                          {v}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </F>
-                <F label="Break From">
-                  <Input
-                    type="time"
-                    defaultValue="13:00"
-                    className="w-full px-2 py-2 border rounded-lg text-sm"
-                  />
-                </F>
-                <F label="Break To">
-                  <Input
-                    type="time"
-                    defaultValue="14:00"
-                    className="w-full px-2 py-2 border rounded-lg text-sm"
-                  />
-                </F>
-              </div>
-            </div>
-          )}
         </Section>
       )}
 
-      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-          STEP 2 â€” Module Rights + Permissions (combined)
-      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
+      {/* Step 2 - Module Rights & Permissions */}
       {step === 2 && (
         <Section
           title="Step 2 Â· Module Rights & Permissions"
@@ -1558,31 +1456,32 @@ function UserManagement() {
 
       {/* â”€â”€ Footer nav â”€â”€ */}
       <div className="mt-6 flex items-center justify-between bg-card border rounded-xl p-4">
-        <button
+        <Button
           onClick={() => setStep(Math.max(1, step - 1))}
           disabled={step === 1}
-          className="px-4 py-2 rounded-lg border text-sm disabled:opacity-40"
+          variant="outline"
+          className="px-4 py-2 rounded-lg text-sm disabled:opacity-40"
         >
-          â† Previous
-        </button>
+          Previous
+        </Button>
         <div className="text-xs text-muted-foreground">
           Step {step} of {steps.length}
         </div>
         {step < steps.length ? (
-          <button
+          <Button
             onClick={handleNext}
             className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium cursor-pointer"
           >
-            Next â†’
-          </button>
+            Next
+          </Button>
         ) : (
-          <button
+          <Button
             onClick={handleSubmit}
             disabled={submitting}
             className="px-4 py-2 rounded-lg bg-success cursor-pointer text-white text-sm font-medium disabled:opacity-50"
           >
             {submitting ? "Creating..." : "âœ“ Register User & Save Rights"}
-          </button>
+          </Button>
         )}
       </div>
     </AppLayout>
