@@ -18,27 +18,48 @@ const orders = [
 function Lab() {
   return (
     <AppLayout>
-      <div className="mb-6"><h1 className="text-2xl font-bold">Lab & Radiology</h1><p className="text-sm text-muted-foreground">Investigation orders and reports</p></div>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold">Lab & Radiology</h1>
+        <p className="text-sm text-muted-foreground">
+          Investigation orders and reports
+        </p>
+      </div>
       <Section title="Today's Orders">
         <table className="w-full text-sm">
-          <thead><tr className="text-left text-xs text-muted-foreground border-b">
-            <th className="pb-2">Order</th><th>Patient</th><th>Tests</th><th>Time</th><th>Status</th>
-          </tr></thead>
-          <tbody>{orders.map((r) => (
-            <tr key={r[0]} className="border-b last:border-0">
-              <td className="py-3 font-mono text-xs">{r[0]}</td>
-              <td className="font-medium">{r[1]}</td>
-              <td>{r[2]}</td>
-              <td className="text-muted-foreground">{r[3]}</td>
-              <td>
-                <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                  r[4] === "Reported" ? "bg-success/15 text-success" :
-                  r[4] === "In Progress" ? "bg-info/15 text-info" :
-                  r[4] === "Pending" ? "bg-warning/20 text-warning-foreground" : "bg-primary/10 text-primary"
-                }`}>{r[4]}</span>
-              </td>
+          <thead>
+            <tr className="text-left text-xs text-muted-foreground border-b">
+              <th className="pb-2">Order</th>
+              <th>Patient</th>
+              <th>Tests</th>
+              <th>Time</th>
+              <th>Status</th>
             </tr>
-          ))}</tbody>
+          </thead>
+          <tbody>
+            {orders.map((r) => (
+              <tr key={r[0]} className="border-b last:border-0">
+                <td className="py-3 font-mono text-xs">{r[0]}</td>
+                <td className="font-medium">{r[1]}</td>
+                <td>{r[2]}</td>
+                <td className="text-muted-foreground">{r[3]}</td>
+                <td>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.5 rounded ${
+                      r[4] === "Reported"
+                        ? "bg-success/15 text-success"
+                        : r[4] === "In Progress"
+                          ? "bg-info/15 text-info"
+                          : r[4] === "Pending"
+                            ? "bg-warning/20 text-warning-foreground"
+                            : "bg-primary/10 text-primary"
+                    }`}
+                  >
+                    {r[4]}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </Section>
     </AppLayout>

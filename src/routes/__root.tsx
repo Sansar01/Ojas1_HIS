@@ -19,7 +19,9 @@ function NotFoundComponent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">
+          Page not found
+        </h2>
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
         </p>
@@ -50,7 +52,8 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           This page didn't load
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          Something went wrong on our end. You can try refreshing or head back
+          home.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -74,46 +77,65 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  beforeLoad: ({ location }) => {
-    if (typeof window === "undefined") {
-      return;
-    }
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
+  {
+    beforeLoad: ({ location }) => {
+      if (typeof window === "undefined") {
+        return;
+      }
 
-    const user = getUser();
+      const user = getUser();
 
-    if (!user && location.pathname !== "/login") {
-      throw redirect({ to: "/login" });
-    }
+      if (!user && location.pathname !== "/login") {
+        throw redirect({ to: "/login" });
+      }
+    },
+    head: () => ({
+      meta: [
+        { charSet: "utf-8" },
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { title: "Dashboard —ojas1hims" },
+        {
+          name: "description",
+          content: "Real-time overview of hospital operations.",
+        },
+        { property: "og:title", content: "Dashboard —ojas1hims" },
+        {
+          property: "og:description",
+          content: "Real-time overview of hospital operations.",
+        },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: "Dashboard —ojas1hims" },
+        {
+          name: "twitter:description",
+          content: "Real-time overview of hospital operations.",
+        },
+        {
+          property: "og:image",
+          content:
+            "https://storage.googleapis.com/gpt-engineer-file-uploads/4p7Xi69T4YZHW0E2nZ8RKLOkxGq2/social-images/social-1783457782651-Ojas1_Brand_Logo.webp",
+        },
+        {
+          name: "twitter:image",
+          content:
+            "https://storage.googleapis.com/gpt-engineer-file-uploads/4p7Xi69T4YZHW0E2nZ8RKLOkxGq2/social-images/social-1783457782651-Ojas1_Brand_Logo.webp",
+        },
+      ],
+      links: [
+        {
+          rel: "stylesheet",
+          href: appCss,
+        },
+        { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      ],
+    }),
+    shellComponent: RootShell,
+    component: RootComponent,
+    notFoundComponent: NotFoundComponent,
+    errorComponent: ErrorComponent,
   },
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Dashboard —ojas1hims" },
-      { name: "description", content: "Real-time overview of hospital operations." },
-      { property: "og:title", content: "Dashboard —ojas1hims" },
-      { property: "og:description", content: "Real-time overview of hospital operations." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Dashboard —ojas1hims" },
-      { name: "twitter:description", content: "Real-time overview of hospital operations." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/4p7Xi69T4YZHW0E2nZ8RKLOkxGq2/social-images/social-1783457782651-Ojas1_Brand_Logo.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/4p7Xi69T4YZHW0E2nZ8RKLOkxGq2/social-images/social-1783457782651-Ojas1_Brand_Logo.webp" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-    ],
-  }),
-  shellComponent: RootShell,
-  component: RootComponent,
-  notFoundComponent: NotFoundComponent,
-  errorComponent: ErrorComponent,
-});
+);
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
@@ -145,8 +167,12 @@ function RootComponent() {
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
             <div className="h-7 w-7 animate-spin rounded-full border-3 border-primary border-t-transparent" />
           </div>
-          <div className="text-base font-semibold text-foreground">Verifying session</div>
-          <div className="mt-2 text-sm text-muted-foreground">Please wait a moment while we restore your workspace.</div>
+          <div className="text-base font-semibold text-foreground">
+            Verifying session
+          </div>
+          <div className="mt-2 text-sm text-muted-foreground">
+            Please wait a moment while we restore your workspace.
+          </div>
         </div>
       </div>
     );

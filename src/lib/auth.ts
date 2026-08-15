@@ -100,31 +100,62 @@ export const ROLES: {
   },
 ];
 
-// Allowed routes per role. Super admin gets everything.
-export const ROLE_ROUTES: Record<Role, string[] | "all"> = {
-  super_admin: "all",
-  doctor: [
-    "/",
-    "/appointments",
-    "/queue",
-    "/consultation",
-    "/teleconsultation",
-    "/patients",
-  ],
-  receptionist: [
-    "/",
-    "/registration",
-    "/appointments",
-    "/billing",
-    "/patients",
-  ],
-  pharmacist: ["/", "/pharmacy"],
-  lab_tech: ["/", "/lab"],
-  billing: ["/", "/billing"],
-  regular: ["/"],
-};
+// Build ROLE_ROUTES dynamically from the ROLES constant so adding/removing roles
+// in ROLES automatically keeps the mapping consistent. Keep behaviour identical
+// for existing role names so existing functionality is not interrupted.
+function buildRoleRoutes(): Record<Role, string[] | "all"> {
+  const commonForMany = ["/", "/appointments", "/patients"];
+  const map: Record<Role, string[] | "all"> = {} as any;
 
-const KEY = "authUser";
+  for (const r of ROLES) {
+    switch (r.value) {
+      case "super_admin":
+        map[r.value] = "all";
+        break;
+      case "doctor":
+        // Doctor should have the common routes plus queue/consultation/teleconsultation and doctorSlot
+        map[r.value] = Array.from(
+          new Set([
+            ...commonForMany,
+            "/queue",
+            "/consultation",
+            "/teleconsultation",
+            "/doctorSlot",
+          ]),
+        );
+        break;
+      case "receptionist":
+        map[r.value] = ["/", "/registration", "/appointments", "/billing", "/patients"];
+        break;
+      case "pharmacist":
+        map[r.value] = ["/", "/pharmacy"];
+        break;
+      case "lab_tech":
+        map[r.value] = ["/", "/lab"];
+        break;
+      case "billing":
+        map[r.value] = ["/", "/billing"];
+        break;
+      default:
+        map[r.value] = ["/"];
+    }
+  }
+
+  return map;
+}
+
+export const ROLE_ROUTES = buildRoleRoutes();
+
+// Backwards-compatible helper exports requested by the caller
+export const Roles = ROLES;
+export function Roles_Routes(): Record<Role, string[] | "all"> {
+  return ROLE_ROUTES;
+}
+export function normalizeRoles(userType?: string): Role {
+  return normalizeRole(userType);
+}
+
+const AUTH_STORAGE_KEY = "authUser";
 
 function normalizeRole(userType?: string): Role {
   const normalized = (userType || "regular").toUpperCase();
@@ -159,11 +190,12 @@ function buildInitials(name: string) {
     .toUpperCase();
 }
 
-export function getUser(): AuthUser | null {
+export function getUser(KEY?: string): any | null {
   try {
     if (typeof window === "undefined") return null;
 
-    const raw = window.localStorage.getItem(KEY);
+    const storageKey = KEY ?? AUTH_STORAGE_KEY;
+    const raw = window.localStorage.getItem(storageKey);
 
     return raw ? (JSON.parse(raw) as AuthUser) : null;
   } catch {
@@ -171,18 +203,21 @@ export function getUser(): AuthUser | null {
   }
 }
 
-export function setUser(u: AuthUser) {
+export function setUser(u: any, KEY?: string) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(KEY, JSON.stringify(u));
+
+  const storageKey = KEY ?? AUTH_STORAGE_KEY;
+  window.localStorage.setItem(storageKey, JSON.stringify(u));
   window.dispatchEvent(new Event("authChange"));
 }
 
-export function clearUser() {
+export function clearUser(KEY?: string) {
   if (typeof window === "undefined") return;
 
   accessToken = null;
 
-  window.localStorage.removeItem(KEY);
+  const storageKey = KEY ?? AUTH_STORAGE_KEY;
+  window.localStorage.removeItem(storageKey);
   window.dispatchEvent(new Event("authChange"));
 }
 
