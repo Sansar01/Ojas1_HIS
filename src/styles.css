@@ -1,5 +1,42 @@
 @import "tailwindcss" source(none);
+@import "primereact/resources/themes/lara-light-blue/theme.css";
+@import "primereact/resources/primereact.min.css";
+@import "primeicons/primeicons.css";
 @source "../src";
+
+/* Compact PrimeReact notifications. */
+.p-toast {
+  width: min(20rem, calc(100vw - 2rem));
+}
+
+.p-toast .p-toast-message {
+  margin: 0 0 0.5rem;
+}
+
+.p-toast .p-toast-message-content {
+  padding: 0.65rem 0.75rem;
+}
+
+.p-toast .p-toast-message-icon,
+.p-toast .p-toast-icon-close {
+  width: 1rem;
+  height: 1rem;
+  font-size: 1rem;
+}
+
+.p-toast .p-toast-summary {
+  font-size: 0.8rem;
+}
+
+.p-toast .p-toast-detail {
+  margin-top: 0.2rem;
+  font-size: 0.75rem;
+}
+
+.date-picker .p-datepicker-trigger {
+  height: 2.25rem;
+  width: 2.25rem;
+}
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));

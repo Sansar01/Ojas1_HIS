@@ -9,6 +9,23 @@ export interface CreateDoctorProfile {
   isActive?: boolean;
 }
 
-export interface DoctorAvailability{
-  
+export interface Slot {
+  enabled: boolean;
+  from: string; // "HH:MM"
+  to: string; // "HH:MM"
+}
+
+export interface DailyAvailability {
+  dayOfWeek: number;
+  isActive: boolean;
+  startTime?: string;
+  endTime?: string;
+  breakStartTime?: string;
+  breakEndTime?: string;
+}
+
+export interface AvailabilityResponse {
+  schedule?: DailyAvailability[];
+  slotDurationMins?: number;
+  bufferTimeMins?: number;
 }

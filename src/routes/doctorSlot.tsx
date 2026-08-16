@@ -1,56 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { api } from "@/lib/api";
 import { getUser, setUser } from "@/lib/auth";
-import * as Checkbox from "@radix-ui/react-checkbox";
-import * as Select from "@radix-ui/react-select";
+import { CalendarClock, Check, UserRound } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { CreateDoctorProfile } from "@/types/doctorSlot";
+import { Toast } from "primereact/toast";
+import { Checkbox as PrimeCheckbox } from "primereact/checkbox";
+import { Dropdown } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+import {
+  AvailabilityResponse,
+  CreateDoctorProfile,
+  Slot,
+} from "@/types/doctorSlot";
 
 export const Route = createFileRoute("/doctorSlot")({
   head: () => ({ meta: [{ title: "Doctor Slot Management Ojas1Cloud HIMS" }] }),
   component: DoctorSlot,
 });
-
-// Small inline SVGs so there is no additional dependency on @radix-ui/react-icons
-const CheckSvg = () => (
-  <svg
-    width="12"
-    height="12"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M20 6L9 17L4 12"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const ChevronDown = () => (
-  <svg
-    width="14"
-    height="14"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M6 9L12 15L18 9"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
 
 const days = [
   { name: "Sunday", dayOfWeek: 0 },
@@ -62,11 +31,20 @@ const days = [
   { name: "Saturday", dayOfWeek: 6 },
 ];
 
-type Slot = {
-  enabled: boolean;
-  from: string; // "HH:MM"
-  to: string; // "HH:MM"
-};
+const doctorSlotSteps = [
+  {
+    view: "profile" as const,
+    number: 1,
+    title: "Doctor Profile",
+    icon: UserRound,
+  },
+  {
+    view: "slots" as const,
+    number: 2,
+    title: "Doctor Slots",
+    icon: CalendarClock,
+  },
+];
 
 const F: React.FC<{ label: string; children: React.ReactNode }> = ({
   label,
@@ -81,6 +59,15 @@ const F: React.FC<{ label: string; children: React.ReactNode }> = ({
 );
 
 function DoctorSlot() {
+  const toastRef = useRef<Toast>(null);
+  const showToast = (
+    severity: "success" | "error",
+    summary: string,
+    detail = summary,
+  ) => {
+    toastRef.current?.show({ severity, summary, detail, life: 3000 });
+  };
+
   const initialSlots: Record<string, Slot> = days.reduce(
     (acc, d) => {
       acc[String(d.dayOfWeek)] = { enabled: false, from: "09:00", to: "17:00" };
@@ -91,23 +78,20 @@ function DoctorSlot() {
 
   const [slots, setSlots] = useState<Record<string, Slot>>(initialSlots);
   const [slotDuration, setSlotDuration] = useState("15");
-  const breakFromDefault = "13:00";
-  const breakToDefault = "14:00";
-  const [response, setResponse] = useState<any>(null);
-
+  const [breakStartTime, setBreakStartTime] = useState("13:00");
+  const [breakEndTime, setBreakEndTime] = useState("14:00");
   const [saving, setSaving] = useState(false);
 
   async function handleSave() {
     try {
       setSaving(true);
-      const user = getUser();
-      const doctorId = user?.userId;
+      const doctorId = getUser("doctorProfileTenantId");
       if (!doctorId) {
-        toast.error("Could not determine current doctor id.", {
-          position: "top-right",
-          className:
-            "bg-destructive text-destructive-foreground border-destructive",
-        });
+        showToast(
+          "error",
+          "Doctor not found",
+          "Could not determine current doctor ID.",
+        );
         setSaving(false);
         return;
       }
@@ -115,10 +99,18 @@ function DoctorSlot() {
       const payload = {
         schedule: Object.entries(slots).map(([day, s]) => ({
           dayOfWeek: Number(day),
-          isActive: true,
-          startTime: s.from,
-          endTime: s.to,
+          isActive: s.enabled,
+          ...(s.enabled
+            ? {
+                startTime: s.from,
+                endTime: s.to,
+                breakStartTime,
+                breakEndTime,
+              }
+            : {}),
         })),
+        slotDurationMins: Number(slotDuration),
+        bufferTimeMins: doctorProfile.bufferTimeMins,
       };
 
       await api.post(`/api/opd/doctors/${doctorId}/availability`, {
@@ -130,17 +122,14 @@ function DoctorSlot() {
         body: payload,
       });
 
-      toast.success("Availability saved successfully", {
-        position: "top-right",
-        className: "bg-success text-success-foreground border-success",
-      });
+      showToast(
+        "success",
+        "Availability saved",
+        "Availability saved successfully.",
+      );
     } catch (err) {
       console.error(err);
-      toast.error("Failed to save availability slot", {
-        position: "top-right",
-        className:
-          "bg-destructive text-destructive-foreground border-destructive",
-      });
+      showToast("error", "Save failed", "Failed to save availability slot.");
     } finally {
       setSaving(false);
     }
@@ -168,15 +157,91 @@ function DoctorSlot() {
   }, []);
 
   const [savingProfile, setSavingProfile] = useState(false);
+  const user = getUser("authUser");
+  // Resolve the doctor profile first, then hydrate the availability form.
+  useEffect(() => {
+    async function fetchDoctorAvailability() {
+      try {
+        const user = getUser("authUser");
+        const doctorsResponse = await api.get<any>(`/api/opd/doctors/list`);
+
+        const doctorProfileTenantId = doctorsResponse?.data?.find(
+          (x: any) => x.hospitalUserId === user?.userId,
+        )?.id;
+
+        if (!doctorProfileTenantId) {
+          return;
+        }
+
+        setUser(doctorProfileTenantId, "doctorProfileTenantId");
+
+        const availabilityResponse = await api.get<
+          AvailabilityResponse | { data: AvailabilityResponse }
+        >(`/api/opd/doctors/${doctorProfileTenantId}/availability`);
+        const availability =
+          "data" in availabilityResponse
+            ? availabilityResponse.data
+            : availabilityResponse;
+
+        const schedule = availability.schedule;
+        if (Array.isArray(schedule)) {
+          setSlots((currentSlots) => {
+            const nextSlots = { ...currentSlots };
+
+            schedule.forEach((day) => {
+              if (day.dayOfWeek < 0 || day.dayOfWeek > 6) return;
+
+              const key = String(day.dayOfWeek);
+              nextSlots[key] = {
+                enabled: day.isActive,
+                from: day.startTime ?? currentSlots[key].from,
+                to: day.endTime ?? currentSlots[key].to,
+              };
+            });
+
+            return nextSlots;
+          });
+
+          const breakDay = schedule.find(
+            (day) => day.breakStartTime && day.breakEndTime,
+          );
+          if (breakDay?.breakStartTime && breakDay.breakEndTime) {
+            setBreakStartTime(breakDay.breakStartTime);
+            setBreakEndTime(breakDay.breakEndTime);
+          }
+        }
+
+        if (typeof availability.slotDurationMins === "number") {
+          setSlotDuration(String(availability.slotDurationMins));
+        }
+
+        const bufferTimeMins = availability.bufferTimeMins;
+        if (typeof bufferTimeMins === "number") {
+          setDoctorProfile((currentProfile) => ({
+            ...currentProfile,
+            bufferTimeMins,
+          }));
+        }
+      } catch (err) {
+        console.error("Failed to fetch doctor availability:", err);
+        // Silently fail - use default slots if fetch fails
+      }
+    }
+
+    fetchDoctorAvailability();
+  }, []);
+
   async function saveProfile() {
     try {
       setSavingProfile(true);
       const user = getUser("doctorProfile");
       const doctorId = user?.id;
       if (!doctorId) {
-        toast.error("Could not determine doctor id.", {
-          position: "top-right",
-        });
+        showToast(
+          "error",
+          "Doctor not found",
+          "Could not determine doctor ID.",
+        );
         setSavingProfile(false);
         return;
       }
@@ -193,11 +258,11 @@ function DoctorSlot() {
 
       setUser(res, "doctorProfile");
 
-      toast.success("Profile saved", { position: "top-right" });
+      showToast("success", "Profile saved");
       setView("slots");
     } catch (err) {
       console.error(err);
-      toast.error("Failed to save profile", { position: "top-right" });
+      showToast("error", "Save failed", "Failed to save profile.");
     } finally {
       setSavingProfile(false);
     }
@@ -206,27 +271,64 @@ function DoctorSlot() {
   return (
     <AppLayout>
       <div>
-        {/* View toggle */}
-        <div className="flex items-center gap-2 mb-4">
-          <button
-            type="button"
-            onClick={() => setView("profile")}
-            className={`px-3 py-1 rounded ${view === "profile" ? "bg-primary text-white" : "bg-transparent border"}`}
-          >
-            Profile
-          </button>
+        <Toast ref={toastRef} position="top-right" />
+        <div className="mb-6 overflow-x-auto rounded-xl border p-4">
+          <div className="flex min-w-[500px] items-center justify-between">
+            {doctorSlotSteps.map((step, index) => {
+              const Icon = step.icon;
+              const active = view === step.view;
+              const done = view === "slots" && step.number === 1;
 
-          <button
-            type="button"
-            onClick={() => setView("slots")}
-            className={`px-3 py-1 rounded ${view === "slots" ? "bg-primary text-white" : "bg-transparent border"}`}
-          >
-            Doctor Slot
-          </button>
+              return (
+                <div
+                  key={step.view}
+                  className="flex flex-1 items-center last:flex-none"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setView(step.view)}
+                    className="flex cursor-pointer items-center gap-3 text-left"
+                    aria-current={active ? "step" : undefined}
+                  >
+                    <div
+                      className={`flex h-10 w-10 items-center justify-center rounded-full border-2 ${
+                        done
+                          ? "border-success bg-success text-white"
+                          : active
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {done ? (
+                        <Check className="h-5 w-5" />
+                      ) : (
+                        <Icon className="h-5 w-5" />
+                      )}
+                    </div>
+                    <div>
+                      <div className="text-[10px] text-muted-foreground">
+                        Step {step.number}
+                      </div>
+                      <div
+                        className={`text-sm font-semibold ${active ? "text-primary" : ""}`}
+                      >
+                        {step.title}
+                      </div>
+                    </div>
+                  </button>
+                  {index < doctorSlotSteps.length - 1 && (
+                    <div
+                      className={`mx-3 h-0.5 flex-1 ${done ? "bg-success" : "bg-border"}`}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         {view === "profile" ? (
-          <div className="mt-2 p-4 border rounded-lg bg-primary/5">
+          <div className="mt-2 p-4 ">
             <div className="mb-3">
               <div className="text-sm font-semibold">Doctor Profile</div>
               <div className="text-[11px] text-muted-foreground">
@@ -375,7 +477,7 @@ function DoctorSlot() {
           </div>
         ) : (
           // Existing Doctor Slot UI
-          <div className="mt-6 p-4 border rounded-lg bg-primary/5">
+          <div className="mt-6 p-4">
             <div className="mb-3">
               <div className="text-sm font-semibold">
                 Doctor Slot Creation (Day-wise)
@@ -413,29 +515,30 @@ function DoctorSlot() {
                 return (
                   <div
                     key={key}
-                    className="grid grid-cols-12 gap-2 items-center bg-card border rounded-lg p-2"
+                    className={`grid grid-cols-12 gap-2 items-center border rounded-lg p-1.5 transition-colors ${
+                      sl.enabled
+                        ? "bg-emerald-50 border-emerald-300"
+                        : "bg-card"
+                    }`}
                   >
                     <div className="col-span-1">
-                      <Checkbox.Root
-                        className="inline-flex items-center justify-center cursor-pointer h-5 w-5 rounded border focus:ring-2"
+                      <PrimeCheckbox
+                        inputId={`active-${key}`}
                         checked={sl.enabled}
-                        onCheckedChange={(v) =>
-                          setSlots({ ...slots, [key]: { ...sl, enabled: !!v } })
+                        className="scale-90"
+                        onChange={(event) =>
+                          setSlots({
+                            ...slots,
+                            [key]: { ...sl, enabled: Boolean(event.checked) },
+                          })
                         }
-                        aria-label={`Enable ${dayObj.name}`}
-                      >
-                        <Checkbox.Indicator>
-                          <span className="text-[10px]">
-                            <CheckSvg />
-                          </span>
-                        </Checkbox.Indicator>
-                      </Checkbox.Root>
+                      />
                     </div>
 
                     <div className="col-span-4 text-sm">{dayObj.name}</div>
 
                     <div className="col-span-3">
-                      <input
+                      <InputText
                         id={`from-${key}`}
                         type="time"
                         value={sl.from}
@@ -446,12 +549,12 @@ function DoctorSlot() {
                             [key]: { ...sl, from: e.target.value },
                           })
                         }
-                        className="w-full px-2 py-1.5 border rounded text-sm disabled:opacity-50"
+                        className="w-full p-inputtext-sm"
                       />
                     </div>
 
                     <div className="col-span-3">
-                      <input
+                      <InputText
                         id={`to-${key}`}
                         type="time"
                         value={sl.to}
@@ -462,7 +565,7 @@ function DoctorSlot() {
                             [key]: { ...sl, to: e.target.value },
                           })
                         }
-                        className="w-full px-2 py-1.5 border rounded text-sm disabled:opacity-50"
+                        className="w-full p-inputtext-sm"
                       />
                     </div>
 
@@ -474,61 +577,35 @@ function DoctorSlot() {
               })}
             </div>
 
-            <div className="grid grid-cols-3 gap-3 mt-4">
+            <div className="grid grid-cols-1 gap-3 mt-4 sm:grid-cols-3">
               <F label="Slot Duration (min)">
-                <Select.Root
+                <Dropdown
                   value={slotDuration}
-                  onValueChange={(v) => setSlotDuration(v)}
-                >
-                  <Select.Trigger className="w-full px-2 py-2 border rounded-lg text-sm inline-flex items-center justify-between">
-                    <Select.Value />
-                    <Select.Icon>
-                      <span className="ml-2">
-                        <ChevronDown />
-                      </span>
-                    </Select.Icon>
-                  </Select.Trigger>
-
-                  <Select.Portal>
-                    <Select.Content className="bg-white border rounded shadow-md mt-1">
-                      <Select.Viewport>
-                        {["10", "15", "20", "30", "45", "60"].map((v) => (
-                          <Select.Item
-                            key={v}
-                            value={v}
-                            className="px-3 py-2 cursor-pointer flex items-center justify-between"
-                          >
-                            <Select.ItemText>{v}</Select.ItemText>
-                            <Select.ItemIndicator>
-                              <span className="text-[12px]">
-                                <CheckSvg />
-                              </span>
-                            </Select.ItemIndicator>
-                          </Select.Item>
-                        ))}
-                      </Select.Viewport>
-                    </Select.Content>
-                  </Select.Portal>
-                </Select.Root>
+                  onChange={(event) => setSlotDuration(event.value)}
+                  options={["10", "15", "20", "30", "45", "60"]}
+                  className="w-full p-inputtext-sm"
+                />
               </F>
 
               <F label="Break From">
-                <Input
+                <InputText
                   type="time"
-                  defaultValue={breakFromDefault}
-                  className="w-full px-2 py-2 border rounded-lg text-sm"
+                  value={breakStartTime}
+                  onChange={(e) => setBreakStartTime(e.target.value)}
+                  className="w-full p-inputtext-sm"
                 />
               </F>
 
               <F label="Break To">
-                <Input
+                <InputText
                   type="time"
-                  defaultValue={breakToDefault}
-                  className="w-full px-2 py-2 border rounded-lg text-sm"
+                  value={breakEndTime}
+                  onChange={(e) => setBreakEndTime(e.target.value)}
+                  className="w-full p-inputtext-sm"
                 />
               </F>
 
-              <div className="mt-4 flex justify-end">
+              <div className="mt-4 flex justify-end sm:col-span-3">
                 <Button
                   onClick={handleSave}
                   disabled={saving}

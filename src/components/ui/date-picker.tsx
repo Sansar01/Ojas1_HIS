@@ -1,15 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useState } from "react";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns/format";
+import { Calendar } from "primereact/calendar";
 
 export function DatePicker({
   value,
@@ -24,38 +16,27 @@ export function DatePicker({
   className?: string;
   placeholder?: string;
 }) {
-  const [open, setOpen] = useState(false);
   const selected = value ? new Date(value) : undefined;
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          id={id}
-          className={className + " justify-start font-normal"}
-        >
-          {selected ? format(selected, "yyyy/MM/dd").toString() : placeholder}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-        <Calendar
-          mode="single"
-          selected={selected}
-          defaultMonth={selected}
-          captionLayout="dropdown"
-          onSelect={(date) => {
-            const iso = date
-              ? new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-                  .toISOString()
-                  .slice(0, 10)
-              : "";
-            onChange(iso);
-            setOpen(false);
-          }}
-        />
-      </PopoverContent>
-    </Popover>
+    <Calendar
+      id={id}
+      value={selected}
+      onChange={(event) => {
+        const date = event.value;
+        const iso = date instanceof Date
+          ? new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+              .toISOString()
+              .slice(0, 10)
+          : "";
+        onChange(iso);
+      }}
+      dateFormat="yy/mm/dd"
+      placeholder={placeholder}
+      showIcon
+      className={`date-picker ${className ?? ""}`}
+      inputClassName="h-9 w-full py-1.5 text-sm"
+    />
   );
 }
 

@@ -18,9 +18,7 @@ export class ApiError extends Error {
   }
 }
 
-const DEFAULT_BASE_URL = (
-  import.meta.env.VITE_API_BASE_URL || "https://cloud-his-backend.onrender.com"
-).replace(/\/$/, "");
+const DEFAULT_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace(/\/$/, "");
 
 function buildUrl(
   path: string,

@@ -44,7 +44,7 @@ function LoginPage() {
       if (user.forcePasswordChange) {
         navigate({ to: "/change-password" }); // ← redirect here
       } else {
-        navigate({ to: "/" }); // ← normal dashboard
+        navigate({ to: "/" }); // ← home/dashboard route
       }
     } catch (err) {
       setError(
