@@ -21,17 +21,17 @@ export function Kpi({
     primary: "bg-primary/10 text-primary",
   };
   return (
-    <div className="bg-card rounded-xl border p-4 flex items-start gap-3">
+    <div className="bg-card rounded-xl border p-3 sm:p-4 flex items-start gap-2 sm:gap-3 transition-all hover:shadow-md">
       <div
-        className={`w-10 h-10 rounded-lg flex items-center justify-center ${toneMap[tone]}`}
+        className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${toneMap[tone]}`}
       >
-        <Icon className="w-5 h-5" />
+        <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-xs text-muted-foreground">{label}</div>
-        <div className="text-2xl font-bold">{value}</div>
+        <div className="text-[10px] sm:text-xs text-muted-foreground truncate">{label}</div>
+        <div className="text-lg sm:text-2xl font-bold truncate">{value}</div>
         {delta && (
-          <div className="text-[11px] text-success mt-0.5">↑ {delta}</div>
+          <div className="text-[9px] sm:text-[11px] text-success mt-0.5">↑ {delta}</div>
         )}
       </div>
     </div>

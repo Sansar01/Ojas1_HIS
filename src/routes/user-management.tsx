@@ -1,7 +1,7 @@
 ﻿import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   User,
   Shield,
@@ -22,7 +22,6 @@ import {
   useHospitalUsers,
   useCreateUser,
 } from "@/hooks/useUserManagement";
-import { toast } from "sonner";
 
 // Radix-based UI components
 import { Input } from "@/components/ui/input";
@@ -35,8 +34,8 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Toaster } from "@/components/ui/sonner";
 import DatePicker from "@/components/ui/date-picker";
+import { Toast } from "primereact/toast";
 
 export const Route = createFileRoute("/user-management")({
   head: () => ({ meta: [{ title: "User Management â€” Ojas1Cloud HIMS" }] }),
@@ -59,7 +58,6 @@ const days = [
   "Sunday",
 ];
 
-// â”€â”€â”€ Success Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function SuccessModal({ data, onClose }: { data: any; onClose: any }) {
   const [copied, setCopied] = useState(false);
 
@@ -125,6 +123,16 @@ function SuccessModal({ data, onClose }: { data: any; onClose: any }) {
 }
 
 function UserManagement() {
+  const toastRef = useRef<Toast>(null);
+  const showErrorToast = (detail: string) => {
+    toastRef.current?.show({
+      severity: "error",
+      summary: "Validation error",
+      detail,
+      life: 3000,
+    });
+  };
+
   const [step, setStep] = useState(1);
 
   // â”€â”€â”€ API Hooks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -377,21 +385,13 @@ function UserManagement() {
     if (validateStep(step)) {
       setStep((prev) => prev + 1);
     } else {
-      toast.error("Please fill all required fields", {
-        position: "top-right",
-        className:
-          "bg-destructive text-destructive-foreground border-destructive",
-      });
+      showErrorToast("Please fill all required fields.");
     }
   };
 
   const goToStep = (target: number) => {
     if (target > step && !validateStep(step)) {
-      toast.error("Please fill all required fields", {
-        position: "top-right",
-        className:
-          "bg-destructive text-destructive-foreground border-destructive",
-      });
+      showErrorToast("Please fill all required fields.");
       return;
     }
     setStep(target);
@@ -401,11 +401,7 @@ function UserManagement() {
 
   async function handleSubmit() {
     if (!validateStep(step)) {
-      toast.error("Please fill all required fields", {
-        position: "top-right",
-        className:
-          "bg-destructive text-destructive-foreground border-destructive",
-      });
+      showErrorToast("Please fill all required fields.");
       return;
     }
 
@@ -494,8 +490,9 @@ function UserManagement() {
   // â”€â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   return (
     <AppLayout>
+      <Toast ref={toastRef} position="top-right" />
       {/* Success Modal */}
-      
+
       {successData && (
         <SuccessModal
           data={successData}
@@ -543,8 +540,6 @@ function UserManagement() {
           }}
         />
       )}
-
-      <Toaster />
 
       <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
@@ -897,7 +892,7 @@ function UserManagement() {
                 value={formData.dateOfJoining}
                 onChange={(v) => updateField("dateOfJoining", v)}
                 id="field-dateOfJoining"
-                className="w-full px-2 py-2 border rounded-lg text-sm"
+                className="w-full max-w-52"
                 placeholder="Date of joining"
               />
             </F>

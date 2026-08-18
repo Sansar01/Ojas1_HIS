@@ -142,6 +142,7 @@ export function AppLayout({ children }: { children?: ReactNode }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [user, setUserState] = useState<AuthUser | null>(null);
   const [ready, setReady] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { entitlements, loading: entitlementsLoading } = useEntitlements();
 
   useEffect(() => {
@@ -183,9 +184,12 @@ export function AppLayout({ children }: { children?: ReactNode }) {
   const nav = buildNavItems(entitlements, entitlementsLoading);
   // Don't filter by role here—route protection in __root.tsx handles access control.
   // Show all available modules in the sidebar; the router will prevent unauthorized navigation.
-  const visibleNav = selected
-    ? nav.filter((n) => ALWAYS_VISIBLE.has(n.to) || n.to === selected)
-    : nav;
+  // When sidebar is collapsed, show all nav items; when expanded, apply selected filter
+  const visibleNav = sidebarCollapsed
+    ? nav
+    : selected
+      ? nav.filter((n) => ALWAYS_VISIBLE.has(n.to) || n.to === selected)
+      : nav;
 
   const onLogout = async () => {
     const response = await logOutFromFrontend();
@@ -199,23 +203,25 @@ export function AppLayout({ children }: { children?: ReactNode }) {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <aside className="w-64 shrink-0 bg-sidebar text-sidebar-foreground flex flex-col">
-        <div className="p-5 flex items-center gap-3 border-b border-sidebar-border">
+      <aside className={`${sidebarCollapsed ? "w-20" : "w-64"} shrink-0 bg-sidebar text-sidebar-foreground flex flex-col transition-all duration-300`}>
+        <div className={`p-5 flex items-center gap-3 border-b border-sidebar-border ${sidebarCollapsed ? "justify-center" : ""}`}>
           <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
             <Heart className="w-5 h-5 text-primary-foreground fill-primary" />
           </div>
-          <div>
-            <div className="font-bold text-base leading-tight">
-              Ojas1Cloud HIMS
+          {!sidebarCollapsed && (
+            <div>
+              <div className="font-bold text-base leading-tight">
+                Ojas1Cloud HIMS
+              </div>
+              <div className="text-[10px] text-sidebar-foreground/60">
+                One Patient. One Record.
+              </div>
             </div>
-            <div className="text-[10px] text-sidebar-foreground/60">
-              One Patient. One Record.
-            </div>
-          </div>
+          )}
         </div>
         <nav className="p-3 flex-1 overflow-y-auto">
-          <div className="text-[10px] uppercase tracking-wider text-sidebar-foreground/50 px-3 py-2">
-            {entitlementsLoading ? "Loading modules..." : "Navigation"}
+          <div className={`text-[10px] uppercase tracking-wider text-sidebar-foreground/50 px-3 py-2 ${sidebarCollapsed ? "text-center" : ""}`}>
+            {entitlementsLoading ? (sidebarCollapsed ? "..." : "Loading modules...") : (sidebarCollapsed ? "•" : "Navigation")}
           </div>
           {visibleNav.length > 0 ? (
             visibleNav.map((item) => {
@@ -226,39 +232,55 @@ export function AppLayout({ children }: { children?: ReactNode }) {
                 <Link
                   key={item.to}
                   to={item.to}
+                  title={sidebarCollapsed ? item.label : ""}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg mb-1 text-sm transition-colors ${
+                    sidebarCollapsed ? "justify-center" : ""
+                  } ${
                     active
                       ? "bg-primary text-primary-foreground shadow"
                       : "hover:bg-sidebar-accent text-sidebar-foreground/85"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
-                  {item.label}
+                  {!sidebarCollapsed && item.label}
                 </Link>
               );
             })
           ) : !entitlementsLoading ? (
-            <div className="text-[11px] text-sidebar-foreground/60 px-3 py-4 text-center">
+            <div className={`text-[11px] text-sidebar-foreground/60 px-3 py-4 text-center ${sidebarCollapsed ? "hidden" : ""}`}>
               No modules available
             </div>
           ) : null}
         </nav>
-        <div className="p-4 border-t border-sidebar-border flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-primary/30 flex items-center justify-center text-xs font-semibold">
+        <div className={`p-4 border-t border-sidebar-border flex items-center gap-3 flex-shrink-0 ${sidebarCollapsed ? "flex-col" : ""}`}>
+          <div className="w-9 h-9 rounded-full bg-primary/30 flex items-center justify-center text-xs font-semibold flex-shrink-0">
             {user.initials}
           </div>
-          <div className="text-xs flex-1 min-w-0">
-            <div className="font-semibold truncate">{user.name}</div>
-            <div className="text-sidebar-foreground/60 truncate">
-              {user.designation}
+          {!sidebarCollapsed && (
+            <div className="text-xs flex-1 min-w-0">
+              <div className="font-semibold truncate">{user.name}</div>
+              <div className="text-sidebar-foreground/60 truncate">
+                {user.designation}
+              </div>
             </div>
-          </div>
+          )}
+          {!sidebarCollapsed && (
+            <button
+              onClick={onLogout}
+              title="Sign out"
+              className="p-2 rounded-lg hover:bg-sidebar-accent flex-shrink-0"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+        <div className="px-3 py-2 border-t border-sidebar-border flex-shrink-0">
           <button
-            onClick={onLogout}
-            title="Sign out"
-            className="p-2 rounded-lg hover:bg-sidebar-accent"
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            className="w-full p-2 rounded-lg hover:bg-sidebar-accent flex items-center justify-center"
           >
-            <LogOut className="w-4 h-4" />
+            <PanelLeftClose className={`w-4 h-4 transition-transform duration-300 ${sidebarCollapsed ? "rotate-180" : ""}`} />
           </button>
         </div>
       </aside>
