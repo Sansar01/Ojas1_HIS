@@ -4,12 +4,17 @@ import { api } from "@/lib/api";
 import { getUser, setUser } from "@/lib/auth";
 import { CalendarClock, Check, UserRound } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
+import * as Checkbox from "@radix-ui/react-checkbox";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Toast } from "primereact/toast";
-import { Checkbox as PrimeCheckbox } from "primereact/checkbox";
-import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
 import {
   AvailabilityResponse,
   CreateDoctorProfile,
@@ -20,6 +25,43 @@ export const Route = createFileRoute("/doctorSlot")({
   head: () => ({ meta: [{ title: "Doctor Slot Management Ojas1Cloud HIMS" }] }),
   component: DoctorSlot,
 });
+
+// Small inline SVGs so there is no additional dependency on @radix-ui/react-icons
+const CheckSvg = () => (
+  <svg
+    width="12"
+    height="12"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M20 6L9 17L4 12"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+const ChevronDown = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6 9L12 15L18 9"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 const days = [
   { name: "Sunday", dayOfWeek: 0 },
@@ -522,23 +564,26 @@ function DoctorSlot() {
                     }`}
                   >
                     <div className="col-span-1">
-                      <PrimeCheckbox
-                        inputId={`active-${key}`}
+                      <Checkbox.Root
+                        className="inline-flex items-center justify-center cursor-pointer h-5 w-5 rounded border focus:ring-2"
                         checked={sl.enabled}
-                        className="scale-90"
-                        onChange={(event) =>
-                          setSlots({
-                            ...slots,
-                            [key]: { ...sl, enabled: Boolean(event.checked) },
-                          })
+                        onCheckedChange={(v) =>
+                          setSlots({ ...slots, [key]: { ...sl, enabled: !!v } })
                         }
-                      />
+                        aria-label={`Enable ${dayObj.name}`}
+                      >
+                        <Checkbox.Indicator>
+                          <span className="text-[10px]">
+                            <CheckSvg />
+                          </span>
+                        </Checkbox.Indicator>
+                      </Checkbox.Root>
                     </div>
 
                     <div className="col-span-4 text-sm">{dayObj.name}</div>
 
                     <div className="col-span-3">
-                      <InputText
+                      <input
                         id={`from-${key}`}
                         type="time"
                         value={sl.from}
@@ -549,12 +594,12 @@ function DoctorSlot() {
                             [key]: { ...sl, from: e.target.value },
                           })
                         }
-                        className="w-full p-inputtext-sm"
+                        className="w-full px-2 py-1.5 border rounded text-sm disabled:opacity-50"
                       />
                     </div>
 
                     <div className="col-span-3">
-                      <InputText
+                      <input
                         id={`to-${key}`}
                         type="time"
                         value={sl.to}
@@ -565,7 +610,7 @@ function DoctorSlot() {
                             [key]: { ...sl, to: e.target.value },
                           })
                         }
-                        className="w-full p-inputtext-sm"
+                        className="w-full px-2 py-1.5 border rounded text-sm disabled:opacity-50"
                       />
                     </div>
 
@@ -577,39 +622,47 @@ function DoctorSlot() {
               })}
             </div>
 
-            <div className="grid grid-cols-1 gap-3 mt-4 sm:grid-cols-3">
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
               <F label="Slot Duration (min)">
-                <Dropdown
-                  value={slotDuration}
-                  onChange={(event) => setSlotDuration(event.value)}
-                  options={["10", "15", "20", "30", "45", "60"]}
-                  className="w-full p-inputtext-sm"
-                />
+                <Select value={slotDuration} onValueChange={setSlotDuration}>
+                  <SelectTrigger className="h-9 w-full">
+                    <SelectValue placeholder="Select duration" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    {["10", "15", "20", "30", "45", "60"].map((duration) => (
+                      <SelectItem key={duration} value={duration}>
+                        {duration} min
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </F>
 
               <F label="Break From">
-                <InputText
+                <input
                   type="time"
                   value={breakStartTime}
                   onChange={(e) => setBreakStartTime(e.target.value)}
-                  className="w-full p-inputtext-sm"
+                  className="w-full px-2 py-2 border rounded-lg text-sm"
                 />
               </F>
 
               <F label="Break To">
-                <InputText
+                <input
                   type="time"
                   value={breakEndTime}
                   onChange={(e) => setBreakEndTime(e.target.value)}
-                  className="w-full p-inputtext-sm"
+                  className="w-full px-2 py-2 border rounded-lg text-sm"
                 />
               </F>
 
               <div className="mt-4 flex justify-end sm:col-span-3">
                 <Button
+                  type="button"
                   onClick={handleSave}
                   disabled={saving}
-                  className="px-4 py-2 bg-primary text-white rounded disabled:opacity-50"
+                  className="h-9 px-4"
                 >
                   {saving ? "Saving..." : "Save"}
                 </Button>

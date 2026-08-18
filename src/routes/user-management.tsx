@@ -22,7 +22,6 @@ import {
   useHospitalUsers,
   useCreateUser,
 } from "@/hooks/useUserManagement";
-import { toast } from "sonner";
 
 // Radix-based UI components
 import { Input } from "@/components/ui/input";
@@ -35,9 +34,8 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Toaster } from "@/components/ui/sonner";
 import DatePicker from "@/components/ui/date-picker";
-import { Toast } from 'primereact/toast';
+import { Toast } from "primereact/toast";
 
 export const Route = createFileRoute("/user-management")({
   head: () => ({ meta: [{ title: "User Management â€” Ojas1Cloud HIMS" }] }),
@@ -60,7 +58,6 @@ const days = [
   "Sunday",
 ];
 
-// â”€â”€â”€ Success Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function SuccessModal({ data, onClose }: { data: any; onClose: any }) {
   const [copied, setCopied] = useState(false);
 
@@ -693,7 +690,7 @@ function UserManagement() {
                 value={formData.dateOfBirth}
                 onChange={(v) => updateField("dateOfBirth", v)}
                 id="field-dateOfBirth"
-                className="w-full max-w-52"
+                className="w-full px-2 py-2 border rounded-lg text-sm"
                 placeholder="Date of birth"
               />
             </F>

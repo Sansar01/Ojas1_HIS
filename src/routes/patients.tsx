@@ -2,15 +2,26 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
 import { useApiQuery } from "@/lib/hooks/useApiResource";
-import { useState } from "react";
-
-import { Dialog } from "primereact/dialog";
-import { InputText } from "primereact/inputtext";
-import { InputTextarea } from "primereact/inputtextarea";
-import { Dropdown } from "primereact/dropdown";
-import { Calendar } from "primereact/calendar";
-import { InputMask } from "primereact/inputmask";
-import { Button } from "primereact/button";
+import { useRef, useState } from "react";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+// Radix-based UI components
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   PatientFormDTO,
   genderOptions,
@@ -19,64 +30,13 @@ import {
   bloodGroupOptions,
   maritalStatusOptions,
 } from "../types/patient";
+import { api } from "@/lib/api";
+import { Toast } from "primereact/toast";
 
 export const Route = createFileRoute("/patients")({
   head: () => ({ meta: [{ title: "Patients — Ojas1Cloud HIMS" }] }),
   component: Patients,
 });
-
-const rows = [
-  [
-    "OPD123456",
-    "Ramesh Patel",
-    "58Y",
-    "Male",
-    "9876543210",
-    "A+",
-    "Star Health",
-    "12 May 2025",
-  ],
-  [
-    "OPD123457",
-    "Sunita Devi",
-    "45Y",
-    "Female",
-    "9812345678",
-    "B+",
-    "Self Pay",
-    "18 May 2025",
-  ],
-  [
-    "OPD123458",
-    "Imran Khan",
-    "32Y",
-    "Male",
-    "9823456701",
-    "O+",
-    "HDFC ERGO",
-    "15 May 2025",
-  ],
-  [
-    "OPD123459",
-    "Meena Kumari",
-    "28Y",
-    "Female",
-    "9834567012",
-    "AB+",
-    "Aditya Birla",
-    "10 May 2025",
-  ],
-  [
-    "OPD123460",
-    "Ravi Verma",
-    "60Y",
-    "Male",
-    "9845670123",
-    "O-",
-    "Reliance",
-    "20 May 2025",
-  ],
-];
 
 const initialPatientForm: PatientFormDTO = {
   firstName: "",
@@ -117,7 +77,14 @@ function Patients() {
   const [showPatientDialog, setShowPatientDialog] = useState(false);
   const [patientForm, setPatientForm] =
     useState<PatientFormDTO>(initialPatientForm);
-
+  const toastRef = useRef<Toast>(null);
+  const showToast = (severity: any, detail: string) => {
+    toastRef.current?.show({
+      severity,
+      detail,
+      life: 3000,
+    });
+  };
   const [submitted, setSubmitted] = useState(false);
 
   const updatePatientField = <K extends keyof PatientFormDTO>(
@@ -146,6 +113,8 @@ function Patients() {
 
     if (
       !patientForm.firstName.trim() ||
+      !patientForm.lastName.trim() ||
+      !patientForm.age ||
       !patientForm.gender ||
       !patientForm.mobile
     ) {
@@ -167,9 +136,8 @@ function Patients() {
       bloodGroup: patientForm.bloodGroup || undefined,
       maritalStatus: patientForm.maritalStatus || undefined,
 
-      mobile: patientForm.mobile.replace(/\s/g, ""),
-      alternateMobile:
-        patientForm.alternateMobile.replace(/\s/g, "") || undefined,
+      mobile: patientForm.mobile,
+      alternateMobile: Number(patientForm.alternateMobile) || undefined,
 
       email: patientForm.email.trim().toLowerCase() || undefined,
 
@@ -184,8 +152,7 @@ function Patients() {
 
       guardianName: patientForm.guardianName.trim() || undefined,
       guardianRelation: patientForm.guardianRelation || undefined,
-      guardianMobile:
-        patientForm.guardianMobile.replace(/\s/g, "") || undefined,
+      guardianMobile: Number(patientForm.guardianMobile) || undefined,
 
       insuranceProvider: patientForm.insuranceProvider.trim() || undefined,
 
@@ -199,10 +166,18 @@ function Patients() {
       chronicDiseases: patientForm.chronicDiseases.trim() || undefined,
     };
 
-    console.log("Create Patient Payload:", payload);
+    await api.post("/api/opd/patients/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: payload,
+    });
 
     // Example:
     // await patientService.createPatient(payload);
+    showToast("success", "Profile saved");
 
     setShowPatientDialog(false);
     setSubmitted(false);
@@ -237,6 +212,8 @@ function Patients() {
 
   return (
     <AppLayout>
+      <Toast ref={toastRef} position="top-right" />
+      {/* Success Modal */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Patients</h1>
         <p className="text-sm text-muted-foreground">Master patient records</p>
@@ -255,7 +232,7 @@ function Patients() {
           <button
             type="button"
             onClick={openNewPatient}
-            className="text-xs px-3 py-1.5 bg-primary text-primary-foreground rounded"
+            className="text-xs px-3 py-1.5 bg-primary cursor-pointer text-primary-foreground rounded"
           >
             + New Patient
           </button>
@@ -300,538 +277,717 @@ function Patients() {
       </Section>
 
       {/* Patient Form */}
-
       <Dialog
-        header="Register New Patient"
-        visible={showPatientDialog}
-        onHide={closePatientDialog}
-        modal
-        className="w-[95vw] md:w-[85vw] lg:w-[75vw]"
-        breakpoints={{
-          "960px": "90vw",
-          "640px": "95vw",
+        open={showPatientDialog}
+        onOpenChange={(open) => {
+          if (!open) {
+            closePatientDialog();
+          }
         }}
-        footer={
-          <div className="flex justify-end gap-2">
-            <Button
-              label="Cancel"
-              severity="secondary"
-              outlined
-              onClick={closePatientDialog}
-            />
-
-            <Button
-              label="Create Patient"
-              icon="pi pi-check"
-              onClick={handlePatientSubmit}
-            />
-          </div>
-        }
       >
-        <div className="space-y-6">
-          {/* ========================================================= */}
-          {/* PERSONAL DETAILS */}
-          {/* ========================================================= */}
+        <DialogContent
+          className="
+      w-[95vw]
+      max-w-6xl
+      max-h-[100vh]
+      overflow-hidden
+      p-0
+    "
+        >
+          {/* Header */}
+          <DialogHeader className="border-b px-6 py-3">
+            <DialogTitle>Register New Patient</DialogTitle>
 
-          <div>
-            <h3 className="text-sm font-semibold mb-4">Personal Details</h3>
+            <DialogDescription>
+              Enter the patient's information below to create a new patient
+              record.
+            </DialogDescription>
+          </DialogHeader>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* First Name */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  First Name <span className="text-red-500">*</span>
-                </label>
+          {/* Scrollable Form */}
+          <div className="max-h-[calc(90vh-145px)] overflow-y-auto px-6 py-5">
+            <div className="space-y-6">
+              {/* PERSONAL DETAILS */}
+              <div className="rounded-lg border bg-background">
+                {/* Section Header */}
+                <div className="border-b bg-muted/30 px-4 py-3">
+                  <h3 className="text-sm font-semibold">Personal Details</h3>
+                </div>
 
-                <InputText
-                  value={patientForm.firstName}
-                  onChange={(e) =>
-                    updatePatientField("firstName", e.target.value)
-                  }
-                  className={`w-full ${
-                    submitted && !patientForm.firstName.trim()
-                      ? "p-invalid"
-                      : ""
-                  }`}
-                  size="small"
-                  placeholder="Enter first name"
-                />
+                {/* Section Content */}
+                <div className="p-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    {/* First Name */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        First Name <span className="text-red-500">*</span>
+                      </label>
 
-                {submitted && !patientForm.firstName.trim() && (
-                  <small className="text-red-500">First name is required</small>
-                )}
+                      <Input
+                        value={patientForm.firstName}
+                        onChange={(e) =>
+                          updatePatientField("firstName", e.target.value)
+                        }
+                        placeholder="Enter first name"
+                        className={
+                          submitted && !patientForm.firstName.trim()
+                            ? "border-red-500"
+                            : ""
+                        }
+                      />
+
+                      {submitted && !patientForm.firstName.trim() && (
+                        <small className="mt-1 block text-red-500">
+                          First name is required
+                        </small>
+                      )}
+                    </div>
+
+                    {/* Last Name */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Last Name <span className="text-red-500">*</span>
+                      </label>
+
+                      <Input
+                        value={patientForm.lastName}
+                        onChange={(e) =>
+                          updatePatientField("lastName", e.target.value)
+                        }
+                        placeholder="Enter last name"
+                        className={
+                          submitted && !patientForm.lastName.trim()
+                            ? "border-red-500"
+                            : ""
+                        }
+                      />
+
+                      {submitted && !patientForm.lastName.trim() && (
+                        <small className="mt-1 block text-red-500">
+                          Last name is required
+                        </small>
+                      )}
+                    </div>
+
+                    {/* Gender */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Gender <span className="text-red-500">*</span>
+                      </label>
+
+                      <Select
+                        value={patientForm.gender}
+                        onValueChange={(value) =>
+                          updatePatientField("gender", value)
+                        }
+                      >
+                        <SelectTrigger
+                          className={
+                            submitted && !patientForm.gender
+                              ? "border-red-500"
+                              : ""
+                          }
+                        >
+                          <SelectValue placeholder="Select gender" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          {genderOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+
+                      {submitted && !patientForm.gender && (
+                        <small className="mt-1 block text-red-500">
+                          Gender is required
+                        </small>
+                      )}
+                    </div>
+
+                    {/* Date of Birth */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Date of Birth
+                      </label>
+
+                      <Input
+                        type="date"
+                        value={
+                          patientForm.dateOfBirth
+                            ? patientForm.dateOfBirth
+                                .toISOString()
+                                .split("T")[0]
+                            : ""
+                        }
+                        max={new Date().toISOString().split("T")[0]}
+                        onChange={(e) =>
+                          updatePatientField(
+                            "dateOfBirth",
+                            e.target.value
+                              ? new Date(`${e.target.value}T00:00:00`)
+                              : null,
+                          )
+                        }
+                      />
+                    </div>
+
+                    {/* Age */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Age <span className="text-red-500">*</span>
+                      </label>
+
+                      <Input
+                        inputMode="numeric"
+                        value={patientForm.age}
+                        onChange={(e) =>
+                          updatePatientField(
+                            "age",
+                            e.target.value.replace(/\D/g, ""),
+                          )
+                        }
+                        placeholder="Age"
+                        className={
+                          submitted && !patientForm.age ? "border-red-500" : ""
+                        }
+                      />
+
+                      {submitted && !patientForm.age && (
+                        <small className="mt-1 block text-red-500">
+                          Age is required
+                        </small>
+                      )}
+                    </div>
+
+                    {/* Age Unit */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Age Unit
+                      </label>
+
+                      <Select
+                        value={patientForm.ageUnit}
+                        onValueChange={(value) =>
+                          updatePatientField(
+                            "ageUnit",
+                            value as "years" | "months" | "days",
+                          )
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select age unit" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          {ageUnitOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Blood Group */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Blood Group
+                      </label>
+
+                      <Select
+                        value={patientForm.bloodGroup}
+                        onValueChange={(value) =>
+                          updatePatientField("bloodGroup", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select blood group" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          {bloodGroupOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Marital Status */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Marital Status
+                      </label>
+
+                      <Select
+                        value={patientForm.maritalStatus}
+                        onValueChange={(value) =>
+                          updatePatientField("maritalStatus", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          {maritalStatusOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Last Name */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Last Name
-                </label>
+              {/* ========================================================= */}
+              {/* CONTACT */}
+              {/* ========================================================= */}
 
-                <InputText
-                  value={patientForm.lastName}
-                  onChange={(e) =>
-                    updatePatientField("lastName", e.target.value)
-                  }
-                  className="w-full"
-                  placeholder="Enter last name"
-                />
+              <div className="rounded-lg border bg-background">
+                <div className="border-b bg-muted/30 px-4 py-3">
+                  <h3 className="text-sm font-semibold">Contact Information</h3>
+                </div>
+
+                <div className="p-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    {/* Mobile */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Mobile <span className="text-red-500">*</span>
+                      </label>
+
+                      <Input
+                        value={patientForm.mobile}
+                        maxLength={10}
+                        inputMode="numeric"
+                        onChange={(e) =>
+                          updatePatientField(
+                            "mobile",
+                            e.target.value.replace(/\D/g, ""),
+                          )
+                        }
+                        placeholder="99999 99999"
+                        className={
+                          submitted && !patientForm.mobile
+                            ? "border-red-500"
+                            : ""
+                        }
+                      />
+
+                      {submitted && !patientForm.mobile && (
+                        <small className="mt-1 block text-red-500">
+                          Mobile number is required
+                        </small>
+                      )}
+                    </div>
+
+                    {/* Alternate Mobile */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Alternate Mobile
+                      </label>
+
+                      <Input
+                        value={patientForm.alternateMobile}
+                        maxLength={10}
+                        inputMode="numeric"
+                        onChange={(e) =>
+                          updatePatientField(
+                            "alternateMobile",
+                            e.target.value.replace(/\D/g, ""),
+                          )
+                        }
+                        placeholder="99999 99999"
+                      />
+                    </div>
+
+                    {/* Email */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Email
+                      </label>
+
+                      <Input
+                        type="email"
+                        value={patientForm.email}
+                        onChange={(e) =>
+                          updatePatientField("email", e.target.value)
+                        }
+                        placeholder="patient@example.com"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Gender */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Gender <span className="text-red-500">*</span>
-                </label>
+              {/* ========================================================= */}
+              {/* ADDRESS */}
+              {/* ========================================================= */}
 
-                <Dropdown
-                  value={patientForm.gender}
-                  options={genderOptions}
-                  onChange={(e) => updatePatientField("gender", e.value)}
-                  optionLabel="label"
-                  optionValue="value"
-                  placeholder="Select gender"
-                  className={`w-full ${
-                    submitted && !patientForm.gender ? "p-invalid" : ""
-                  }`}
-                />
+              <div className="rounded-lg border bg-background">
+                <div className="border-b bg-muted/30 px-4 py-3">
+                  <h3 className="text-sm font-semibold">Address</h3>
+                </div>
 
-                {submitted && !patientForm.gender && (
-                  <small className="text-red-500">Gender is required</small>
-                )}
+                <div className="p-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    {/* Address */}
+                    <div className="md:col-span-2">
+                      <label className="mb-1 block text-sm font-medium">
+                        Address
+                      </label>
+
+                      <Textarea
+                        value={patientForm.address}
+                        onChange={(e) =>
+                          updatePatientField("address", e.target.value)
+                        }
+                        rows={2}
+                        placeholder="Enter address"
+                      />
+                    </div>
+
+                    {/* City */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        City
+                      </label>
+
+                      <Input
+                        value={patientForm.city}
+                        onChange={(e) =>
+                          updatePatientField("city", e.target.value)
+                        }
+                        placeholder="City"
+                      />
+                    </div>
+
+                    {/* District */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        District
+                      </label>
+
+                      <Input
+                        value={patientForm.district}
+                        onChange={(e) =>
+                          updatePatientField("district", e.target.value)
+                        }
+                        placeholder="District"
+                      />
+                    </div>
+
+                    {/* State */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        State
+                      </label>
+
+                      <Input
+                        value={patientForm.state}
+                        onChange={(e) =>
+                          updatePatientField("state", e.target.value)
+                        }
+                        placeholder="State"
+                      />
+                    </div>
+
+                    {/* Pincode */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Pincode
+                      </label>
+
+                      <Input
+                        inputMode="numeric"
+                        maxLength={6}
+                        value={patientForm.pincode}
+                        onChange={(e) =>
+                          updatePatientField(
+                            "pincode",
+                            e.target.value.replace(/\D/g, ""),
+                          )
+                        }
+                        placeholder="6-digit pincode"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* DOB */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Date of Birth
-                </label>
+              {/* ========================================================= */}
+              {/* IDENTITY DOCUMENTS */}
+              {/* ========================================================= */}
 
-                <Calendar
-                  value={patientForm.dateOfBirth}
-                  onChange={(e) =>
-                    updatePatientField("dateOfBirth", e.value ?? null)
-                  }
-                  dateFormat="yy-mm-dd"
-                  showIcon
-                  className="w-full"
-                  inputClassName="w-full"
-                  maxDate={new Date()}
-                  placeholder="Select date"
-                />
+              <div className="rounded-lg border bg-background">
+                <div className="border-b bg-muted/30 px-4 py-3">
+                  <h3 className="text-sm font-semibold">Identity Documents</h3>
+                </div>
+
+                <div className="p-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    {/* Aadhaar */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Aadhaar Number
+                      </label>
+
+                      <Input
+                        value={patientForm.aadhaarNumber}
+                        maxLength={12}
+                        inputMode="numeric"
+                        onChange={(e) =>
+                          updatePatientField(
+                            "aadhaarNumber",
+                            e.target.value.replace(/\D/g, ""),
+                          )
+                        }
+                        placeholder="XXXX XXXX XXXX"
+                      />
+                    </div>
+
+                    {/* ABHA */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        ABHA ID
+                      </label>
+
+                      <Input
+                        value={patientForm.abhaId}
+                        onChange={(e) =>
+                          updatePatientField("abhaId", e.target.value)
+                        }
+                        placeholder="Enter ABHA ID"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Age */}
-              <div>
-                <label className="block text-sm font-medium mb-1">Age</label>
+              {/* ========================================================= */}
+              {/* GUARDIAN / NOK */}
+              {/* ========================================================= */}
 
-                <InputText
-                  keyfilter="int"
-                  value={patientForm.age}
-                  onChange={(e) => updatePatientField("age", e.target.value)}
-                  className="w-full"
-                  placeholder="Age"
-                />
+              <div className="rounded-lg border bg-background">
+                <div className="border-b bg-muted/30 px-4 py-3">
+                  <h3 className="text-sm font-semibold">Guardian</h3>
+                </div>
+
+                <div className="p-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    {/* Guardian Name */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Guardian Name
+                      </label>
+
+                      <Input
+                        value={patientForm.guardianName}
+                        onChange={(e) =>
+                          updatePatientField("guardianName", e.target.value)
+                        }
+                        placeholder="Guardian name"
+                      />
+                    </div>
+
+                    {/* Relation */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Relation
+                      </label>
+
+                      <Select
+                        value={patientForm.guardianRelation}
+                        onValueChange={(value) =>
+                          updatePatientField("guardianRelation", value)
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select relation" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                          {relationOptions.map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    {/* Guardian Mobile */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Guardian Mobile
+                      </label>
+
+                      <Input
+                        value={patientForm.guardianMobile}
+                        maxLength={10}
+                        inputMode="numeric"
+                        onChange={(e) =>
+                          updatePatientField(
+                            "guardianMobile",
+                            e.target.value.replace(/\D/g, ""),
+                          )
+                        }
+                        placeholder="99999 99999"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Age Unit */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Age Unit
-                </label>
+              {/* ========================================================= */}
+              {/* INSURANCE */}
+              {/* ========================================================= */}
 
-                <Dropdown
-                  value={patientForm.ageUnit}
-                  options={ageUnitOptions}
-                  onChange={(e) => updatePatientField("ageUnit", e.value)}
-                  optionLabel="label"
-                  optionValue="value"
-                  className="w-full"
-                />
+              <div className="rounded-lg border bg-background">
+                <div className="border-b bg-muted/30 px-4 py-3">
+                  <h3 className="text-sm font-semibold">Insurance</h3>
+                </div>
+
+                <div className="p-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                    {/* Insurance Provider */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Insurance Provider
+                      </label>
+
+                      <Input
+                        value={patientForm.insuranceProvider}
+                        onChange={(e) =>
+                          updatePatientField(
+                            "insuranceProvider",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Insurance provider"
+                      />
+                    </div>
+
+                    {/* Policy Number */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Policy Number
+                      </label>
+
+                      <Input
+                        value={patientForm.insurancePolicyNo}
+                        onChange={(e) =>
+                          updatePatientField(
+                            "insurancePolicyNo",
+                            e.target.value,
+                          )
+                        }
+                        placeholder="Policy number"
+                      />
+                    </div>
+
+                    {/* Valid Till */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Valid Till
+                      </label>
+
+                      <Input
+                        type="date"
+                        min={new Date().toISOString().split("T")[0]}
+                        value={
+                          patientForm.insuranceValidTill
+                            ? patientForm.insuranceValidTill
+                                .toISOString()
+                                .split("T")[0]
+                            : ""
+                        }
+                        onChange={(e) =>
+                          updatePatientField(
+                            "insuranceValidTill",
+                            e.target.value
+                              ? new Date(`${e.target.value}T00:00:00`)
+                              : null,
+                          )
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Blood Group */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Blood Group
-                </label>
+              {/* ========================================================= */}
+              {/* MEDICAL INFORMATION */}
+              {/* ========================================================= */}
 
-                <Dropdown
-                  value={patientForm.bloodGroup}
-                  options={bloodGroupOptions}
-                  onChange={(e) => updatePatientField("bloodGroup", e.value)}
-                  optionLabel="label"
-                  optionValue="value"
-                  placeholder="Select blood group"
-                  className="w-full"
-                />
-              </div>
+              <div className="rounded-lg border bg-background">
+                <div className="border-b bg-muted/30 px-4 py-3">
+                  <h3 className="text-sm font-semibold">Medical Information</h3>
+                </div>
 
-              {/* Marital Status */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Marital Status
-                </label>
+                <div className="p-4">
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    {/* Allergies */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Allergies
+                      </label>
 
-                <Dropdown
-                  value={patientForm.maritalStatus}
-                  options={maritalStatusOptions}
-                  onChange={(e) => updatePatientField("maritalStatus", e.value)}
-                  optionLabel="label"
-                  optionValue="value"
-                  placeholder="Select status"
-                  className="w-full"
-                />
+                      <Textarea
+                        value={patientForm.allergies}
+                        onChange={(e) =>
+                          updatePatientField("allergies", e.target.value)
+                        }
+                        rows={3}
+                        maxLength={500}
+                        placeholder="Enter known allergies"
+                      />
+                    </div>
+
+                    {/* Chronic Diseases */}
+                    <div>
+                      <label className="mb-1 block text-sm font-medium">
+                        Chronic Diseases
+                      </label>
+
+                      <Textarea
+                        value={patientForm.chronicDiseases}
+                        onChange={(e) =>
+                          updatePatientField("chronicDiseases", e.target.value)
+                        }
+                        rows={3}
+                        maxLength={500}
+                        placeholder="Enter chronic diseases"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* ========================================================= */}
-          {/* CONTACT */}
-          {/* ========================================================= */}
+          {/* Footer */}
+          <DialogFooter className="border-t px-6 py-3">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={closePatientDialog}
+            >
+              Cancel
+            </Button>
 
-          <div>
-            <h3 className="text-sm font-semibold mb-4">Contact Information</h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Mobile */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Mobile <span className="text-red-500">*</span>
-                </label>
-
-                <InputMask
-                  mask="99999 99999"
-                  value={patientForm.mobile}
-                  onChange={(e) => updatePatientField("mobile", e.value ?? "")}
-                  className={`w-full ${
-                    submitted && !patientForm.mobile ? "p-invalid" : ""
-                  }`}
-                  placeholder="99999 99999"
-                />
-
-                {submitted && !patientForm.mobile && (
-                  <small className="text-red-500">
-                    Mobile number is required
-                  </small>
-                )}
-              </div>
-
-              {/* Alternate Mobile */}
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Alternate Mobile
-                </label>
-
-                <InputMask
-                  mask="99999 99999"
-                  value={patientForm.alternateMobile}
-                  onChange={(e) =>
-                    updatePatientField("alternateMobile", e.value ?? "")
-                  }
-                  className="w-full"
-                  placeholder="99999 99999"
-                />
-              </div>
-
-              {/* Email */}
-              <div>
-                <label className="block text-sm font-medium mb-1">Email</label>
-
-                <InputText
-                  type="email"
-                  value={patientForm.email}
-                  onChange={(e) => updatePatientField("email", e.target.value)}
-                  className="w-full"
-                  placeholder="patient@example.com"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* ========================================================= */}
-          {/* ADDRESS */}
-          {/* ========================================================= */}
-
-          <div>
-            <h3 className="text-sm font-semibold mb-4">Address</h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium mb-1">
-                  Address
-                </label>
-
-                <InputTextarea
-                  value={patientForm.address}
-                  onChange={(e) =>
-                    updatePatientField("address", e.target.value)
-                  }
-                  rows={2}
-                  className="w-full"
-                  placeholder="Enter address"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">City</label>
-
-                <InputText
-                  value={patientForm.city}
-                  onChange={(e) => updatePatientField("city", e.target.value)}
-                  className="w-full"
-                  placeholder="City"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  District
-                </label>
-
-                <InputText
-                  value={patientForm.district}
-                  onChange={(e) =>
-                    updatePatientField("district", e.target.value)
-                  }
-                  className="w-full"
-                  placeholder="District"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">State</label>
-
-                <InputText
-                  value={patientForm.state}
-                  onChange={(e) => updatePatientField("state", e.target.value)}
-                  className="w-full"
-                  placeholder="State"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Pincode
-                </label>
-
-                <InputText
-                  keyfilter="int"
-                  maxLength={6}
-                  value={patientForm.pincode}
-                  onChange={(e) =>
-                    updatePatientField("pincode", e.target.value)
-                  }
-                  className="w-full"
-                  placeholder="6-digit pincode"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* ========================================================= */}
-          {/* IDENTITY DOCUMENTS */}
-          {/* ========================================================= */}
-
-          <div>
-            <h3 className="text-sm font-semibold mb-4">Identity Documents</h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Aadhaar Number
-                </label>
-
-                <InputMask
-                  mask="9999 9999 9999"
-                  value={patientForm.aadhaarNumber}
-                  onChange={(e) =>
-                    updatePatientField("aadhaarNumber", e.value ?? "")
-                  }
-                  className="w-full"
-                  placeholder="XXXX XXXX XXXX"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  ABHA ID
-                </label>
-
-                <InputText
-                  value={patientForm.abhaId}
-                  onChange={(e) => updatePatientField("abhaId", e.target.value)}
-                  className="w-full"
-                  placeholder="Enter ABHA ID"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* ========================================================= */}
-          {/* GUARDIAN / NOK */}
-          {/* ========================================================= */}
-
-          <div>
-            <h3 className="text-sm font-semibold mb-4">
-              Guardian / Next of Kin
-            </h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Guardian Name
-                </label>
-
-                <InputText
-                  value={patientForm.guardianName}
-                  onChange={(e) =>
-                    updatePatientField("guardianName", e.target.value)
-                  }
-                  className="w-full"
-                  placeholder="Guardian name"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Relation
-                </label>
-
-                <Dropdown
-                  value={patientForm.guardianRelation}
-                  options={relationOptions}
-                  onChange={(e) =>
-                    updatePatientField("guardianRelation", e.value)
-                  }
-                  optionLabel="label"
-                  optionValue="value"
-                  placeholder="Select relation"
-                  className="w-full"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Guardian Mobile
-                </label>
-
-                <InputMask
-                  mask="99999 99999"
-                  value={patientForm.guardianMobile}
-                  onChange={(e) =>
-                    updatePatientField("guardianMobile", e.value ?? "")
-                  }
-                  className="w-full"
-                  placeholder="99999 99999"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* ========================================================= */}
-          {/* INSURANCE */}
-          {/* ========================================================= */}
-
-          <div>
-            <h3 className="text-sm font-semibold mb-4">Insurance</h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Insurance Provider
-                </label>
-
-                <InputText
-                  value={patientForm.insuranceProvider}
-                  onChange={(e) =>
-                    updatePatientField("insuranceProvider", e.target.value)
-                  }
-                  className="w-full"
-                  placeholder="Insurance provider"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Policy Number
-                </label>
-
-                <InputText
-                  value={patientForm.insurancePolicyNo}
-                  onChange={(e) =>
-                    updatePatientField("insurancePolicyNo", e.target.value)
-                  }
-                  className="w-full"
-                  placeholder="Policy number"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Valid Till
-                </label>
-
-                <Calendar
-                  value={patientForm.insuranceValidTill}
-                  onChange={(e) =>
-                    updatePatientField("insuranceValidTill", e.value ?? null)
-                  }
-                  dateFormat="yy-mm-dd"
-                  showIcon
-                  minDate={new Date()}
-                  className="w-full"
-                  inputClassName="w-full"
-                  placeholder="Valid till"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* ========================================================= */}
-          {/* MEDICAL BASICS */}
-          {/* ========================================================= */}
-
-          <div>
-            <h3 className="text-sm font-semibold mb-4">Medical Information</h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Allergies
-                </label>
-
-                <InputTextarea
-                  value={patientForm.allergies}
-                  onChange={(e) =>
-                    updatePatientField("allergies", e.target.value)
-                  }
-                  rows={3}
-                  maxLength={500}
-                  className="w-full"
-                  placeholder="Enter known allergies"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Chronic Diseases
-                </label>
-
-                <InputTextarea
-                  value={patientForm.chronicDiseases}
-                  onChange={(e) =>
-                    updatePatientField("chronicDiseases", e.target.value)
-                  }
-                  rows={3}
-                  maxLength={500}
-                  className="w-full"
-                  placeholder="Enter chronic diseases"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+            <Button type="button" onClick={handlePatientSubmit}>
+              Create Patient
+            </Button>
+          </DialogFooter>
+        </DialogContent>
       </Dialog>
     </AppLayout>
   );
