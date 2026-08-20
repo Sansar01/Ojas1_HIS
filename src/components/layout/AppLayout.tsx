@@ -52,11 +52,6 @@ export function AppLayout({ children }: { children?: ReactNode }) {
     if (ready && !user) navigate({ to: "/login" });
   }, [ready, user, navigate]);
 
-  // Redirect if role can't access the current route
-  // useEffect(() => {
-  //   if (ready && user) navigate({ to: "/" });
-  // }, [ready, user, path, navigate]);
-
   const visibleNav = useMemo(() => {
     if (entitlementsLoading) return [];
 
