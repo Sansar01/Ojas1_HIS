@@ -1,61 +1,29 @@
-import {
-  createContext,
-  useContext,
-  useRef,
-  type ReactNode,
-} from "react";
-import { Toast } from "primereact/toast";
+import { Toast, type ToastMessage } from "primereact/toast";
+import { useEffect, useRef } from "react";
 
-type ToastSeverity = "success" | "error" | "info" | "warn";
+let toastRef: Toast | null = null;
 
-interface ToastContextType {
-  showToast: (
-    severity: ToastSeverity,
-    summary: string,
-    detail?: string,
-  ) => void;
-}
-
-const ToastContext = createContext<ToastContextType | undefined>(
-  undefined,
-);
-
-export const ToastProvider = ({
-  children,
-}: {
-  children: ReactNode;
-}) => {
-  const toastRef = useRef<Toast>(null);
-
-  const showToast = (
-    severity: ToastSeverity,
-    summary: string,
-    detail = summary,
-  ) => {
-    toastRef.current?.show({
-      severity,
-      summary,
-      detail,
-      life: 3000,
-    });
-  };
-
-  return (
-    <ToastContext.Provider value={{ showToast }}>
-      <Toast ref={toastRef} />
-      {children}
-    </ToastContext.Provider>
-  );
+export const showToast = (
+  severity: ToastMessage["severity"],
+  summary: string,
+) => {
+  toastRef?.show({
+    severity,
+    summary,
+    life: 3000,
+  });
 };
 
-export const useToast = () => {
-  const context = useContext(ToastContext);
+export const ToastContainer = () => {
+  const ref = useRef<Toast>(null);
 
-  if (!context) {
-    throw new Error(
-      "useToast must be used inside ToastProvider",
-    );
-  }
+  useEffect(() => {
+    toastRef = ref.current;
 
-  return context;
-}; 
+    return () => {
+      toastRef = null;
+    };
+  }, []);
+
+  return <Toast ref={ref} />;
+};

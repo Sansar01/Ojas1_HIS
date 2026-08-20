@@ -1,3 +1,14 @@
+export interface PatientsResponse {
+  data: PatientFormDTO[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+
 export interface PatientFormDTO {
   // Personal Details
   firstName: string;

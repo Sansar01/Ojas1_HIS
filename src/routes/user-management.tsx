@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import DatePicker from "@/components/ui/date-picker";
-import { Toast } from "primereact/toast";
+import { showToast, ToastContainer } from "@/components/ui/toast";
 
 export const Route = createFileRoute("/user-management")({
   head: () => ({ meta: [{ title: "User Management â€” Ojas1Cloud HIMS" }] }),
@@ -123,16 +123,6 @@ function SuccessModal({ data, onClose }: { data: any; onClose: any }) {
 }
 
 function UserManagement() {
-  const toastRef = useRef<Toast>(null);
-  const showErrorToast = (detail: string) => {
-    toastRef.current?.show({
-      severity: "error",
-      summary: "Validation error",
-      detail,
-      life: 3000,
-    });
-  };
-
   const [step, setStep] = useState(1);
 
   // â”€â”€â”€ API Hooks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -385,13 +375,13 @@ function UserManagement() {
     if (validateStep(step)) {
       setStep((prev) => prev + 1);
     } else {
-      showErrorToast("Please fill all required fields.");
+      showToast("error", "Please fill all required fields.");
     }
   };
 
   const goToStep = (target: number) => {
     if (target > step && !validateStep(step)) {
-      showErrorToast("Please fill all required fields.");
+      showToast("error", "Please fill all required fields.");
       return;
     }
     setStep(target);
@@ -401,7 +391,7 @@ function UserManagement() {
 
   async function handleSubmit() {
     if (!validateStep(step)) {
-      showErrorToast("Please fill all required fields.");
+      showToast("error", "Please fill all required fields.");
       return;
     }
 
@@ -458,12 +448,14 @@ function UserManagement() {
       };
 
       const result = await createUser(payload);
+      showToast("success", "Details saved successfully");
       setSuccessData({
         employeeId: result.employeeId,
         email: result.email,
         tempPassword: result.tempPassword,
       });
     } catch {
+      showToast("error", "Unable to save details,Please try again later");
       // error shown inline via submitError
     }
   }
@@ -490,9 +482,9 @@ function UserManagement() {
   // â”€â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   return (
     <AppLayout>
-      <Toast ref={toastRef} position="top-right" />
-      {/* Success Modal */}
+      <ToastContainer />
 
+      {/* Success Modal */}
       {successData && (
         <SuccessModal
           data={successData}
