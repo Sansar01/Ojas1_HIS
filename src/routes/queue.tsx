@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
 import {
   Heart,
@@ -176,7 +175,7 @@ function Examination() {
   ];
 
   return (
-    <AppLayout>
+    <>
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">OPD Examination Room</h1>
@@ -449,6 +448,6 @@ function Examination() {
           </Section>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }

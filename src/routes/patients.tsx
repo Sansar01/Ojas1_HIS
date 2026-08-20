@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
 import { useApiQuery } from "@/lib/hooks/useApiResource";
 import { useRef, useState } from "react";
@@ -211,7 +210,7 @@ function Patients() {
   ]);
 
   return (
-    <AppLayout>
+    <>
       <Toast ref={toastRef} position="top-right" />
       {/* Success Modal */}
       <div className="mb-6">
@@ -989,6 +988,6 @@ function Patients() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AppLayout>
+    </>
   );
 }

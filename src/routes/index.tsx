@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Kpi, Section } from "@/components/hims/Kpi";
 import { useApiQuery } from "@/lib/hooks/useApiResource";
 import {
@@ -45,7 +44,7 @@ function Dashboard() {
   const overview = data?.overview;
 
   return (
-    <AppLayout>
+    <>
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Dashboard Overview</h1>
@@ -294,6 +293,6 @@ function Dashboard() {
           </div>
         </Section>
       </div>
-    </AppLayout>
+    </>
   );
 }

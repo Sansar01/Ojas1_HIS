@@ -42,6 +42,7 @@ import {
   type AuthUser,
 } from "@/lib/auth";
 import { useEntitlements } from "@/hooks/useUserManagement";
+import { useInactivityLogout } from "@/hooks/useInactivityLogout";
 import type { EntitlementModule } from "@/types/user-management";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -144,6 +145,12 @@ export function AppLayout({ children }: { children?: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { entitlements, loading: entitlementsLoading } = useEntitlements();
+
+  const redirectToLogin = () => {
+    navigate({ to: "/login" });
+  };
+
+  useInactivityLogout(redirectToLogin);
 
   useEffect(() => {
     const readAuth = () => setUserState(getUser());

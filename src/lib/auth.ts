@@ -218,6 +218,11 @@ export function clearUser(KEY?: string) {
 
   const storageKey = KEY ?? AUTH_STORAGE_KEY;
   window.localStorage.removeItem(storageKey);
+  try {
+    window.localStorage.removeItem("hospital_entitlements");
+  } catch {
+    // ignore
+  }
   window.dispatchEvent(new Event("authChange"));
 }
 

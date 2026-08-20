@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Section, Kpi } from "@/components/hims/Kpi";
 import {
   Video,
@@ -104,7 +103,7 @@ function Teleconsultation() {
   const [tab, setTab] = useState<"notes" | "rx" | "invest">("notes");
 
   return (
-    <AppLayout>
+    <>
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Teleconsultation</h1>
@@ -489,6 +488,6 @@ function Teleconsultation() {
           </Section>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }

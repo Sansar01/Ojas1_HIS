@@ -2,6 +2,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { api } from "@/lib/api";
+import { getUser } from "@/lib/auth";
+import {
+  getCachedEntitlements,
+  fetchEntitlements,
+} from "@/lib/entitlements";
 import type {
   HospitalRole,
   Department,
@@ -87,44 +92,60 @@ export function useShifts() {
 //   return { entitlements, loading, error };
 // }
 
-// src/hooks/useUserManagement.ts
-
 export function useEntitlements() {
-  const [entitlements, setEntitlements] = useState<EntitlementModule[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [entitlements, setEntitlements] = useState<EntitlementModule[]>(() =>
+    getCachedEntitlements(),
+  );
+  const [loading, setLoading] = useState(() => getCachedEntitlements().length === 0);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    api
-      .get<any[]>("/api/hospital/roles/entitlements/modules")
-      .then((data) => {
-        console.log("Entitlements API response:", data);
-        if (!Array.isArray(data)) {
-          console.warn("Entitlements response is not an array:", data);
-          setEntitlements([]);
-          return;
+    if (typeof window === "undefined") {
+      setLoading(false);
+      return;
+    }
+
+    const currentUser = getUser();
+    const cached = getCachedEntitlements();
+
+    if (cached.length > 0) {
+      setEntitlements(cached);
+      setLoading(false);
+      return;
+    }
+
+    if (!currentUser) {
+      setEntitlements([]);
+      setLoading(false);
+      return;
+    }
+
+    let ignore = false;
+
+    const load = async () => {
+      try {
+        setLoading(true);
+        const result = await fetchEntitlements(true);
+        if (!ignore) {
+          setEntitlements(result);
+          setError(null);
         }
-        const transformed: EntitlementModule[] = data.map((module) => ({
-          id: module.id,
-          name: module.name,
-          code: module.code,
-          route: module.route || "",
-          icon: module.icon || "",
-          isActive: module.isActive !== false,
-          features: (module.features || []).map((mf: any) => ({
-            id: mf.feature?.id || mf.id,
-            name: mf.feature?.name || mf.name,
-            code: mf.feature?.code || mf.code,
-          })),
-        }));
-        console.log("Transformed entitlements:", transformed);
-        setEntitlements(transformed);
-      })
-      .catch((e) => {
-        console.error("Failed to fetch entitlements:", e);
-        setError(e.message);
-      })
-      .finally(() => setLoading(false));
+      } catch (e: any) {
+        if (!ignore) {
+          setError(e.message);
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    };
+
+    void load();
+
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   return { entitlements, loading, error };

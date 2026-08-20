@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
 import { useApiQuery } from "@/lib/hooks/useApiResource";
 import {
@@ -53,7 +52,7 @@ function Billing() {
   const payable = data?.billSummary?.payableByPatient ?? 382.85;
 
   return (
-    <AppLayout>
+    <>
       <div className="mb-4 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">OPD & Pharmacy Billing</h1>
@@ -312,6 +311,6 @@ function Billing() {
           </Section>
         </div>
       </div>
-    </AppLayout>
+    </>
   );
 }
