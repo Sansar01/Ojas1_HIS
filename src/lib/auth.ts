@@ -100,61 +100,6 @@ export const ROLES: {
   },
 ];
 
-// Build ROLE_ROUTES dynamically from the ROLES constant so adding/removing roles
-// in ROLES automatically keeps the mapping consistent. Keep behaviour identical
-// for existing role names so existing functionality is not interrupted.
-function buildRoleRoutes(): Record<Role, string[] | "all"> {
-  const commonForMany = ["/", "/appointments", "/patients"];
-  const map: Record<Role, string[] | "all"> = {} as any;
-
-  for (const r of ROLES) {
-    switch (r.value) {
-      case "super_admin":
-        map[r.value] = "all";
-        break;
-      case "doctor":
-        // Doctor should have the common routes plus queue/consultation/teleconsultation and doctorSlot
-        map[r.value] = Array.from(
-          new Set([
-            ...commonForMany,
-            "/queue",
-            "/consultation",
-            "/teleconsultation",
-            "/doctorSlot",
-          ]),
-        );
-        break;
-      case "receptionist":
-        map[r.value] = ["/", "/registration", "/appointments", "/billing", "/patients"];
-        break;
-      case "pharmacist":
-        map[r.value] = ["/", "/pharmacy"];
-        break;
-      case "lab_tech":
-        map[r.value] = ["/", "/lab"];
-        break;
-      case "billing":
-        map[r.value] = ["/", "/billing"];
-        break;
-      default:
-        map[r.value] = ["/"];
-    }
-  }
-
-  return map;
-}
-
-export const ROLE_ROUTES = buildRoleRoutes();
-
-// Backwards-compatible helper exports requested by the caller
-export const Roles = ROLES;
-export function Roles_Routes(): Record<Role, string[] | "all"> {
-  return ROLE_ROUTES;
-}
-export function normalizeRoles(userType?: string): Role {
-  return normalizeRole(userType);
-}
-
 const AUTH_STORAGE_KEY = "authUser";
 
 function normalizeRole(userType?: string): Role {
@@ -197,7 +142,7 @@ export function getUser(KEY?: string): any | null {
     const storageKey = KEY ?? AUTH_STORAGE_KEY;
     const raw = window.localStorage.getItem(storageKey);
 
-    return raw ? (JSON.parse(raw) as AuthUser) : null;
+    return raw ? JSON.parse(raw) : null;
   } catch {
     return null;
   }
@@ -283,13 +228,6 @@ export async function loginWithBackend(
   setUser(user);
   setAccessToken(payload.accessToken);
   return user;
-}
-
-export function canAccess(role: Role, path: string): boolean {
-  const allowed = ROLE_ROUTES[role];
-  if (allowed === "all") return true;
-  if (path === "/") return true;
-  return allowed.some((p) => path === p || path.startsWith(p + "/"));
 }
 
 export async function logOutFromFrontend(): Promise<boolean> {

@@ -17,7 +17,6 @@ import {
   useRoles,
   useDepartments,
   useShifts,
-  useEntitlements,
   useRolePermissions,
   useHospitalUsers,
   useCreateUser,
@@ -36,6 +35,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import DatePicker from "@/components/ui/date-picker";
 import { showToast, ToastContainer } from "@/components/ui/toast";
+import { useEntitlements } from "@/hooks/modules";
 
 export const Route = createFileRoute("/user-management")({
   head: () => ({ meta: [{ title: "User Management â€” Ojas1Cloud HIMS" }] }),
