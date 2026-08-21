@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
 import { useApiQuery } from "@/lib/hooks/useApiResource";
 import { useRef, useState } from "react";
@@ -51,6 +50,7 @@ import { cn } from "@/lib/utils";
 import { RefreshCw } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageLoader } from "@/components/ui/pageLoader";
+import { AppLayout } from "@/components/layout/AppLayout";
 
 export const Route = createFileRoute("/patients")({
   head: () => ({ meta: [{ title: "Patients — Ojas1Cloud HIMS" }] }),

@@ -2,6 +2,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { api } from "@/lib/api";
+import { getUser } from "@/lib/auth";
+import {
+  getCachedEntitlements,
+  fetchEntitlements,
+} from "@/lib/entitlements";
 import type {
   HospitalRole,
   Department,

@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { api } from "@/lib/api";
 import { getUser, setUser } from "@/lib/auth";
 import { CalendarClock, Check, UserRound } from "lucide-react";
-import { AppLayout } from "@/components/layout/AppLayout";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import {
   Select,
@@ -291,7 +290,7 @@ function DoctorSlot() {
   }
 
   return (
-    <AppLayout>
+    <>
       <div>
         <ToastContainer />
         <div className="mb-6 overflow-x-auto rounded-xl border p-4">
@@ -651,6 +650,6 @@ function DoctorSlot() {
           </div>
         )}
       </div>
-    </AppLayout>
+    </>
   );
 }

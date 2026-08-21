@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
 
 export const Route = createFileRoute("/lab")({
@@ -17,7 +16,7 @@ const orders = [
 
 function Lab() {
   return (
-    <AppLayout>
+    <>
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Lab & Radiology</h1>
         <p className="text-sm text-muted-foreground">
@@ -62,6 +61,6 @@ function Lab() {
           </tbody>
         </table>
       </Section>
-    </AppLayout>
+    </>
   );
 }

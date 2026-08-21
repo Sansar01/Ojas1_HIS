@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Kpi, Section } from "@/components/hims/Kpi";
 import { TrendingUp, Users, Receipt, Activity } from "lucide-react";
 
@@ -10,7 +9,7 @@ export const Route = createFileRoute("/reports")({
 
 function Reports() {
   return (
-    <AppLayout>
+    <>
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Reports & Analytics</h1>
         <p className="text-sm text-muted-foreground">
@@ -85,6 +84,6 @@ function Reports() {
           </ul>
         </Section>
       </div>
-    </AppLayout>
+    </>
   );
 }

@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
 import { Kpi } from "@/components/hims/Kpi";
 import { useApiQuery } from "@/lib/hooks/useApiResource";
@@ -47,7 +46,7 @@ function Registration() {
   const metrics = data?.registrationMetrics;
 
   return (
-    <AppLayout>
+    <>
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Patient Registration</h1>
@@ -426,7 +425,7 @@ function Registration() {
           </div>
         </Section>
       </div>
-    </AppLayout>
+    </>
   );
 }
 

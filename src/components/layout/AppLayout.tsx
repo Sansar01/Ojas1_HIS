@@ -4,9 +4,39 @@ import {
   useNavigate,
   useRouterState,
 } from "@tanstack/react-router";
-import { Bell, Search, Heart, LogOut, PanelLeftClose } from "lucide-react";
+import {
+  LayoutDashboard,
+  Users,
+  Calendar,
+  Stethoscope,
+  ClipboardList,
+  Receipt,
+  Settings,
+  Pill,
+  FlaskConical,
+  BarChart3,
+  Bell,
+  Search,
+  Heart,
+  LogOut,
+  UserPlus,
+  Video,
+  UserCog,
+  LayoutGrid,
+  Home,
+  FileText,
+  ShieldCheck,
+  CircleDollarSign,
+  Activity,
+  BriefcaseMedical,
+  PanelLeftClose,
+  Package,
+  Monitor,
+  Soup,
+} from "lucide-react";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { getUser, logOutFromFrontend, type AuthUser } from "@/lib/auth";
+import { useInactivityLogout } from "@/hooks/useInactivityLogout";
 import type { EntitlementModule } from "@/types/user-management";
 import { Toaster } from "@/components/ui/sonner";
 import { getModuleIcon } from "@/types/mapIcon";
@@ -22,6 +52,12 @@ export function AppLayout({ children }: { children?: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { entitlements, loading: entitlementsLoading } = useEntitlements();
+
+  const redirectToLogin = () => {
+    navigate({ to: "/login" });
+  };
+
+  useInactivityLogout(redirectToLogin);
 
   useEffect(() => {
     const readAuth = () => setUserState(getUser());
