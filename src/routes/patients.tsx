@@ -220,7 +220,7 @@ function Patients() {
   };
 
   return (
-    <AppLayout>
+    <>
       <ToastContainer />
 
       {/* Success Modal */}
@@ -1149,6 +1149,6 @@ function Patients() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AppLayout>
+    </>
   );
 }

@@ -37,7 +37,6 @@ import {
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { getUser, logOutFromFrontend, type AuthUser } from "@/lib/auth";
 import { useInactivityLogout } from "@/hooks/useInactivityLogout";
-import type { EntitlementModule } from "@/types/user-management";
 import { Toaster } from "@/components/ui/sonner";
 import { getModuleIcon } from "@/types/mapIcon";
 import { useEntitlements } from "@/hooks/modules";
