@@ -1,7 +1,6 @@
 ﻿import { createFileRoute, Link } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense, lazy } from "react";
 import {
   User,
   Shield,
@@ -17,7 +16,6 @@ import {
   useRoles,
   useDepartments,
   useShifts,
-  useEntitlements,
   useRolePermissions,
   useHospitalUsers,
   useCreateUser,
@@ -35,12 +33,18 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import DatePicker from "@/components/ui/date-picker";
-import { Toast } from "primereact/toast";
+import { showToast, ToastContainer } from "@/components/ui/toast";
+import { useEntitlements } from "@/hooks/modules";
+import { AppLayout } from "@/components/layout/AppLayout";
 
 export const Route = createFileRoute("/user-management")({
   head: () => ({ meta: [{ title: "User Management â€” Ojas1Cloud HIMS" }] }),
   component: UserManagement,
 });
+
+const PermissionPanel = lazy(
+  () => import("@/components/user-management/PermissionPanel"),
+);
 
 const steps = [
   { n: 1, t: "User Info", i: User },
@@ -123,16 +127,6 @@ function SuccessModal({ data, onClose }: { data: any; onClose: any }) {
 }
 
 function UserManagement() {
-  const toastRef = useRef<Toast>(null);
-  const showErrorToast = (detail: string) => {
-    toastRef.current?.show({
-      severity: "error",
-      summary: "Validation error",
-      detail,
-      life: 3000,
-    });
-  };
-
   const [step, setStep] = useState(1);
 
   // â”€â”€â”€ API Hooks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -385,13 +379,13 @@ function UserManagement() {
     if (validateStep(step)) {
       setStep((prev) => prev + 1);
     } else {
-      showErrorToast("Please fill all required fields.");
+      showToast("error", "Please fill all required fields.");
     }
   };
 
   const goToStep = (target: number) => {
     if (target > step && !validateStep(step)) {
-      showErrorToast("Please fill all required fields.");
+      showToast("error", "Please fill all required fields.");
       return;
     }
     setStep(target);
@@ -401,7 +395,7 @@ function UserManagement() {
 
   async function handleSubmit() {
     if (!validateStep(step)) {
-      showErrorToast("Please fill all required fields.");
+      showToast("error", "Please fill all required fields.");
       return;
     }
 
@@ -458,12 +452,14 @@ function UserManagement() {
       };
 
       const result = await createUser(payload);
+      showToast("success", "Details saved successfully");
       setSuccessData({
         employeeId: result.employeeId,
         email: result.email,
         tempPassword: result.tempPassword,
       });
     } catch {
+      showToast("error", "Unable to save details,Please try again later");
       // error shown inline via submitError
     }
   }
@@ -489,10 +485,10 @@ function UserManagement() {
 
   // â”€â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   return (
-    <AppLayout>
-      <Toast ref={toastRef} position="top-right" />
-      {/* Success Modal */}
+    <>
+      <ToastContainer />
 
+      {/* Success Modal */}
       {successData && (
         <SuccessModal
           data={successData}
@@ -1057,134 +1053,28 @@ function UserManagement() {
             </div>
           }
         >
-          <div id="field-permissions" className="sr-only" />
-          {/* Prefill notice */}
-          {formData.primaryRoleId && (
-            <div className="mb-4 flex items-center gap-2 p-3 bg-primary/5 border border-primary/20 rounded-lg text-xs text-primary">
-              <Check className="w-4 h-4 shrink-0" />
-              {rolePermsLoading
-                ? "Loading role permissions..."
-                : `Permissions pre-filled from selected role. You can modify below.`}
-            </div>
-          )}
-
-          {errors.permissions && (
-            <div className="mb-4 p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-sm text-destructive">
-              {errors.permissions}
-            </div>
-          )}
-
-          <p className="text-xs text-muted-foreground mb-4">
-            Select modules and the specific features this user can access.
-          </p>
-
-          {modulesLoading ? (
-            <div className="text-sm text-muted-foreground py-8 text-center">
-              Loading modules...
-            </div>
-          ) : entitlements.length === 0 ? (
-            <div className="text-sm text-muted-foreground py-8 text-center">
-              No modules available in current package.
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {entitlements.map((module) => {
-                const allSelected = module.features.every(
-                  (f) => selectedPermissions[`${module.id}__${f.id}`],
-                );
-                const someSelected = module.features.some(
-                  (f) => selectedPermissions[`${module.id}__${f.id}`],
-                );
-
-                return (
-                  <div
-                    key={module.id}
-                    className={`border rounded-lg overflow-hidden ${
-                      someSelected
-                        ? "border-primary/30 bg-primary/5"
-                        : "border-border"
-                    }`}
-                  >
-                    {/* Module header row */}
-                    <div className="flex items-center gap-3 px-4 py-3">
-                      <IndeterminateCheckbox
-                        checked={allSelected}
-                        indeterminate={someSelected && !allSelected}
-                        onChange={() =>
-                          toggleAllModuleFeatures(
-                            Number(module.id),
-                            module.features,
-                          )
-                        }
-                      />
-                      <div className="flex-1">
-                        <div className="text-sm font-semibold">
-                          {module.name}
-                        </div>
-                        <div className="text-[10px] text-muted-foreground">
-                          {module.features.length} features
-                        </div>
-                      </div>
-                      {someSelected && (
-                        <div className="text-[10px] text-primary font-medium">
-                          {
-                            module.features.filter(
-                              (f) =>
-                                selectedPermissions[`${module.id}__${f.id}`],
-                            ).length
-                          }{" "}
-                          / {module.features.length} selected
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Features grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 px-4 pb-3">
-                      {module.features.map((feature) => {
-                        const isOn =
-                          !!selectedPermissions[`${module.id}__${feature.id}`];
-                        return (
-                          <label
-                            key={feature.id}
-                            className={`flex items-center gap-2 p-2 rounded-lg text-xs cursor-pointer border ${
-                              isOn
-                                ? "bg-success/10 border-success/30 text-success"
-                                : "border-transparent hover:bg-muted"
-                            }`}
-                          >
-                            <Checkbox
-                              className="rounded"
-                              checked={isOn}
-                              onCheckedChange={() =>
-                                togglePermission(
-                                  Number(module.id),
-                                  Number(feature.id),
-                                )
-                              }
-                            />
-                            {feature.name}
-                          </label>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Summary */}
-          <div className="mt-6 p-4 rounded-lg bg-muted border text-xs">
-            <div className="font-semibold mb-1">Selected Summary</div>
-            <span className="text-primary font-medium">
-              {totalSelectedModules}
-            </span>{" "}
-            module(s) Â·{" "}
-            <span className="text-success font-medium">
-              {totalSelectedFeatures}
-            </span>{" "}
-            permission(s) selected
-          </div>
+          <Suspense
+            fallback={
+              <div className="text-sm text-muted-foreground py-8 text-center">
+                Loading permissions...
+              </div>
+            }
+          >
+            <PermissionPanel
+              entitlements={entitlements}
+              loading={modulesLoading}
+              selectedPermissions={selectedPermissions}
+              togglePermission={togglePermission}
+              toggleAllModuleFeatures={toggleAllModuleFeatures}
+              selectAllPermissions={selectAllPermissions}
+              clearAllPermissions={clearAllPermissions}
+              totalSelectedModules={totalSelectedModules}
+              totalSelectedFeatures={totalSelectedFeatures}
+              formDataPrimaryRoleId={formData.primaryRoleId}
+              rolePermsLoading={rolePermsLoading}
+              errors={errors}
+            />
+          </Suspense>
         </Section>
       )}
 
@@ -1476,7 +1366,7 @@ function UserManagement() {
           </Button>
         )}
       </div>
-    </AppLayout>
+    </>
   );
 }
 

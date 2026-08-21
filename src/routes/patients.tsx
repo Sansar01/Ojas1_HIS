@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
 import { useApiQuery } from "@/lib/hooks/useApiResource";
 import { useRef, useState } from "react";
@@ -29,9 +28,29 @@ import {
   relationOptions,
   bloodGroupOptions,
   maritalStatusOptions,
+  PatientsResponse,
 } from "../types/patient";
 import { api } from "@/lib/api";
-import { Toast } from "primereact/toast";
+import { showToast, ToastContainer } from "@/components/ui/toast";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+  TableExpandableRow,
+  TableLoader,
+  TableSkeleton,
+} from "@/components/ui/table";
+import React from "react";
+import { cn } from "@/lib/utils";
+import { RefreshCw } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { PageLoader } from "@/components/ui/pageLoader";
+import { AppLayout } from "@/components/layout/AppLayout";
 
 export const Route = createFileRoute("/patients")({
   head: () => ({ meta: [{ title: "Patients — Ojas1Cloud HIMS" }] }),
@@ -75,16 +94,10 @@ const initialPatientForm: PatientFormDTO = {
 
 function Patients() {
   const [showPatientDialog, setShowPatientDialog] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [patientForm, setPatientForm] =
     useState<PatientFormDTO>(initialPatientForm);
-  const toastRef = useRef<Toast>(null);
-  const showToast = (severity: any, detail: string) => {
-    toastRef.current?.show({
-      severity,
-      detail,
-      life: 3000,
-    });
-  };
+
   const [submitted, setSubmitted] = useState(false);
 
   const updatePatientField = <K extends keyof PatientFormDTO>(
@@ -109,110 +122,107 @@ function Patients() {
   };
 
   const handlePatientSubmit = async () => {
-    setSubmitted(true);
+    try {
+      setSubmitted(true);
+      setIsSubmitting(true);
 
-    if (
-      !patientForm.firstName.trim() ||
-      !patientForm.lastName.trim() ||
-      !patientForm.age ||
-      !patientForm.gender ||
-      !patientForm.mobile
-    ) {
-      return;
+      if (
+        !patientForm.firstName.trim() ||
+        !patientForm.lastName.trim() ||
+        !patientForm.age ||
+        !patientForm.gender ||
+        !patientForm.mobile
+      ) {
+        showToast("error", "Please fill all the required fields");
+        return;
+      }
+
+      if (isSubmitting) return;
+
+      const payload = {
+        firstName: patientForm.firstName.trim(),
+        lastName: patientForm.lastName.trim() || undefined,
+        gender: patientForm.gender,
+
+        dateOfBirth: patientForm.dateOfBirth
+          ? patientForm.dateOfBirth.toISOString().split("T")[0]
+          : undefined,
+
+        age: patientForm.age ? Number(patientForm.age) : undefined,
+
+        ageUnit: patientForm.ageUnit || undefined,
+        bloodGroup: patientForm.bloodGroup || undefined,
+        maritalStatus: patientForm.maritalStatus || undefined,
+
+        mobile: patientForm.mobile,
+        alternateMobile: Number(patientForm.alternateMobile) || undefined,
+
+        email: patientForm.email.trim().toLowerCase() || undefined,
+
+        address: patientForm.address.trim() || undefined,
+        city: patientForm.city.trim() || undefined,
+        district: patientForm.district.trim() || undefined,
+        state: patientForm.state.trim() || undefined,
+        pincode: patientForm.pincode || undefined,
+
+        aadhaarNumber: patientForm.aadhaarNumber || undefined,
+        abhaId: patientForm.abhaId.trim() || undefined,
+
+        guardianName: patientForm.guardianName.trim() || undefined,
+        guardianRelation: patientForm.guardianRelation || undefined,
+        guardianMobile: Number(patientForm.guardianMobile) || undefined,
+
+        insuranceProvider: patientForm.insuranceProvider.trim() || undefined,
+
+        insurancePolicyNo: patientForm.insurancePolicyNo.trim() || undefined,
+
+        insuranceValidTill: patientForm.insuranceValidTill
+          ? patientForm.insuranceValidTill.toISOString().split("T")[0]
+          : undefined,
+
+        allergies: patientForm.allergies.trim() || undefined,
+        chronicDiseases: patientForm.chronicDiseases.trim() || undefined,
+      };
+
+      await api.post("/api/opd/patients/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: payload,
+      });
+
+      showToast("success", "Details saved successfully");
+
+      setShowPatientDialog(false);
+      setSubmitted(false);
+    } catch {
+      showToast("error", "Failed to save patient details");
+    } finally {
+      setShowPatientDialog(false);
+      setSubmitted(false);
+      setIsSubmitting(false);
     }
-
-    const payload = {
-      firstName: patientForm.firstName.trim(),
-      lastName: patientForm.lastName.trim() || undefined,
-      gender: patientForm.gender,
-
-      dateOfBirth: patientForm.dateOfBirth
-        ? patientForm.dateOfBirth.toISOString().split("T")[0]
-        : undefined,
-
-      age: patientForm.age ? Number(patientForm.age) : undefined,
-
-      ageUnit: patientForm.ageUnit || undefined,
-      bloodGroup: patientForm.bloodGroup || undefined,
-      maritalStatus: patientForm.maritalStatus || undefined,
-
-      mobile: patientForm.mobile,
-      alternateMobile: Number(patientForm.alternateMobile) || undefined,
-
-      email: patientForm.email.trim().toLowerCase() || undefined,
-
-      address: patientForm.address.trim() || undefined,
-      city: patientForm.city.trim() || undefined,
-      district: patientForm.district.trim() || undefined,
-      state: patientForm.state.trim() || undefined,
-      pincode: patientForm.pincode || undefined,
-
-      aadhaarNumber: patientForm.aadhaarNumber || undefined,
-      abhaId: patientForm.abhaId.trim() || undefined,
-
-      guardianName: patientForm.guardianName.trim() || undefined,
-      guardianRelation: patientForm.guardianRelation || undefined,
-      guardianMobile: Number(patientForm.guardianMobile) || undefined,
-
-      insuranceProvider: patientForm.insuranceProvider.trim() || undefined,
-
-      insurancePolicyNo: patientForm.insurancePolicyNo.trim() || undefined,
-
-      insuranceValidTill: patientForm.insuranceValidTill
-        ? patientForm.insuranceValidTill.toISOString().split("T")[0]
-        : undefined,
-
-      allergies: patientForm.allergies.trim() || undefined,
-      chronicDiseases: patientForm.chronicDiseases.trim() || undefined,
-    };
-
-    await api.post("/api/opd/patients/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: payload,
-    });
-
-    // Example:
-    // await patientService.createPatient(payload);
-    showToast("success", "Profile saved");
-
-    setShowPatientDialog(false);
-    setSubmitted(false);
-
-    // Reload patients here
-    // await loadPatients();
   };
 
-  const { data, isLoading, error } = useApiQuery<{
-    patients: Array<{
-      uid: string;
-      name: string;
-      age: string;
-      gender: string;
-      mobile: string;
-      bloodGroup: string;
-      insurance: string;
-      lastVisit: string;
-    }>;
-  }>(["patients"], "/patients", { staleTime: 30_000 });
+  const { data, error, isPending, isFetching, refetch } =
+    useApiQuery<PatientsResponse>(["patient"], "/api/opd/patients", {
+      staleTime: 30_000,
+    });
 
-  const rows = (data?.patients ?? []).map((patient) => [
-    patient.uid,
-    patient.name,
-    patient.age,
-    patient.gender,
-    patient.mobile,
-    patient.bloodGroup,
-    patient.insurance,
-    patient.lastVisit,
-  ]);
+  const [expandedPatient, setExpandedPatient] = React.useState<string | null>(
+    null,
+  );
+
+  const togglePatient = (patientId: string) => {
+    setExpandedPatient((current) => (current === patientId ? null : patientId));
+  };
 
   return (
-    <AppLayout>
-      <Toast ref={toastRef} position="top-right" />
+    <>
+      <ToastContainer />
+
       {/* Success Modal */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Patients</h1>
@@ -224,57 +234,207 @@ function Patients() {
         </div>
       ) : null}
 
-      {/* New Patients */}
-
       <Section
         title="Patient Directory"
         action={
-          <button
-            type="button"
-            onClick={openNewPatient}
-            className="text-xs px-3 py-1.5 bg-primary cursor-pointer text-primary-foreground rounded"
-          >
-            + New Patient
-          </button>
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={() => void refetch()}
+              disabled={isFetching}
+              className="cursor-pointer"
+              title="Refresh patients"
+            >
+              <RefreshCw
+                className={cn(!isFetching ? "h-4 w-4" : "animate-spin")}
+              />
+              <span className="sr-only">Refresh patients</span>
+            </Button>
+
+            <Button
+              type="button"
+              onClick={openNewPatient}
+              className="cursor-pointer"
+            >
+              + New Patient
+            </Button>
+          </div>
         }
       >
-        {isLoading ? (
-          <div className="text-sm text-muted-foreground">Loading patients…</div>
+        {isFetching ? (
+          <TableSkeleton rows={5} columns={8} />
         ) : (
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-xs text-muted-foreground border-b">
-                <th className="pb-2">UHID</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Mobile</th>
-                <th>Blood</th>
-                <th>Insurance</th>
-                <th>Last Visit</th>
-              </tr>
-            </thead>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-10" />
+                <TableHead>UHID</TableHead>
+                <TableHead>First Name</TableHead>
+                <TableHead>Last Name</TableHead>
+                <TableHead>Gender</TableHead>
+                <TableHead>Age</TableHead>
+                <TableHead>Mobile</TableHead>
+                <TableHead>Status</TableHead>
+              </TableRow>
+            </TableHeader>
 
-            <tbody>
-              {rows.map((r) => (
-                <tr
-                  key={r[0]}
-                  className="border-b last:border-0 hover:bg-muted/30"
-                >
-                  <td className="py-3 font-mono text-xs">{r[0]}</td>
-                  <td className="font-medium">{r[1]}</td>
-                  <td>{r[2]}</td>
-                  <td>{r[3]}</td>
-                  <td>{r[4]}</td>
-                  <td>{r[5]}</td>
-                  <td className="text-muted-foreground">{r[6]}</td>
-                  <td>{r[7]}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            {isFetching ? (
+              <TableLoader colSpan={6} rows={5} />
+            ) : (
+              <TableBody>
+                {data?.data.map((patient: any) => {
+                  const isExpanded = expandedPatient === patient.id;
+
+                  return (
+                    <TableExpandableRow
+                      key={patient.id}
+                      expanded={isExpanded}
+                      onExpandedChange={() => togglePatient(patient.id)}
+                      colSpan={6}
+                      expandedContent={
+                        <div className="space-y-5">
+                          {/* Header */}
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="font-semibold">Patient Details</h3>
+
+                              <p className="text-sm text-muted-foreground">
+                                Additional patient information
+                              </p>
+                            </div>
+
+                            <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-medium text-green-700">
+                              {patient.status}
+                            </span>
+                          </div>
+
+                          {/* Details */}
+                          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                            <div>
+                              <p className="text-xs font-medium text-muted-foreground">
+                                Email
+                              </p>
+
+                              <p className="mt-1 text-sm">
+                                {patient.email || "-"}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-xs font-medium text-muted-foreground">
+                                Blood Group
+                              </p>
+
+                              <p className="mt-1 text-sm">
+                                {patient.bloodGroup || "-"}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-xs font-medium text-muted-foreground">
+                                ABHA ID
+                              </p>
+
+                              <p className="mt-1 text-sm">
+                                {patient.abhaId || "-"}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-xs font-medium text-muted-foreground">
+                                Patient Type
+                              </p>
+
+                              <p className="mt-1 text-sm">
+                                {patient.patientType || "-"}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-xs font-medium text-muted-foreground">
+                                Address
+                              </p>
+
+                              <p className="mt-1 text-sm">
+                                {patient.address || "-"}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-xs font-medium text-muted-foreground">
+                                City
+                              </p>
+
+                              <p className="mt-1 text-sm">
+                                {patient.city || "-"}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-xs font-medium text-muted-foreground">
+                                District
+                              </p>
+
+                              <p className="mt-1 text-sm">
+                                {patient.district || "-"}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p className="text-xs font-medium text-muted-foreground">
+                                State
+                              </p>
+
+                              <p className="mt-1 text-sm">
+                                {patient.state || "-"}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                    >
+                      <TableCell className="font-medium">
+                        {patient.uhid}
+                      </TableCell>
+
+                      <TableCell>{patient.firstName}</TableCell>
+
+                      <TableCell>{patient.lastName}</TableCell>
+
+                      <TableCell>{patient.gender}</TableCell>
+
+                      <TableCell>
+                        {patient.age
+                          ? `${patient.age} ${patient.ageUnit}`
+                          : "-"}
+                      </TableCell>
+
+                      <TableCell>{patient.mobile}</TableCell>
+
+                      <TableCell>
+                        <span
+                          className={cn(
+                            "inline-flex rounded-full px-2.5 py-1 text-xs font-medium",
+                            patient.status === "ACTIVE"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-muted text-muted-foreground",
+                          )}
+                        >
+                          {patient.status}
+                        </span>
+                      </TableCell>
+                    </TableExpandableRow>
+                  );
+                })}
+              </TableBody>
+            )}
+          </Table>
         )}
       </Section>
+
+      {isSubmitting && <PageLoader />}
 
       {/* Patient Form */}
       <Dialog
@@ -989,6 +1149,6 @@ function Patients() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </AppLayout>
+    </>
   );
 }

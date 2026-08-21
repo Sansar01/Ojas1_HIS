@@ -2,6 +2,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { api } from "@/lib/api";
+import { getUser } from "@/lib/auth";
+import {
+  getCachedEntitlements,
+  fetchEntitlements,
+} from "@/lib/entitlements";
 import type {
   HospitalRole,
   Department,
@@ -89,46 +94,7 @@ export function useShifts() {
 
 // src/hooks/useUserManagement.ts
 
-export function useEntitlements() {
-  const [entitlements, setEntitlements] = useState<EntitlementModule[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    api
-      .get<any[]>("/api/hospital/roles/entitlements/modules")
-      .then((data) => {
-        console.log("Entitlements API response:", data);
-        if (!Array.isArray(data)) {
-          console.warn("Entitlements response is not an array:", data);
-          setEntitlements([]);
-          return;
-        }
-        const transformed: EntitlementModule[] = data.map((module) => ({
-          id: module.id,
-          name: module.name,
-          code: module.code,
-          route: module.route || "",
-          icon: module.icon || "",
-          isActive: module.isActive !== false,
-          features: (module.features || []).map((mf: any) => ({
-            id: mf.feature?.id || mf.id,
-            name: mf.feature?.name || mf.name,
-            code: mf.feature?.code || mf.code,
-          })),
-        }));
-        console.log("Transformed entitlements:", transformed);
-        setEntitlements(transformed);
-      })
-      .catch((e) => {
-        console.error("Failed to fetch entitlements:", e);
-        setError(e.message);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  return { entitlements, loading, error };
-}
 
 // ─── Role Permissions (prefill Step 2+3) ─────────
 export function useRolePermissions(roleId: string | null) {

@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
 import { useHospitalUsers } from "@/hooks/useUserManagement";
 import { ArrowLeft, Search, UserCog } from "lucide-react";
@@ -13,7 +12,8 @@ function CreatedUsersPage() {
   const { users, loading, error } = useHospitalUsers();
 
   return (
-    <AppLayout>
+    <>
+ 
       <div className="mb-6 flex items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold">Created Users</h1>
@@ -76,6 +76,7 @@ function CreatedUsersPage() {
           </div>
         )}
       </Section>
-    </AppLayout>
+
+         </>
   );
 }

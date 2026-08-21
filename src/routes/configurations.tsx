@@ -1,5 +1,4 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import {
   UserPlus,
   Calendar,
@@ -119,7 +118,7 @@ function Configurations() {
   };
 
   return (
-    <AppLayout>
+    <>
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Get Modules</h1>
@@ -169,6 +168,6 @@ function Configurations() {
       <div className="mt-6 hidden">
         <Link to="/">home</Link>
       </div>
-    </AppLayout>
+    </>
   );
 }

@@ -34,107 +34,14 @@ import {
   Monitor,
   Soup,
 } from "lucide-react";
-import { useEffect, useState, type ReactNode } from "react";
-import {
-  canAccess,
-  getUser,
-  logOutFromFrontend,
-  type AuthUser,
-} from "@/lib/auth";
-import { useEntitlements } from "@/hooks/useUserManagement";
-import type { EntitlementModule } from "@/types/user-management";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { getUser, logOutFromFrontend, type AuthUser } from "@/lib/auth";
+import { useInactivityLogout } from "@/hooks/useInactivityLogout";
 import { Toaster } from "@/components/ui/sonner";
+import { getModuleIcon } from "@/types/mapIcon";
+import { useEntitlements } from "@/hooks/modules";
 
 const ALWAYS_VISIBLE = new Set(["/", "/configurations"]);
-
-function mapIcon(iconName?: string) {
-  const normalized = (iconName || "").toLowerCase();
-  switch (normalized) {
-    case "dashboard":
-    case "home":
-      return LayoutDashboard;
-    case "users":
-    case "user":
-      return Users;
-    case "appointments":
-    case "calendar":
-      return Calendar;
-    case "consultation":
-    case "stethoscope":
-      return Stethoscope;
-    case "queue":
-    case "clipboard":
-      return ClipboardList;
-    case "billing":
-    case "receipt":
-    case "money":
-      return Receipt;
-    case "settings":
-    case "config":
-      return Settings;
-    case "pharmacy":
-    case "pill":
-      return Pill;
-    case "lab":
-    case "radiology":
-      return FlaskConical;
-    case "reports":
-    case "graph":
-      return BarChart3;
-    case "patient":
-    case "patients":
-      return UserPlus;
-    case "teleconsultation":
-    case "video":
-      return Video;
-    case "user-management":
-    case "user":
-      return UserCog;
-    case "module":
-    case "grid":
-      return LayoutGrid;
-    case "file":
-      return FileText;
-    case "shield":
-      return ShieldCheck;
-    case "dollar":
-      return CircleDollarSign;
-    case "activity":
-      return Activity;
-    case "medical":
-      return BriefcaseMedical;
-    case "package":
-      return Package;
-    case "monitor":
-      return Monitor;
-    case "soup":
-      return Soup;
-    default:
-      return LayoutGrid;
-  }
-}
-
-function buildNavItems(entitlements: EntitlementModule[], isLoading: boolean) {
-  // While loading, return empty
-  if (isLoading) {
-    return [];
-  }
-
-  if (entitlements.length === 0) {
-    return [];
-  }
-
-  const mapped = entitlements
-    .filter((module) => module.isActive !== false)
-    .map((module) => ({
-      to: module.route || "/",
-      label: module.name,
-      icon: mapIcon(module.icon),
-    }));
-
-  // Return mapped entitlements or empty array
-  return mapped;
-}
 
 export function AppLayout({ children }: { children?: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
@@ -144,6 +51,12 @@ export function AppLayout({ children }: { children?: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { entitlements, loading: entitlementsLoading } = useEntitlements();
+
+  const redirectToLogin = () => {
+    navigate({ to: "/login" });
+  };
+
+  useInactivityLogout(redirectToLogin);
 
   useEffect(() => {
     const readAuth = () => setUserState(getUser());
@@ -174,22 +87,27 @@ export function AppLayout({ children }: { children?: ReactNode }) {
     if (ready && !user) navigate({ to: "/login" });
   }, [ready, user, navigate]);
 
-  // Redirect if role can't access the current route
-  useEffect(() => {
-    if (ready && user && !canAccess(user.role, path)) navigate({ to: "/" });
-  }, [ready, user, path, navigate]);
+  const visibleNav = useMemo(() => {
+    if (entitlementsLoading) return [];
+
+    return entitlements
+      .filter((module) => module.isActive)
+      .filter((module) => module.route)
+      .sort((a, b) => {
+        // If you have sortOrder in your type
+        return (a.sortOrder ?? 0) - (b.sortOrder ?? 0);
+      })
+      .map((module) => ({
+        label: module.name,
+        to: module.route,
+        icon: getModuleIcon(module.icon),
+      }));
+  }, [entitlements, entitlementsLoading]);
 
   if (!ready || !user) return null;
-
-  const nav = buildNavItems(entitlements, entitlementsLoading);
   // Don't filter by role here—route protection in __root.tsx handles access control.
   // Show all available modules in the sidebar; the router will prevent unauthorized navigation.
   // When sidebar is collapsed, show all nav items; when expanded, apply selected filter
-  const visibleNav = sidebarCollapsed
-    ? nav
-    : selected
-      ? nav.filter((n) => ALWAYS_VISIBLE.has(n.to) || n.to === selected)
-      : nav;
 
   const onLogout = async () => {
     const response = await logOutFromFrontend();
@@ -203,8 +121,12 @@ export function AppLayout({ children }: { children?: ReactNode }) {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <aside className={`${sidebarCollapsed ? "w-20" : "w-64"} shrink-0 bg-sidebar text-sidebar-foreground flex flex-col transition-all duration-300`}>
-        <div className={`p-5 flex items-center gap-3 border-b border-sidebar-border ${sidebarCollapsed ? "justify-center" : ""}`}>
+      <aside
+        className={`${sidebarCollapsed ? "w-20" : "w-64"} shrink-0 bg-sidebar text-sidebar-foreground flex flex-col transition-all duration-300`}
+      >
+        <div
+          className={`p-5 flex items-center gap-3 border-b border-sidebar-border ${sidebarCollapsed ? "justify-center" : ""}`}
+        >
           <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
             <Heart className="w-5 h-5 text-primary-foreground fill-primary" />
           </div>
@@ -219,40 +141,60 @@ export function AppLayout({ children }: { children?: ReactNode }) {
             </div>
           )}
         </div>
-        <nav className="p-3 flex-1 overflow-y-auto">
-          <div className={`text-[10px] uppercase tracking-wider text-sidebar-foreground/50 px-3 py-2 ${sidebarCollapsed ? "text-center" : ""}`}>
-            {entitlementsLoading ? (sidebarCollapsed ? "..." : "Loading modules...") : (sidebarCollapsed ? "•" : "Navigation")}
+        <nav className="flex-1 overflow-y-auto p-3">
+          <div
+            className={`px-3 py-2 text-[10px] uppercase tracking-wider text-sidebar-foreground/50 ${
+              sidebarCollapsed ? "text-center" : ""
+            }`}
+          >
+            {entitlementsLoading
+              ? sidebarCollapsed
+                ? "..."
+                : "Loading modules..."
+              : sidebarCollapsed
+                ? "•"
+                : "Navigation"}
           </div>
+
           {visibleNav.length > 0 ? (
             visibleNav.map((item) => {
               const active =
                 item.to === "/" ? path === "/" : path.startsWith(item.to);
+
               const Icon = item.icon;
+
               return (
                 <Link
                   key={item.to}
                   to={item.to}
                   title={sidebarCollapsed ? item.label : ""}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg mb-1 text-sm transition-colors ${
+                  className={`mb-1 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
                     sidebarCollapsed ? "justify-center" : ""
                   } ${
                     active
                       ? "bg-primary text-primary-foreground shadow"
-                      : "hover:bg-sidebar-accent text-sidebar-foreground/85"
+                      : "text-sidebar-foreground/85 hover:bg-sidebar-accent"
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="h-4 w-4" />
+
                   {!sidebarCollapsed && item.label}
                 </Link>
               );
             })
           ) : !entitlementsLoading ? (
-            <div className={`text-[11px] text-sidebar-foreground/60 px-3 py-4 text-center ${sidebarCollapsed ? "hidden" : ""}`}>
+            <div
+              className={`px-3 py-4 text-center text-[11px] text-sidebar-foreground/60 ${
+                sidebarCollapsed ? "hidden" : ""
+              }`}
+            >
               No modules available
             </div>
           ) : null}
         </nav>
-        <div className={`p-4 border-t border-sidebar-border flex items-center gap-3 flex-shrink-0 ${sidebarCollapsed ? "flex-col" : ""}`}>
+        <div
+          className={`p-4 border-t border-sidebar-border flex items-center gap-3 flex-shrink-0 ${sidebarCollapsed ? "flex-col" : ""}`}
+        >
           <div className="w-9 h-9 rounded-full bg-primary/30 flex items-center justify-center text-xs font-semibold flex-shrink-0">
             {user.initials}
           </div>
@@ -280,7 +222,9 @@ export function AppLayout({ children }: { children?: ReactNode }) {
             title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
             className="w-full p-2 rounded-lg hover:bg-sidebar-accent flex items-center justify-center"
           >
-            <PanelLeftClose className={`w-4 h-4 transition-transform duration-300 ${sidebarCollapsed ? "rotate-180" : ""}`} />
+            <PanelLeftClose
+              className={`w-4 h-4 transition-transform duration-300 ${sidebarCollapsed ? "rotate-180" : ""}`}
+            />
           </button>
         </div>
       </aside>

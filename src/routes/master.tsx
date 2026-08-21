@@ -1,6 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Section } from "@/components/hims/Kpi";
 import { UserCog, Shield, ClipboardList, Percent, Cog, X } from "lucide-react";
 
@@ -77,7 +76,7 @@ function Master() {
   const [itemFormOpen, setItemFormOpen] = useState<ItemType | null>(null);
   const [globalOpen, setGlobalOpen] = useState(false);
   return (
-    <AppLayout>
+    <>
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Master Configuration</h1>
         <p className="text-sm text-muted-foreground">
@@ -237,7 +236,7 @@ function Master() {
         />
       )}
       {globalOpen && <GlobalMasterModal onClose={() => setGlobalOpen(false)} />}
-    </AppLayout>
+    </>
   );
 }
 

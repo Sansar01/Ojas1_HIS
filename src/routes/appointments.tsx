@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AppLayout } from "@/components/layout/AppLayout";
 import { Kpi, Section } from "@/components/hims/Kpi";
 import { useApiQuery } from "@/lib/hooks/useApiResource";
 import {
@@ -121,7 +120,7 @@ function Appointments() {
   const metrics = data?.appointmentMetrics;
 
   return (
-    <AppLayout>
+    <>
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Appointment Booking</h1>
         <p className="text-sm text-muted-foreground">
@@ -381,6 +380,6 @@ function Appointments() {
           </div>
         </Section>
       </div>
-    </AppLayout>
+    </>
   );
 }

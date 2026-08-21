@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { Heart, Loader2, LogIn } from "lucide-react";
 import { getUser, loginWithBackend } from "@/lib/auth";
+import { fetchEntitlements } from "@/lib/entitlements";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -40,11 +41,17 @@ function LoginPage() {
 
     try {
       const user = await loginWithBackend(email.trim(), password);
-      // navigate({ to: "/" });
+
+      try {
+        await fetchEntitlements(true);
+      } catch {
+        // keep login flow moving even if entitlement prefetch fails; cache can be refreshed later
+      }
+
       if (user.forcePasswordChange) {
-        navigate({ to: "/change-password" }); // ← redirect here
+        navigate({ to: "/change-password" });
       } else {
-        navigate({ to: "/" }); // ← home/dashboard route
+        navigate({ to: "/" });
       }
     } catch (err) {
       setError(

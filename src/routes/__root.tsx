@@ -4,15 +4,14 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
-  HeadContent,
-  Scripts,
+  useRouterState,
   redirect,
 } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 
-import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { getUser } from "../lib/auth";
+import { AppLayout } from "@/components/layout/AppLayout";
 
 function NotFoundComponent() {
   return (
@@ -90,69 +89,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         throw redirect({ to: "/login" });
       }
     },
-    head: () => ({
-      meta: [
-        { charSet: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { title: "Dashboard —ojas1hims" },
-        {
-          name: "description",
-          content: "Real-time overview of hospital operations.",
-        },
-        { property: "og:title", content: "Dashboard —ojas1hims" },
-        {
-          property: "og:description",
-          content: "Real-time overview of hospital operations.",
-        },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:title", content: "Dashboard —ojas1hims" },
-        {
-          name: "twitter:description",
-          content: "Real-time overview of hospital operations.",
-        },
-        {
-          property: "og:image",
-          content:
-            "https://storage.googleapis.com/gpt-engineer-file-uploads/4p7Xi69T4YZHW0E2nZ8RKLOkxGq2/social-images/social-1783457782651-Ojas1_Brand_Logo.webp",
-        },
-        {
-          name: "twitter:image",
-          content:
-            "https://storage.googleapis.com/gpt-engineer-file-uploads/4p7Xi69T4YZHW0E2nZ8RKLOkxGq2/social-images/social-1783457782651-Ojas1_Brand_Logo.webp",
-        },
-      ],
-      links: [
-        {
-          rel: "stylesheet",
-          href: appCss,
-        },
-        { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-      ],
-    }),
-    shellComponent: RootShell,
     component: RootComponent,
     notFoundComponent: NotFoundComponent,
     errorComponent: ErrorComponent,
   },
 );
 
-function RootShell({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
@@ -180,8 +125,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      {pathname === "/login" ? (
+        <Outlet />
+      ) : (
+        <AppLayout>
+          <Outlet />
+        </AppLayout>
+      )}
     </QueryClientProvider>
   );
 }

@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { api } from "@/lib/api";
 import { getUser, setUser } from "@/lib/auth";
 import { CalendarClock, Check, UserRound } from "lucide-react";
-import { AppLayout } from "@/components/layout/AppLayout";
 import * as Checkbox from "@radix-ui/react-checkbox";
 import {
   Select,
@@ -20,6 +19,7 @@ import {
   CreateDoctorProfile,
   Slot,
 } from "@/types/doctorSlot";
+import { showToast, ToastContainer } from "@/components/ui/toast";
 
 export const Route = createFileRoute("/doctorSlot")({
   head: () => ({ meta: [{ title: "Doctor Slot Management Ojas1Cloud HIMS" }] }),
@@ -101,15 +101,6 @@ const F: React.FC<{ label: string; children: React.ReactNode }> = ({
 );
 
 function DoctorSlot() {
-  const toastRef = useRef<Toast>(null);
-  const showToast = (
-    severity: "success" | "error",
-    summary: string,
-    detail = summary,
-  ) => {
-    toastRef.current?.show({ severity, summary, detail, life: 3000 });
-  };
-
   const initialSlots: Record<string, Slot> = days.reduce(
     (acc, d) => {
       acc[String(d.dayOfWeek)] = { enabled: false, from: "09:00", to: "17:00" };
@@ -129,11 +120,7 @@ function DoctorSlot() {
       setSaving(true);
       const doctorId = getUser("doctorProfileTenantId");
       if (!doctorId) {
-        showToast(
-          "error",
-          "Doctor not found",
-          "Could not determine current doctor ID.",
-        );
+        showToast("error", "Could not determine current doctor Id");
         setSaving(false);
         return;
       }
@@ -164,14 +151,10 @@ function DoctorSlot() {
         body: payload,
       });
 
-      showToast(
-        "success",
-        "Availability saved",
-        "Availability saved successfully.",
-      );
+      showToast("success", "Availability saved successfully.");
     } catch (err) {
       console.error(err);
-      showToast("error", "Save failed", "Failed to save availability slot.");
+      showToast("error", "Failed to save availability slot.");
     } finally {
       setSaving(false);
     }
@@ -279,11 +262,7 @@ function DoctorSlot() {
       const user = getUser("doctorProfile");
       const doctorId = user?.id;
       if (!doctorId) {
-        showToast(
-          "error",
-          "Doctor not found",
-          "Could not determine doctor ID.",
-        );
+        showToast("error", "Could not determine current doctor Id");
         setSavingProfile(false);
         return;
       }
@@ -300,20 +279,20 @@ function DoctorSlot() {
 
       setUser(res, "doctorProfile");
 
-      showToast("success", "Profile saved");
+      showToast("success", "Details saved successfully");
       setView("slots");
     } catch (err) {
       console.error(err);
-      showToast("error", "Save failed", "Failed to save profile.");
+      showToast("error", "Failed to save details.");
     } finally {
       setSavingProfile(false);
     }
   }
 
   return (
-    <AppLayout>
+    <>
       <div>
-        <Toast ref={toastRef} position="top-right" />
+        <ToastContainer />
         <div className="mb-6 overflow-x-auto rounded-xl border p-4">
           <div className="flex min-w-[500px] items-center justify-between">
             {doctorSlotSteps.map((step, index) => {
@@ -671,6 +650,6 @@ function DoctorSlot() {
           </div>
         )}
       </div>
-    </AppLayout>
+    </>
   );
 }
