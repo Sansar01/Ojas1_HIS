@@ -56,7 +56,7 @@ export function AppLayout({ children }: { children?: ReactNode }) {
     navigate({ to: "/login" });
   };
 
-  useInactivityLogout(redirectToLogin);
+  // useInactivityLogout(redirectToLogin);
 
   useEffect(() => {
     const readAuth = () => setUserState(getUser());
