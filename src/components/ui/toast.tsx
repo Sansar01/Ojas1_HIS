@@ -11,6 +11,7 @@ export const showToast = (
     severity,
     summary,
     life: 3000,
+    className: severity ? severityType[severity] : "",
   });
 };
 
@@ -26,4 +27,11 @@ export const ToastContainer = () => {
   }, []);
 
   return <Toast ref={ref} />;
+};
+
+const severityType: any = {
+  error:
+    "!bg-red-600 !border-red-600 !text-white [&_.p-toast-message-text]:!text-white [&_.p-toast-summary]:!text-white [&_.p-toast-detail]:!text-white [&_.p-toast-message-icon]:!text-white [&_.p-toast-icon-close]:!text-white",
+  success:
+    "!bg-green-600 !border-green-600 !text-white [&_.p-toast-message-text]:!text-white [&_.p-toast-summary]:!text-white [&_.p-toast-detail]:!text-white [&_.p-toast-message-icon]:!text-white [&_.p-toast-icon-close]:!text-white",
 };
