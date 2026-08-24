@@ -17,6 +17,8 @@ import { showToast } from "@/components/ui/toast";
 import { PageLoader } from "@/components/ui/pageLoader";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { AvailabilityResponse } from "@/types/doctorSlot";
+import { getUser } from "@/lib/auth";
 
 export const Route = createFileRoute("/appointments")({
   head: () => ({ meta: [{ title: "Appointments — Ojas1Cloud HIMS" }] }),
@@ -65,53 +67,77 @@ const slotsAfternoon = [
 function Appointments() {
   const [selectedDoc, setDoc] = useState(0);
   const [selectedDay, setDay] = useState(0);
-  const [selectedSlot, setSlot] = useState("04:00 PM");
+  // const [selectedSlot, setSlot] = useState("04:00 PM");
   const [mode, setMode] = useState<"physical" | "tele">("physical");
   const [users, setUsers] = useState<HospitalUser[]>([]);
+  const [selectedSlot, setSlot] = useState<AvailabilityResponse[]>([]);
+  const doctorProfile = getUser("doctorProfile");
 
   useEffect(() => {
-    function getUserList() {
-      PageLoader.show();
-      api
-        .get<any[]>("/api/hospital/users", {
-          params: { status: "ACTIVE", userType: "DOCTOR" },
-        })
-        .then((data) => {
-          if (!Array.isArray(data)) {
-            setUsers([]);
-            return;
-          }
-
-          const transformed: HospitalUser[] = data.map((u) => ({
-            id: u.id,
-            employeeId: u.staffProfile?.employeeId || "",
-            email: u.email || "",
-            userType: u.userType || "REGULAR_USER",
-            isActive: u.status === "ACTIVE",
-            profile: {
-              firstName: u.firstName || "",
-              lastName: u.lastName || "",
-              //phone: u.mobile || "",
-            },
-            roles: (u.roles || []).map((r: any) => ({
-              roleId: r.hospitalRoleId || "",
-              roleName: r.hospitalRole?.roleName?.name || "",
-              isPrimary: r.isPrimary ?? false,
-            })),
-            departments: (u.departments || []).map((d: any) => ({
-              departmentId: d.departmentId || "",
-              departmentName: d.department?.name || "",
-            })),
-          }));
-
-          setUsers(transformed);
-        })
-        .catch((e) => showToast("error", e.message))
-        .finally(() => PageLoader.stop());
-    }
-
     getUserList();
+    getDoctorAvailableSlot();
   }, []);
+
+  function getUserList() {
+    PageLoader.show();
+    api
+      .get<any[]>("/api/hospital/users", {
+        params: { status: "ACTIVE", userType: "DOCTOR" },
+      })
+      .then((data) => {
+        if (!Array.isArray(data)) {
+          setUsers([]);
+          return;
+        }
+
+        const transformed: HospitalUser[] = data.map((u) => ({
+          id: u.id,
+          employeeId: u.staffProfile?.employeeId || "",
+          email: u.email || "",
+          userType: u.userType || "REGULAR_USER",
+          isActive: u.status === "ACTIVE",
+          profile: {
+            firstName: u.firstName || "",
+            lastName: u.lastName || "",
+            //phone: u.mobile || "",
+          },
+          roles: (u.roles || []).map((r: any) => ({
+            roleId: r.hospitalRoleId || "",
+            roleName: r.hospitalRole?.roleName?.name || "",
+            isPrimary: r.isPrimary ?? false,
+          })),
+          departments: (u.departments || []).map((d: any) => ({
+            departmentId: d.departmentId || "",
+            departmentName: d.department?.name || "",
+          })),
+        }));
+
+        setUsers(transformed);
+      })
+      .catch((e) => showToast("error", e.message))
+      .finally(() => PageLoader.stop());
+  }
+
+  function getDoctorAvailableSlot() {
+    PageLoader.show();
+    api
+      .get<any[]>("/api/opd/appointments/slots", {
+        params: {
+          doctorProfileId: doctorProfile.id,
+          date: new Date().toISOString(),
+        },
+      })
+      .then((data) => {
+        if (!Array.isArray(data)) {
+          setSlot([]);
+          return;
+        }
+
+        setSlot(data);
+      })
+      .catch((e) => showToast("error", e.message || "No slot available"))
+      .finally(() => PageLoader.stop());
+  }
 
   const { data, isLoading, error } = useApiQuery<{
     appointmentMetrics: {
@@ -325,7 +351,7 @@ function Appointments() {
                         type="button"
                         onClick={() => {
                           setDay(i);
-                          setSlot("");
+                          setSlot([]);
                         }}
                         className={`flex flex-row items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-center transition-colors ${
                           i === selectedDay
@@ -369,7 +395,7 @@ function Appointments() {
                     </div>
 
                     <div className="mb-4 w-full">
-                      <ToggleGroup
+                      {/* <ToggleGroup
                         type="single"
                         value={selectedSlot}
                         onValueChange={(val) => val && setSlot(val)}
@@ -384,7 +410,7 @@ function Appointments() {
                             {s}
                           </ToggleGroupItem>
                         ))}
-                      </ToggleGroup>
+                      </ToggleGroup> */}
                     </div>
 
                     <div className="mb-2 text-xs text-muted-foreground">
@@ -392,7 +418,7 @@ function Appointments() {
                     </div>
 
                     <div className="grid grid-cols-5 gap-2">
-                      {slotsAfternoon.map((s) => (
+                      {/* {slotsAfternoon.map((s) => (
                         <button
                           key={s}
                           type="button"
@@ -405,7 +431,7 @@ function Appointments() {
                         >
                           {s}
                         </button>
-                      ))}
+                      ))} */}
                     </div>
                   </div>
                 </>
