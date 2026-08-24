@@ -146,21 +146,13 @@ function DoctorSlot() {
       try {
         PageLoader.show();
         const user = getUser("authUser");
-        const doctorsResponse = await api.get<any>(`/api/opd/doctors/list`);
-
-        const doctorProfileTenantId = doctorsResponse?.data?.find(
-          (x: any) => x.hospitalUserId === user?.userId,
-        )?.id;
-
-        if (!doctorProfileTenantId) {
-          return;
-        }
-
-        setUser(doctorProfileTenantId, "doctorProfileTenantId");
+        const doctorsResponse = await api.get<any>(
+          `/api/hospital/users/${user.userId}`,
+        );
 
         const availabilityResponse = await api.get<
           AvailabilityResponse | { data: AvailabilityResponse }
-        >(`/api/opd/doctors/${doctorProfileTenantId}/availability`);
+        >(`/api/opd/doctors/${doctorsResponse.id}/availability`);
         const availability =
           "data" in availabilityResponse
             ? availabilityResponse.data
@@ -216,7 +208,7 @@ function DoctorSlot() {
     fetchDoctorAvailability();
   }, []);
 
-  // update doctor profile
+  // update doctor profile first
 
   async function saveProfile() {
     try {
@@ -259,8 +251,8 @@ function DoctorSlot() {
   async function handleSave() {
     try {
       setSaving(true);
-      const doctorId = getUser("doctorProfileTenantId");
-      if (!doctorId) {
+      const doctorId = getUser("doctorProfile");
+      if (!doctorId.id) {
         showToast("error", "Could not determine current doctor Id");
         setSaving(false);
         return;
@@ -283,7 +275,7 @@ function DoctorSlot() {
         bufferTimeMins: doctorProfile.bufferTimeMins,
       };
 
-      await api.post(`/api/opd/doctors/${doctorId}/availability`, {
+      await api.post(`/api/opd/doctors/${doctorId.id}/availability`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

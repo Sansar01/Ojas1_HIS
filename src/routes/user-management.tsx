@@ -407,7 +407,7 @@ function UserManagement() {
           email: formData.email,
           mobile: formData.mobile || undefined,
           alternateMobile: formData.alternateMobile || undefined,
-          userType: formData.userType || "regular",
+          userType: formData.userType || "REGULAR",
         },
         staffProfile: {
           title: formData.title || undefined,

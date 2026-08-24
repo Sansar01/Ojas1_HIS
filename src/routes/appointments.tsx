@@ -15,56 +15,13 @@ import { api } from "@/lib/api";
 import { HospitalUser } from "@/types/user-management";
 import { showToast } from "@/components/ui/toast";
 import { PageLoader } from "@/components/ui/pageLoader";
+import { Button } from "@/components/ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export const Route = createFileRoute("/appointments")({
   head: () => ({ meta: [{ title: "Appointments — Ojas1Cloud HIMS" }] }),
   component: Appointments,
 });
-
-const doctors = [
-  {
-    n: "Dr. Arjun Mehta",
-    s: "Cardiology",
-    exp: "12+ Years Exp.",
-    status: "Available",
-    rating: 4.9,
-  },
-  {
-    n: "Dr. Neha Sharma",
-    s: "Dermatology",
-    exp: "8+ Years Exp.",
-    status: "Available",
-    rating: 4.8,
-  },
-  {
-    n: "Dr. Rajeev Kumar",
-    s: "Orthopedics",
-    exp: "15+ Years Exp.",
-    status: "Few Slots",
-    rating: 4.7,
-  },
-  {
-    n: "Dr. Priya Singh",
-    s: "General Medicine",
-    exp: "10+ Years Exp.",
-    status: "Available",
-    rating: 4.9,
-  },
-  {
-    n: "Dr. Sandeep Verma",
-    s: "Neurology",
-    exp: "14+ Years Exp.",
-    status: "Few Slots",
-    rating: 4.6,
-  },
-  {
-    n: "Dr. Anjali Desai",
-    s: "Gynecology",
-    exp: "9+ Years Exp.",
-    status: "Available",
-    rating: 4.8,
-  },
-];
 
 const days = [
   { d: "Tue", n: "20 May" },
@@ -111,46 +68,49 @@ function Appointments() {
   const [selectedSlot, setSlot] = useState("04:00 PM");
   const [mode, setMode] = useState<"physical" | "tele">("physical");
   const [users, setUsers] = useState<HospitalUser[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    PageLoader.show();
-    api
-      .get<any[]>("/api/hospital/users", {
-        params: { status: "ACTIVE", userType: "DOCTOR" },
-      })
-      .then((data) => {
-        if (!Array.isArray(data)) {
-          setUsers([]);
-          return;
-        }
+    function getUserList() {
+      PageLoader.show();
+      api
+        .get<any[]>("/api/hospital/users", {
+          params: { status: "ACTIVE", userType: "DOCTOR" },
+        })
+        .then((data) => {
+          if (!Array.isArray(data)) {
+            setUsers([]);
+            return;
+          }
 
-        const transformed: HospitalUser[] = data.map((u) => ({
-          id: u.id,
-          employeeId: u.staffProfile?.employeeId || "",
-          email: u.email || "",
-          userType: u.userType || "REGULAR_USER",
-          isActive: u.status === "ACTIVE",
-          profile: {
-            firstName: u.firstName || "",
-            lastName: u.lastName || "",
-            //phone: u.mobile || "",
-          },
-          roles: (u.roles || []).map((r: any) => ({
-            roleId: r.hospitalRoleId || "",
-            roleName: r.hospitalRole?.roleName?.name || "",
-            isPrimary: r.isPrimary ?? false,
-          })),
-          departments: (u.departments || []).map((d: any) => ({
-            departmentId: d.departmentId || "",
-            departmentName: d.department?.name || "",
-          })),
-        }));
+          const transformed: HospitalUser[] = data.map((u) => ({
+            id: u.id,
+            employeeId: u.staffProfile?.employeeId || "",
+            email: u.email || "",
+            userType: u.userType || "REGULAR_USER",
+            isActive: u.status === "ACTIVE",
+            profile: {
+              firstName: u.firstName || "",
+              lastName: u.lastName || "",
+              //phone: u.mobile || "",
+            },
+            roles: (u.roles || []).map((r: any) => ({
+              roleId: r.hospitalRoleId || "",
+              roleName: r.hospitalRole?.roleName?.name || "",
+              isPrimary: r.isPrimary ?? false,
+            })),
+            departments: (u.departments || []).map((d: any) => ({
+              departmentId: d.departmentId || "",
+              departmentName: d.department?.name || "",
+            })),
+          }));
 
-        setUsers(transformed);
-      })
-      .catch((e) => showToast("error", e.message))
-      .finally(() => PageLoader.stop());
+          setUsers(transformed);
+        })
+        .catch((e) => showToast("error", e.message))
+        .finally(() => PageLoader.stop());
+    }
+
+    getUserList();
   }, []);
 
   const { data, isLoading, error } = useApiQuery<{
@@ -265,18 +225,19 @@ function Appointments() {
                   <button
                     key={d.id}
                     onClick={() => setDoc(i)}
-                    className={`w-full text-left p-3 border-b last:border-0 hover:bg-muted ${i === selectedDoc ? "bg-primary/5 border-l-4 border-l-primary" : ""}`}
+                    className={`w-full text-left p-3 border-b cursor-pointer last:border-0 hover:bg-muted ${d.isActive === true ? "bg-primary/5 border-l-4 border-l-primary" : ""}`}
                   >
                     <div className="flex items-center gap-2">
                       <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center text-xs font-semibold">
-                        {/* {d.n.split(" ")[1][0]} */}
+                        {d.profile?.firstName?.charAt(0)}
+                        {d.profile?.lastName?.charAt(0)}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="text-sm font-semibold truncate">
                           {d.profile.firstName} {d.profile.lastName}
                         </div>
                         <div className="text-[11px] text-muted-foreground">
-                          {d.profile.firstName}
+                          {d.departments?.[0]?.departmentName}
                         </div>
                       </div>
                       <span
@@ -291,103 +252,164 @@ function Appointments() {
             </div>
 
             <div className="col-span-2 space-y-4">
-              <div className="flex items-center gap-3 p-3 border rounded-lg">
-                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-                  {doctors[selectedDoc].n.split(" ")[1][0]}
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <div className="font-semibold">
-                      {doctors[selectedDoc].n}
+              {users[selectedDoc] && (
+                <>
+                  <div className="flex items-center gap-3 rounded-lg border p-3">
+                    {/* Avatar */}
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 font-bold text-primary">
+                      {users[selectedDoc].profile?.firstName?.charAt(0)}
+                      {users[selectedDoc].profile?.lastName?.charAt(0)}
                     </div>
-                    <Star className="w-3 h-3 fill-warning text-warning" />
-                    <span className="text-xs">
-                      {doctors[selectedDoc].rating}
-                    </span>
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    MBBS, MD ({doctors[selectedDoc].s})
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    {doctors[selectedDoc].s} • {doctors[selectedDoc].exp}
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setMode("physical")}
-                    className={`px-3 py-2 rounded-lg text-xs border ${mode === "physical" ? "bg-primary/10 border-primary text-primary" : ""}`}
-                  >
-                    Physical Visit
-                  </button>
-                  <button
-                    onClick={() => setMode("tele")}
-                    className={`px-3 py-2 rounded-lg text-xs border ${mode === "tele" ? "bg-primary/10 border-primary text-primary" : ""}`}
-                  >
-                    Teleconsultation
-                  </button>
-                </div>
-              </div>
 
-              <div className="flex gap-2 overflow-x-auto">
-                {days.map((d, i) => (
-                  <button
-                    key={d.n}
-                    onClick={() => setDay(i)}
-                    className={`min-w-[70px] p-2 rounded-lg border text-center ${i === selectedDay ? "bg-primary text-primary-foreground border-primary" : ""}`}
-                  >
-                    <div className="text-xs">{d.d}</div>
-                    <div className="text-sm font-semibold">{d.n}</div>
-                  </button>
-                ))}
-              </div>
+                    {/* Doctor details */}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <div className="font-semibold">
+                          Dr. {users[selectedDoc].profile?.firstName}{" "}
+                          {users[selectedDoc].profile?.lastName}
+                        </div>
 
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <div className="text-sm font-semibold">Select Time Slot</div>
-                  <div className="flex gap-3 text-[10px] text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-success" />
-                      Available
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-muted-foreground" />
-                      Booked
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-primary" />
-                      Selected
-                    </span>
+                        <Star className="h-3 w-3 fill-warning text-warning" />
+
+                        <span className="text-xs">
+                          {/* {users[selectedDoc].rating ?? "N/A"} */}
+                        </span>
+                      </div>
+
+                      <div className="text-xs text-muted-foreground">
+                        {/* {users[selectedDoc].profile?.qualification ?? "Doctor"} */}
+                      </div>
+
+                      <div className="text-xs text-muted-foreground">
+                        {users[selectedDoc].departments?.[0]?.departmentName ??
+                          "General"}
+                        {/* {selectedDoc.experience
+                          ? ` • ${selectedDoc.experience} experience`
+                          : ""} */}
+                      </div>
+                    </div>
+
+                    {/* Consultation mode */}
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setMode("physical")}
+                        className={`rounded-lg border px-3 py-2 text-xs ${
+                          mode === "physical"
+                            ? "border-primary bg-primary/10 text-primary"
+                            : ""
+                        }`}
+                      >
+                        Physical Visit
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setMode("tele")}
+                        className={`rounded-lg border px-3 py-2 text-xs ${
+                          mode === "tele"
+                            ? "border-primary bg-primary/10 text-primary"
+                            : ""
+                        }`}
+                      >
+                        Teleconsultation
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="text-xs text-muted-foreground mb-2">
-                  Morning (10:00 AM - 02:00 PM)
-                </div>
-                <div className="grid grid-cols-5 gap-2 mb-4">
-                  {slotsMorning.map((s) => (
-                    <button
-                      key={s}
-                      onClick={() => setSlot(s)}
-                      className={`py-2 rounded-lg border text-xs ${selectedSlot === s ? "bg-primary text-primary-foreground border-primary" : "border-success/30 text-success hover:bg-success/5"}`}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-                <div className="text-xs text-muted-foreground mb-2">
-                  Afternoon (02:00 PM - 06:00 PM)
-                </div>
-                <div className="grid grid-cols-5 gap-2">
-                  {slotsAfternoon.map((s) => (
-                    <button
-                      key={s}
-                      onClick={() => setSlot(s)}
-                      className={`py-2 rounded-lg border text-xs ${selectedSlot === s ? "bg-primary text-primary-foreground border-primary" : "border-success/30 text-success hover:bg-success/5"}`}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              </div>
+
+                  {/* Days */}
+                  <div className="flex gap-2 overflow-x-auto">
+                    {days.map((d, i) => (
+                      <Button
+                        key={d.n}
+                        type="button"
+                        onClick={() => {
+                          setDay(i);
+                          setSlot("");
+                        }}
+                        className={`flex flex-row items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-center transition-colors ${
+                          i === selectedDay
+                            ? "bg-primary text-primary-foreground border-transparent"
+                            : "bg-background border border-input text-foreground hover:bg-accent"
+                        }`}
+                      >
+                        <span className="text-xs font-medium">{d.d}</span>
+                        <span className="text-sm font-semibold">{d.n}</span>
+                      </Button>
+                    ))}
+                  </div>
+
+                  {/* Time slots */}
+                  <div>
+                    <div className="mb-2 flex items-center justify-between">
+                      <div className="text-sm font-semibold">
+                        Select Time Slot
+                      </div>
+
+                      <div className="flex gap-3 text-[10px] text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <span className="h-2 w-2 rounded-full bg-success" />
+                          Available
+                        </span>
+
+                        <span className="flex items-center gap-1">
+                          <span className="h-2 w-2 rounded-full bg-muted-foreground" />
+                          Booked
+                        </span>
+
+                        <span className="flex items-center gap-1">
+                          <span className="h-2 w-2 rounded-full bg-primary" />
+                          Selected
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="mb-2 text-xs text-muted-foreground">
+                      Morning (10:00 AM - 02:00 PM)
+                    </div>
+
+                    <div className="mb-4 w-full">
+                      <ToggleGroup
+                        type="single"
+                        value={selectedSlot}
+                        onValueChange={(val) => val && setSlot(val)}
+                        className="grid grid-cols-5 gap-3 w-full"
+                      >
+                        {slotsMorning.map((s) => (
+                          <ToggleGroupItem
+                            key={s}
+                            value={s}
+                            className="w-full h-auto py-2 px-1 rounded-lg border text-xs border-success/30 text-success hover:bg-success/5 data-[state=on]:border-primary data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                          >
+                            {s}
+                          </ToggleGroupItem>
+                        ))}
+                      </ToggleGroup>
+                    </div>
+
+                    <div className="mb-2 text-xs text-muted-foreground">
+                      Afternoon (02:00 PM - 06:00 PM)
+                    </div>
+
+                    <div className="grid grid-cols-5 gap-2">
+                      {slotsAfternoon.map((s) => (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => setSlot(s)}
+                          className={`rounded-lg border py-2 text-xs ${
+                            selectedSlot === s
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : "border-success/30 text-success hover:bg-success/5"
+                          }`}
+                        >
+                          {s}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -401,7 +423,7 @@ function Appointments() {
           </div>
         </Section>
 
-        <Section title="Booking Summary">
+        {/* <Section title="Booking Summary">
           <div className="space-y-3 text-sm">
             {[
               ["Doctor", doctors[selectedDoc].n],
@@ -425,7 +447,7 @@ function Appointments() {
             <div className="font-semibold mb-1">Slot Availability</div>
             Available: 18 (56%) · Booked: 10 (31%) · Blocked: 2 (6%)
           </div>
-        </Section>
+        </Section> */}
       </div>
     </>
   );
