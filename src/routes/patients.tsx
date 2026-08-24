@@ -36,11 +36,9 @@ import {
   Table,
   TableHeader,
   TableBody,
-  TableFooter,
   TableHead,
   TableRow,
   TableCell,
-  TableCaption,
   TableExpandableRow,
   TableLoader,
   TableSkeleton,
@@ -48,9 +46,7 @@ import {
 import React from "react";
 import { cn } from "@/lib/utils";
 import { RefreshCw } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 import { PageLoader } from "@/components/ui/pageLoader";
-import { AppLayout } from "@/components/layout/AppLayout";
 
 export const Route = createFileRoute("/patients")({
   head: () => ({ meta: [{ title: "Patients — Ojas1Cloud HIMS" }] }),
@@ -90,11 +86,11 @@ const initialPatientForm: PatientFormDTO = {
 
   allergies: "",
   chronicDiseases: "",
+  consultingDoctor: "",
 };
 
 function Patients() {
   const [showPatientDialog, setShowPatientDialog] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [patientForm, setPatientForm] =
     useState<PatientFormDTO>(initialPatientForm);
 
@@ -124,7 +120,6 @@ function Patients() {
   const handlePatientSubmit = async () => {
     try {
       setSubmitted(true);
-      setIsSubmitting(true);
 
       if (
         !patientForm.firstName.trim() ||
@@ -136,8 +131,6 @@ function Patients() {
         showToast("error", "Please fill all the required fields");
         return;
       }
-
-      if (isSubmitting) return;
 
       const payload = {
         firstName: patientForm.firstName.trim(),
@@ -193,6 +186,7 @@ function Patients() {
         body: payload,
       });
 
+      PageLoader.show();
       showToast("success", "Details saved successfully");
 
       setShowPatientDialog(false);
@@ -202,7 +196,7 @@ function Patients() {
     } finally {
       setShowPatientDialog(false);
       setSubmitted(false);
-      setIsSubmitting(false);
+      PageLoader.stop();
     }
   };
 
@@ -433,8 +427,6 @@ function Patients() {
           </Table>
         )}
       </Section>
-
-      {isSubmitting && <PageLoader />}
 
       {/* Patient Form */}
       <Dialog

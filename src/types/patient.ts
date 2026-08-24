@@ -1,3 +1,49 @@
+export interface PatientForm {
+  title: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  age: string;
+  gender: string;
+  mobile: string;
+  altMobile: string;
+  email: string;
+  bloodGroup: string;
+  maritalStatus: string;
+  occupation: string;
+
+  abhaId: string;
+  aadhaarNumber: string;
+  panId: string;
+
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  state: string;
+  pincode: string;
+  country: string;
+
+  department: string;
+  consultingDoctor: string;
+  referredBy: string;
+  chiefComplaint: string;
+
+  insurer: string;
+  policyNo: string;
+  coverage: string;
+  sumInsured: string;
+
+  company: string;
+  employeeId: string;
+
+  emergencyName: string;
+  emergencyRelation: string;
+  emergencyMobile: string;
+  allergyNotes: string;
+
+  sendNotification: boolean;
+}
+
 export interface PatientsResponse {
   data: PatientFormDTO[];
   meta: {
@@ -8,9 +54,9 @@ export interface PatientsResponse {
   };
 }
 
-
 export interface PatientFormDTO {
   // Personal Details
+  title?: string;
   firstName: string;
   lastName: string;
   gender: string;
@@ -30,7 +76,10 @@ export interface PatientFormDTO {
   city: string;
   district: string;
   state: string;
+  country?: string;
   pincode: string;
+  department?: string;
+  consultingDoctor: string;
 
   // Identity Documents
   aadhaarNumber: string;
@@ -45,10 +94,14 @@ export interface PatientFormDTO {
   insuranceProvider: string;
   insurancePolicyNo: string;
   insuranceValidTill: Date | null;
+  coverage?: string;
+  companyName?: string;
+  empId?: string;
 
   // Medical Basics
   allergies: string;
   chronicDiseases: string;
+  sendNotification?: boolean;
 }
 
 // dropdown options
@@ -92,3 +145,6 @@ export const relationOptions = [
   { label: "Daughter", value: "DAUGHTER" },
   { label: "Other", value: "OTHER" },
 ];
+
+export type VisitType = "new" | "revisit" | "emergency";
+export type PayType = "self" | "insuranceProvider" | "corporate";
