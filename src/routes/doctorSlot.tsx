@@ -250,6 +250,7 @@ function DoctorSlot() {
 
   async function handleSave() {
     try {
+      PageLoader.show();
       setSaving(true);
       const doctorId = getUser("doctorProfile");
       if (!doctorId.id) {
@@ -294,6 +295,7 @@ function DoctorSlot() {
       );
     } finally {
       setSaving(false);
+      PageLoader.stop();
     }
   }
 

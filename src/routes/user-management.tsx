@@ -36,6 +36,8 @@ import DatePicker from "@/components/ui/date-picker";
 import { showToast, ToastContainer } from "@/components/ui/toast";
 import { useEntitlements } from "@/hooks/modules";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { PageLoader } from "@/components/ui/pageLoader";
+import { ApiError } from "@/lib/api";
 
 export const Route = createFileRoute("/user-management")({
   head: () => ({ meta: [{ title: "User Management â€” Ojas1Cloud HIMS" }] }),
@@ -231,6 +233,7 @@ function UserManagement() {
     useRolePermissions(formData.primaryRoleId || null);
 
   useEffect(() => {
+    PageLoader.show();
     if (rolePermissions.length > 0) {
       const prefilled: Record<string, boolean> = {};
       rolePermissions.forEach((p) => {
@@ -240,6 +243,7 @@ function UserManagement() {
     } else {
       setSelectedPermissions({});
     }
+    PageLoader.stop();
   }, [rolePermissions]);
 
   // â”€â”€â”€ Permission Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -400,6 +404,7 @@ function UserManagement() {
     }
 
     try {
+      PageLoader.show();
       const payload = {
         userInfo: {
           firstName: formData.firstName,
@@ -458,29 +463,17 @@ function UserManagement() {
         email: result.email,
         tempPassword: result.tempPassword,
       });
-    } catch {
-      showToast("error", "Unable to save details,Please try again later");
+    } catch (err) {
+      showToast(
+        "error",
+        err instanceof ApiError
+          ? err.message
+          : "Unable to save details,Please try again later",
+      );
       // error shown inline via submitError
+    }finally{
+      PageLoader.stop()
     }
-  }
-  // â”€â”€â”€ Indeterminate checkbox ref helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  function IndeterminateCheckbox({
-    checked,
-    indeterminate,
-    onChange,
-  }: {
-    checked: boolean;
-    indeterminate: boolean;
-    onChange: () => void;
-  }) {
-    // Use Radix Checkbox wrapper which supports indeterminate via the checked prop
-    return (
-      <Checkbox
-        className="rounded"
-        checked={indeterminate ? "indeterminate" : checked}
-        onCheckedChange={() => onChange()}
-      />
-    );
   }
 
   // â”€â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -1396,25 +1389,5 @@ function F({
 
       {error && <p className="mt-1 text-[11px] text-destructive">{error}</p>}
     </div>
-  );
-}
-
-// â”€â”€â”€ Indeterminate Checkbox â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-function IndeterminateCheckbox({
-  checked,
-  indeterminate,
-  onChange,
-}: {
-  checked: boolean;
-  indeterminate: boolean;
-  onChange: () => void;
-}) {
-  // Use Radix Checkbox wrapper which supports indeterminate via the checked prop
-  return (
-    <Checkbox
-      className="rounded"
-      checked={indeterminate ? "indeterminate" : checked}
-      onCheckedChange={() => onChange()}
-    />
   );
 }
