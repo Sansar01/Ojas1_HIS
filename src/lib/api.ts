@@ -99,11 +99,12 @@ export async function apiRequest<T>(
   const payload = await parsePayload(response);
 
   if (!response.ok) {
-    throw new ApiError(
-      `Request failed with status ${response.status}`,
-      response.status,
-      payload,
-    );
+    const message =
+      typeof payload === "object" && payload !== null && "message" in payload
+        ? String((payload as { message?: unknown }).message)
+        : `Request failed with status ${response.status}`;
+
+    throw new ApiError(message, response.status);
   }
 
   return payload as T;

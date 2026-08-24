@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import React, { useEffect, useRef, useState } from "react";
-import { api } from "@/lib/api";
+import { api, ApiError } from "@/lib/api";
 import { getUser, setUser } from "@/lib/auth";
 import { CalendarClock, Check, UserRound } from "lucide-react";
 import * as Checkbox from "@radix-ui/react-checkbox";
@@ -20,6 +20,7 @@ import {
   Slot,
 } from "@/types/doctorSlot";
 import { showToast, ToastContainer } from "@/components/ui/toast";
+import { PageLoader } from "@/components/ui/pageLoader";
 
 export const Route = createFileRoute("/doctorSlot")({
   head: () => ({ meta: [{ title: "Doctor Slot Management Ojas1Cloud HIMS" }] }),
@@ -115,51 +116,6 @@ function DoctorSlot() {
   const [breakEndTime, setBreakEndTime] = useState("14:00");
   const [saving, setSaving] = useState(false);
 
-  async function handleSave() {
-    try {
-      setSaving(true);
-      const doctorId = getUser("doctorProfileTenantId");
-      if (!doctorId) {
-        showToast("error", "Could not determine current doctor Id");
-        setSaving(false);
-        return;
-      }
-
-      const payload = {
-        schedule: Object.entries(slots).map(([day, s]) => ({
-          dayOfWeek: Number(day),
-          isActive: s.enabled,
-          ...(s.enabled
-            ? {
-                startTime: s.from,
-                endTime: s.to,
-                breakStartTime,
-                breakEndTime,
-              }
-            : {}),
-        })),
-        slotDurationMins: Number(slotDuration),
-        bufferTimeMins: doctorProfile.bufferTimeMins,
-      };
-
-      await api.post(`/api/opd/doctors/${doctorId}/availability`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: payload,
-      });
-
-      showToast("success", "Availability saved successfully.");
-    } catch (err) {
-      console.error(err);
-      showToast("error", "Failed to save availability slot.");
-    } finally {
-      setSaving(false);
-    }
-  }
-
   // View toggle: 'profile' or 'slots'
   const [view, setView] = useState<"profile" | "slots">("profile");
 
@@ -183,10 +139,12 @@ function DoctorSlot() {
 
   const [savingProfile, setSavingProfile] = useState(false);
   const user = getUser("authUser");
+
   // Resolve the doctor profile first, then hydrate the availability form.
   useEffect(() => {
     async function fetchDoctorAvailability() {
       try {
+        PageLoader.show();
         const user = getUser("authUser");
         const doctorsResponse = await api.get<any>(`/api/opd/doctors/list`);
 
@@ -248,19 +206,23 @@ function DoctorSlot() {
           }));
         }
       } catch (err) {
-        console.error("Failed to fetch doctor availability:", err);
+        showToast("error", "Failed to fetch doctor availability");
         // Silently fail - use default slots if fetch fails
+      } finally {
+        PageLoader.stop();
       }
     }
 
     fetchDoctorAvailability();
   }, []);
 
+  // update doctor profile
+
   async function saveProfile() {
     try {
+      PageLoader.show();
       setSavingProfile(true);
-      const user = getUser("doctorProfile");
-      const doctorId = user?.id;
+      const doctorId = getUser("doctorProfileTenantId");
       if (!doctorId) {
         showToast("error", "Could not determine current doctor Id");
         setSavingProfile(false);
@@ -282,17 +244,70 @@ function DoctorSlot() {
       showToast("success", "Details saved successfully");
       setView("slots");
     } catch (err) {
-      console.error(err);
-      showToast("error", "Failed to save details.");
+      showToast(
+        "error",
+        err instanceof ApiError ? err.message : "Failed to save details.",
+      );
     } finally {
+      PageLoader.stop();
       setSavingProfile(false);
+    }
+  }
+
+  // Save doctor availability slot
+
+  async function handleSave() {
+    try {
+      setSaving(true);
+      const doctorId = getUser("doctorProfileTenantId");
+      if (!doctorId) {
+        showToast("error", "Could not determine current doctor Id");
+        setSaving(false);
+        return;
+      }
+
+      const payload = {
+        schedule: Object.entries(slots).map(([day, s]) => ({
+          dayOfWeek: Number(day),
+          isActive: s.enabled,
+          ...(s.enabled
+            ? {
+                startTime: s.from,
+                endTime: s.to,
+                breakStartTime,
+                breakEndTime,
+              }
+            : {}),
+        })),
+        slotDurationMins: Number(slotDuration),
+        bufferTimeMins: doctorProfile.bufferTimeMins,
+      };
+
+      await api.post(`/api/opd/doctors/${doctorId}/availability`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: payload,
+      });
+
+      showToast("success", "Availability saved successfully.");
+    } catch (err) {
+      showToast(
+        "error",
+        err instanceof ApiError
+          ? err.message
+          : "Failed to save availability slot.",
+      );
+    } finally {
+      setSaving(false);
     }
   }
 
   return (
     <>
       <div>
-        <ToastContainer />
         <div className="mb-6 overflow-x-auto rounded-xl border p-4">
           <div className="flex min-w-[500px] items-center justify-between">
             {doctorSlotSteps.map((step, index) => {

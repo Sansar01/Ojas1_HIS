@@ -10,7 +10,11 @@ import {
   Stethoscope,
   Star,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
+import { HospitalUser } from "@/types/user-management";
+import { showToast } from "@/components/ui/toast";
+import { PageLoader } from "@/components/ui/pageLoader";
 
 export const Route = createFileRoute("/appointments")({
   head: () => ({ meta: [{ title: "Appointments — Ojas1Cloud HIMS" }] }),
@@ -106,6 +110,49 @@ function Appointments() {
   const [selectedDay, setDay] = useState(0);
   const [selectedSlot, setSlot] = useState("04:00 PM");
   const [mode, setMode] = useState<"physical" | "tele">("physical");
+  const [users, setUsers] = useState<HospitalUser[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    PageLoader.show();
+    api
+      .get<any[]>("/api/hospital/users", {
+        params: { status: "ACTIVE", userType: "DOCTOR" },
+      })
+      .then((data) => {
+        if (!Array.isArray(data)) {
+          setUsers([]);
+          return;
+        }
+
+        const transformed: HospitalUser[] = data.map((u) => ({
+          id: u.id,
+          employeeId: u.staffProfile?.employeeId || "",
+          email: u.email || "",
+          userType: u.userType || "REGULAR_USER",
+          isActive: u.status === "ACTIVE",
+          profile: {
+            firstName: u.firstName || "",
+            lastName: u.lastName || "",
+            //phone: u.mobile || "",
+          },
+          roles: (u.roles || []).map((r: any) => ({
+            roleId: r.hospitalRoleId || "",
+            roleName: r.hospitalRole?.roleName?.name || "",
+            isPrimary: r.isPrimary ?? false,
+          })),
+          departments: (u.departments || []).map((d: any) => ({
+            departmentId: d.departmentId || "",
+            departmentName: d.department?.name || "",
+          })),
+        }));
+
+        setUsers(transformed);
+      })
+      .catch((e) => showToast("error", e.message))
+      .finally(() => PageLoader.stop());
+  }, []);
+
   const { data, isLoading, error } = useApiQuery<{
     appointmentMetrics: {
       todayAppointments: number;
@@ -214,28 +261,28 @@ function Appointments() {
                 className="w-full px-3 py-2 border-b text-sm focus:outline-none"
               />
               <div className="max-h-[500px] overflow-y-auto">
-                {doctors.map((d, i) => (
+                {users.map((d, i) => (
                   <button
-                    key={d.n}
+                    key={d.id}
                     onClick={() => setDoc(i)}
                     className={`w-full text-left p-3 border-b last:border-0 hover:bg-muted ${i === selectedDoc ? "bg-primary/5 border-l-4 border-l-primary" : ""}`}
                   >
                     <div className="flex items-center gap-2">
                       <div className="w-9 h-9 rounded-full bg-muted flex items-center justify-center text-xs font-semibold">
-                        {d.n.split(" ")[1][0]}
+                        {/* {d.n.split(" ")[1][0]} */}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="text-sm font-semibold truncate">
-                          {d.n}
+                          {d.profile.firstName} {d.profile.lastName}
                         </div>
                         <div className="text-[11px] text-muted-foreground">
-                          {d.s}
+                          {d.profile.firstName}
                         </div>
                       </div>
                       <span
-                        className={`text-[9px] px-1.5 py-0.5 rounded ${d.status === "Available" ? "bg-success/15 text-success" : "bg-warning/20 text-warning-foreground"}`}
+                        className={`text-[9px] px-1.5 py-0.5 rounded ${d.isActive === true ? "bg-success/15 text-success" : "bg-warning/20 text-warning-foreground"}`}
                       >
-                        {d.status}
+                        {d.isActive ? "Available" : ""}
                       </span>
                     </div>
                   </button>
