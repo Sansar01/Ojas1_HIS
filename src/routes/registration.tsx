@@ -354,8 +354,7 @@ function Registration() {
 
   return (
     <>
-      <PageLoader.Component />
-
+     
       <ToastContainer />
       <div className="mb-6 flex items-center justify-between">
         <div>

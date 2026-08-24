@@ -29,17 +29,13 @@ export const PageLoader = {
   },
 
   Component() {
-    const isLoading = useSyncExternalStore(
-      subscribe,
-      getSnapshot,
-      getSnapshot
-    );
+    const isLoading = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 
     if (!isLoading) return null;
 
     return (
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-background/60 backdrop-blur-sm">
-        <Loader2 className="h-10 w-10 animate-spin text-primary" />
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-background/50 ">
+        <Loader2 className="h-14 w-14 animate-spin text-primary" />
       </div>
     );
   },
