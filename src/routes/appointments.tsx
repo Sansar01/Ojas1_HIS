@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AppLayout } from "@/components/layout/AppLayout";
 import { Kpi, Section } from "@/components/hims/Kpi";
 import { useApiQuery } from "@/lib/hooks/useApiResource";
 import {
@@ -11,19 +12,63 @@ import {
   Star,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { api } from "@/lib/api";
-import { HospitalUser } from "@/types/user-management";
-import { showToast } from "@/components/ui/toast";
 import { PageLoader } from "@/components/ui/pageLoader";
-import { Button } from "@/components/ui/button";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { AvailabilityResponse } from "@/types/doctorSlot";
+import { showToast } from "@/components/ui/toast";
+import { api } from "@/lib/api";
 import { getUser } from "@/lib/auth";
+import { AvailabilityResponse } from "@/types/doctorSlot";
+import { HospitalUser } from "@/types/user-management";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/appointments")({
   head: () => ({ meta: [{ title: "Appointments — Ojas1Cloud HIMS" }] }),
   component: Appointments,
 });
+
+const doctors = [
+  {
+    n: "Dr. Arjun Mehta",
+    s: "Cardiology",
+    exp: "12+ Years Exp.",
+    status: "Available",
+    rating: 4.9,
+  },
+  {
+    n: "Dr. Neha Sharma",
+    s: "Dermatology",
+    exp: "8+ Years Exp.",
+    status: "Available",
+    rating: 4.8,
+  },
+  {
+    n: "Dr. Rajeev Kumar",
+    s: "Orthopedics",
+    exp: "15+ Years Exp.",
+    status: "Few Slots",
+    rating: 4.7,
+  },
+  {
+    n: "Dr. Priya Singh",
+    s: "General Medicine",
+    exp: "10+ Years Exp.",
+    status: "Available",
+    rating: 4.9,
+  },
+  {
+    n: "Dr. Sandeep Verma",
+    s: "Neurology",
+    exp: "14+ Years Exp.",
+    status: "Few Slots",
+    rating: 4.6,
+  },
+  {
+    n: "Dr. Anjali Desai",
+    s: "Gynecology",
+    exp: "9+ Years Exp.",
+    status: "Available",
+    rating: 4.8,
+  },
+];
 
 const days = [
   { d: "Tue", n: "20 May" },
@@ -67,8 +112,8 @@ const slotsAfternoon = [
 function Appointments() {
   const [selectedDoc, setDoc] = useState(0);
   const [selectedDay, setDay] = useState(0);
-  // const [selectedSlot, setSlot] = useState("04:00 PM");
   const [mode, setMode] = useState<"physical" | "tele">("physical");
+
   const [users, setUsers] = useState<HospitalUser[]>([]);
   const [selectedSlot, setSlot] = useState<AvailabilityResponse[]>([]);
   const doctorProfile = getUser("doctorProfile");
@@ -437,6 +482,54 @@ function Appointments() {
                 </>
               )}
             </div>
+
+            {/* <div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-sm font-semibold">Select Time Slot</div>
+                  <div className="flex gap-3 text-[10px] text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <span className="w-2 h-2 rounded-full bg-success" />
+                      Available
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <span className="w-2 h-2 rounded-full bg-muted-foreground" />
+                      Booked
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <span className="w-2 h-2 rounded-full bg-primary" />
+                      Selected
+                    </span>
+                  </div>
+                </div>
+                <div className="text-xs text-muted-foreground mb-2">
+                  Morning (10:00 AM - 02:00 PM)
+                </div>
+                <div className="grid grid-cols-5 gap-2 mb-4">
+                  {slotsMorning.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => setSlot(s)}
+                      className={`py-2 rounded-lg border text-xs ${selectedSlot === s ? "bg-primary text-primary-foreground border-primary" : "border-success/30 text-success hover:bg-success/5"}`}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+                <div className="text-xs text-muted-foreground mb-2">
+                  Afternoon (02:00 PM - 06:00 PM)
+                </div>
+                <div className="grid grid-cols-5 gap-2">
+                  {slotsAfternoon.map((s) => (
+                    <button
+                      key={s}
+                      onClick={() => setSlot(s)}
+                      className={`py-2 rounded-lg border text-xs ${selectedSlot === s ? "bg-primary text-primary-foreground border-primary" : "border-success/30 text-success hover:bg-success/5"}`}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div> */}
           </div>
 
           <div className="mt-6 flex justify-end gap-2">
@@ -449,8 +542,8 @@ function Appointments() {
           </div>
         </Section>
 
-        {/* <Section title="Booking Summary">
-          <div className="space-y-3 text-sm">
+        <Section title="Booking Summary">
+          {/* <div className="space-y-3 text-sm">
             {[
               ["Doctor", doctors[selectedDoc].n],
               ["Speciality", doctors[selectedDoc].s],
@@ -468,12 +561,12 @@ function Appointments() {
                 <span className="font-medium text-right">{v}</span>
               </div>
             ))}
-          </div>
+          </div> */}
           <div className="mt-4 p-3 rounded-lg bg-primary/5 border border-primary/20 text-xs">
             <div className="font-semibold mb-1">Slot Availability</div>
             Available: 18 (56%) · Booked: 10 (31%) · Blocked: 2 (6%)
           </div>
-        </Section> */}
+        </Section>
       </div>
     </>
   );

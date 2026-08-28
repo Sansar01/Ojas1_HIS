@@ -214,8 +214,8 @@ function DoctorSlot() {
     try {
       PageLoader.show();
       setSavingProfile(true);
-      const doctorId = getUser("doctorProfileTenantId");
-      if (!doctorId) {
+      const doctorId = getUser("doctorProfile");
+      if (!doctorId.id) {
         showToast("error", "Could not determine current doctor Id");
         setSavingProfile(false);
         return;
