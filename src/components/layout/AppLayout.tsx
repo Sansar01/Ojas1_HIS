@@ -42,6 +42,7 @@ import { getModuleIcon } from "@/types/mapIcon";
 import { useEntitlements } from "@/hooks/modules";
 import { PageLoader } from "../ui/pageLoader";
 import { ToastContainer } from "../ui/toast";
+import { Button } from "../ui/button";
 
 const ALWAYS_VISIBLE = new Set(["/", "/configurations"]);
 
@@ -53,6 +54,10 @@ export function AppLayout({ children }: { children?: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { entitlements, loading: entitlementsLoading } = useEntitlements();
+  const [isHovered, setIsHovered] = useState(false); // Controls temporary hover state
+
+  // The effective collapsed state is true only if it's collapsed AND not currently hovered open
+  const isEffectivelyCollapsed = sidebarCollapsed && !isHovered;
 
   const redirectToLogin = () => {
     navigate({ to: "/login" });
@@ -126,38 +131,80 @@ export function AppLayout({ children }: { children?: ReactNode }) {
       <ToastContainer />
       <PageLoader.Component />
 
-      <div className="flex min-h-screen bg-background">
+      <div className="min-h-screen bg-background">
+        {/* Fixed Sidebar */}
         <aside
-          className={`${sidebarCollapsed ? "w-20" : "w-64"} shrink-0 bg-sidebar text-sidebar-foreground flex flex-col transition-all duration-300`}
+          onMouseEnter={() => sidebarCollapsed && setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          className={`fixed left-0 top-0 h-screen ${
+            isEffectivelyCollapsed ? "w-20" : "w-64"
+          } z-40 bg-sidebar text-sidebar-foreground flex flex-col transition-all duration-300`}
         >
+          {/* Collapse / Expand Button */}
+          <Button
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            title={sidebarCollapsed ? "Pin sidebar open" : "Collapse sidebar"}
+            className="
+        absolute
+        -right-3
+        top-6
+        z-50
+        w-7
+        h-7
+        rounded-full
+        border
+        border-sidebar-border
+        bg-sidebar
+        shadow-md
+        flex
+        items-center
+        justify-center
+        hover:bg-sidebar-accent
+        transition-all
+      "
+          >
+            <PanelLeftClose
+              className={`w-4 h-4 transition-transform duration-300 ${
+                isEffectivelyCollapsed ? "rotate-180" : ""
+              }`}
+            />
+          </Button>
+
+          {/* Logo - Fixed */}
           <div
-            className={`p-5 flex items-center gap-3 border-b border-sidebar-border ${sidebarCollapsed ? "justify-center" : ""}`}
+            className={`p-5 flex items-center gap-3 border-b border-sidebar-border shrink-0 ${
+              isEffectivelyCollapsed ? "justify-center" : ""
+            }`}
           >
             <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
               <Heart className="w-5 h-5 text-primary-foreground fill-primary" />
             </div>
-            {!sidebarCollapsed && (
+
+            {!isEffectivelyCollapsed && (
               <div>
                 <div className="font-bold text-base leading-tight">
                   Ojas1Cloud HIMS
                 </div>
+
                 <div className="text-[10px] text-sidebar-foreground/60">
                   One Patient. One Record.
                 </div>
               </div>
             )}
           </div>
-          <nav className="flex-1 overflow-y-auto p-3">
+
+          {/* ONLY THIS AREA SCROLLS */}
+          <nav className="flex-1 min-h-0 overflow-y-auto p-3 [scrollbar-width:thin] [scrollbar-color:transparent_transparent] hover:[scrollbar-color:rgba(255,255,255,0.2)_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-transparent hover:[&::-webkit-scrollbar-thumb]:bg-sidebar-foreground/20 [&::-webkit-scrollbar-thumb]:rounded-full">
             <div
               className={`px-3 py-2 text-[10px] uppercase tracking-wider text-sidebar-foreground/50 ${
-                sidebarCollapsed ? "text-center" : ""
+                isEffectivelyCollapsed ? "text-center" : ""
               }`}
             >
               {entitlementsLoading
-                ? sidebarCollapsed
+                ? isEffectivelyCollapsed
                   ? "..."
                   : "Loading modules..."
-                : sidebarCollapsed
+                : isEffectivelyCollapsed
                   ? "•"
                   : "Navigation"}
             </div>
@@ -173,80 +220,55 @@ export function AppLayout({ children }: { children?: ReactNode }) {
                   <Link
                     key={item.to}
                     to={item.to}
-                    title={sidebarCollapsed ? item.label : ""}
+                    title={isEffectivelyCollapsed ? item.label : ""}
                     className={`mb-1 flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
-                      sidebarCollapsed ? "justify-center" : ""
+                      isEffectivelyCollapsed ? "justify-center" : ""
                     } ${
                       active
                         ? "bg-primary text-primary-foreground shadow"
                         : "text-sidebar-foreground/85 hover:bg-sidebar-accent"
                     }`}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-4 w-4 shrink-0" />
 
-                    {!sidebarCollapsed && item.label}
+                    {!isEffectivelyCollapsed && item.label}
                   </Link>
                 );
               })
             ) : !entitlementsLoading ? (
               <div
                 className={`px-3 py-4 text-center text-[11px] text-sidebar-foreground/60 ${
-                  sidebarCollapsed ? "hidden" : ""
+                  isEffectivelyCollapsed ? "hidden" : ""
                 }`}
               >
                 No modules available
               </div>
             ) : null}
           </nav>
-          <div
-            className={`p-4 border-t border-sidebar-border flex items-center gap-3 flex-shrink-0 ${sidebarCollapsed ? "flex-col" : ""}`}
-          >
-            <div className="w-9 h-9 rounded-full bg-primary/30 flex items-center justify-center text-xs font-semibold flex-shrink-0">
-              {user.initials}
-            </div>
-            {!sidebarCollapsed && (
-              <div className="text-xs flex-1 min-w-0">
-                <div className="font-semibold truncate">{user.name}</div>
-                <div className="text-sidebar-foreground/60 truncate">
-                  {user.designation}
-                </div>
-              </div>
-            )}
-            {!sidebarCollapsed && (
-              <button
-                onClick={onLogout}
-                title="Sign out"
-                className="p-2 rounded-lg hover:bg-sidebar-accent flex-shrink-0"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            )}
-          </div>
-          <div className="px-3 py-2 border-t border-sidebar-border flex-shrink-0">
-            <button
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-              className="w-full p-2 rounded-lg hover:bg-sidebar-accent flex items-center justify-center"
-            >
-              <PanelLeftClose
-                className={`w-4 h-4 transition-transform duration-300 ${sidebarCollapsed ? "rotate-180" : ""}`}
-              />
-            </button>
-          </div>
         </aside>
 
-        <div className="flex-1 flex flex-col min-w-0">
-          <header className="h-16 bg-card border-b flex items-center px-6 gap-4 sticky top-0 z-10">
+        {/* Main Content */}
+        <div
+          className={`min-h-screen transition-all duration-300 ${
+            sidebarCollapsed ? "ml-20" : "ml-64"
+          }`}
+        >
+          {/* Header */}
+          <header className="h-16 bg-card border-b flex items-center px-6 gap-4 sticky top-0 z-30">
             <div className="flex-1 max-w-xl relative">
               <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+
               <input
                 placeholder="Search patient, doctor, appointment..."
                 className="w-full pl-9 pr-16 py-2 rounded-lg bg-muted border border-transparent focus:border-primary focus:outline-none text-sm"
               />
+
               <kbd className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] px-1.5 py-0.5 rounded bg-background border">
                 Ctrl+K
               </kbd>
             </div>
+
+            {/* Header content */}
             <div className="flex items-center gap-4">
               <div className="text-right text-xs">
                 <div className="font-semibold">10:45 AM</div>
@@ -278,8 +300,11 @@ export function AppLayout({ children }: { children?: ReactNode }) {
               </div>
             </div>
           </header>
-          <main className="p-6 flex-1">{children ?? <Outlet />}</main>
+
+          {/* Page Content */}
+          <main className="p-6">{children ?? <Outlet />}</main>
         </div>
+
         <Toaster />
       </div>
     </>

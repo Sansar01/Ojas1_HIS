@@ -30,7 +30,7 @@ import {
   maritalStatusOptions,
   PatientsResponse,
 } from "../types/patient";
-import { api } from "@/lib/api";
+import { api, ApiError } from "@/lib/api";
 import { showToast, ToastContainer } from "@/components/ui/toast";
 import {
   Table,
@@ -191,8 +191,13 @@ function Patients() {
 
       setShowPatientDialog(false);
       setSubmitted(false);
-    } catch {
-      showToast("error", "Failed to save patient details");
+    } catch (err) {
+      showToast(
+        "error",
+        err instanceof ApiError
+          ? err.message
+          : "Failed to save patient details",
+      );
     } finally {
       setShowPatientDialog(false);
       setSubmitted(false);
